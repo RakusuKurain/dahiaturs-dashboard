@@ -567,6 +567,32 @@ label { font-size: 11px; color: var(--text-muted); display: block; margin-bottom
 }
 .lesson-dot.done { background: var(--accent); border-color: var(--accent); color: #000; }
 .lesson-dot:hover { border-color: var(--accent); }
+.lesson-dot.locked { opacity: 0.35; cursor: not-allowed; pointer-events: none; }
+
+/* Running courses home widget */
+.oc-running-widget {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+}
+.oc-running-card {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+}
+.oc-running-name { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.oc-running-meta { font-size: 10px; color: var(--text-muted); margin-bottom: 10px; }
+.oc-running-pct { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent); }
+.badge-running { background: rgba(129,199,132,0.18); color: var(--accent2); border: 1px solid rgba(129,199,132,0.3); }
+.badge-pending { background: rgba(79,195,247,0.12); color: var(--accent); border: 1px solid rgba(79,195,247,0.25); }
+
+/* Course status action bar */
+.oc-actions { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border-soft); }
+.oc-status-label { font-size: 10px; color: var(--text-dim); margin-right: 4px; }
+.oc-lock-notice { font-size: 10px; color: var(--text-dim); font-style: italic; }
+
+/* Add OC Modal */
+#oc-add-modal { position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center; }
+#oc-add-modal.open { display:flex; }
 
 /* ===== PROJECTS PAGE ===== */
 .kanban-col {
@@ -1201,7 +1227,7 @@ label { font-size: 11px; color: var(--text-muted); display: block; margin-bottom
     <h1>بسم الله الرحمن الرحيم</h1>
     <p>Assalamu Alaikum, Dahiatur.</p>
   </div>
-    <div class="grid-4 mb-16">
+  <div class="grid-4 mb-16">
     <div class="card">
       <div class="card-title">Current CGPA</div>
       <div class="stat-big text-mono" id="home-cgpa">—</div>
@@ -1237,6 +1263,12 @@ label { font-size: 11px; color: var(--text-muted); display: block; margin-bottom
       </div>
     </div>
   </div>
+  <div class="card mt-16" id="home-running-courses-card">
+    <div class="card-title">▶ Running Online Courses</div>
+    <div id="home-running-courses-body">
+      <div style="color:var(--text-muted);font-size:12px;text-align:center;padding:20px 0">No running courses. Go to Online Courses and set up to 2 as Running.</div>
+    </div>
+  </div>
   <div class="card mt-16">
     <div class="card-title">Projects Overview</div>
     <div class="goal-item">
@@ -1245,7 +1277,7 @@ label { font-size: 11px; color: var(--text-muted); display: block; margin-bottom
         <div class="goal-title">Mathematics Olympiad</div>
         <div class="goal-meta">Math · Planned</div>
       </div>
-      <span class="badge badge-planned" style="margin-left:auto">Planned</span>
+      <span class="badge badge-pending" style="margin-left:auto">Pending</span>
     </div>
   </div>
   <div class="mission-card">
@@ -1254,7 +1286,6 @@ label { font-size: 11px; color: var(--text-muted); display: block; margin-bottom
       "I'll become one of the best servants of Allah, following the guidance of my Creator and his Messenger (ﷺ). Do my best for Allah, the ummah, for my family, for myself by being a great Mathematician, an exceptional polymath, a skilled programmer, pursuing knowledge of Aviation, Avionics and engineering as my intellectual side quest and seeking ilm. To become a Da'yee, to help my muslim brothers and sisters, to let my people out of misery. I'll be the best son, the best dad, the best husband — fulfilling every responsibility with which I have been sent into this world. Insha'Allah."
     </div>
   </div>
-
 </div>
 
 <!-- ===== GRADES PAGE ===== -->
@@ -1311,10 +1342,13 @@ label { font-size: 11px; color: var(--text-muted); display: block; margin-bottom
   <div class="page-header flex-between">
     <div>
       <h1>Online Courses</h1>
-      <p>Self-study playlists and MOOCs progress tracker.</p>
+      <p>Self-study playlists and MOOCs progress tracker. Max 2 <strong style="color:var(--accent2)">Running</strong> at a time.</p>
     </div>
-    <div class="chart-wrap-sm" style="width:160px">
-      <canvas id="chart-courses-donut"></canvas>
+    <div style="display:flex;align-items:center;gap:14px">
+      <div class="chart-wrap-sm" style="width:130px">
+        <canvas id="chart-courses-donut"></canvas>
+      </div>
+      <button class="btn btn-primary" onclick="openAddOCModal()">+ Add Course</button>
     </div>
   </div>
   <div id="online-courses-list"></div>
@@ -1690,6 +1724,36 @@ label { font-size: 11px; color: var(--text-muted); display: block; margin-bottom
   </div>
 </div>
 
+<!-- Add Online Course Modal -->
+<div id="oc-add-modal">
+  <div class="modal-backdrop" onclick="closeAddOCModal()"></div>
+  <div class="modal-panel" style="width:460px">
+    <div class="modal-title">Add Online Course <button class="modal-close" onclick="closeAddOCModal()">✕</button></div>
+    <div class="form-group"><label>Course Name *</label><input type="text" id="oc-inp-name" placeholder="e.g. Essence of Linear Algebra"></div>
+    <div class="form-group"><label>Instructor / Tutor *</label><input type="text" id="oc-inp-tutor" placeholder="e.g. 3Blue1Brown"></div>
+    <div class="form-group"><label>Platform</label>
+      <select id="oc-inp-platform">
+        <option>YouTube</option><option>Coursera</option><option>edX</option><option>Udemy</option><option>MIT OCW</option><option>Khan Academy</option><option>Other</option>
+      </select>
+    </div>
+    <div class="form-group"><label>Category</label>
+      <select id="oc-inp-cat">
+        <option>Math</option><option>Statistics</option><option>Programming</option><option>Physics</option><option>CS</option><option>Islamic</option><option>Other</option>
+      </select>
+    </div>
+    <div class="form-group"><label>Number of Lessons / Units *</label><input type="number" id="oc-inp-units" placeholder="e.g. 16" min="1" max="500"></div>
+    <div class="form-group"><label>Course Link (optional)</label><input type="url" id="oc-inp-link" placeholder="https://..."></div>
+    <div class="form-group"><label>Initial Status</label>
+      <select id="oc-inp-status">
+        <option value="Pending">Pending</option>
+        <option value="Running">Running (counts toward 2-course limit)</option>
+        <option value="Done">Done</option>
+      </select>
+    </div>
+    <button class="btn btn-primary" onclick="saveNewOC()" style="width:100%;margin-top:4px">Add Course</button>
+  </div>
+</div>
+
 <!-- Toast -->
 <div id="toast"></div>
 
@@ -1749,16 +1813,18 @@ const SEMESTERS = [
 ];
 const CURRENT_SEM = 3;
 
-const ONLINE_COURSES = [
-  {id:'oc1',name:'Statistics 110',tutor:'Joe Blitzstein',platform:'YouTube',cat:'Statistics',units:35,status:'Planned',link:'https://youtube.com/playlist?list=PL2SOU6wwxB0uwwH80KTQ6ht66KWxbzTIo&si=A3DYcrjkislb6Lnj'},
-  {id:'oc2',name:'Algebra 1M',tutor:'Dr. Aviv Censor',platform:'YouTube',cat:'Math',units:73,status:'Planned',link:'https://youtube.com/playlist?list=PLW3u28VuDAHJNrf3JCgT0GG_rjFVz0-j9&si=nRwan4qEkQ-tiOV2'},
-  {id:'oc3',name:'Statistics (Khan Academy)',tutor:'Khan Academy',platform:'YouTube',cat:'Statistics',units:67,status:'Planned',link:'https://youtube.com/playlist?list=PL1328115D3D8A2566&si=Udndk7Ob_u9jYgRe'},
-  {id:'oc4',name:'Random Variables',tutor:'Khan Academy',platform:'YouTube',cat:'Statistics',units:19,status:'Planned',link:'https://youtube.com/playlist?list=PLU5aQXLWR3_xDN0M2ZeZ_zHIia0e42_3O&si=2exaXzlBJL_JSKR6'},
-  {id:'oc5',name:'Essence of Calculus',tutor:'3Blue1Brown',platform:'YouTube',cat:'Math',units:12,status:'Planned',link:'https://youtube.com/playlist?list=PLZHQObOWTQDMsr9K-rj53DwVRMYO3t5Yr&si=-V81cBsk7NYbyOt4'},
-  {id:'oc6',name:'Essence of Linear Algebra',tutor:'3Blue1Brown',platform:'YouTube',cat:'Math',units:16,status:'Active',link:'https://youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab&si=5xlahGHRk4ZK1dRT'},
-  {id:'oc7',name:'Differential Equations',tutor:'3Blue1Brown',platform:'YouTube',cat:'Math',units:8,status:'Planned',link:'https://youtube.com/playlist?list=PLZHQObOWTQDNPOjrT6KVlfJuKtYTftqH6&si=A5HfBv2we0KXWeEV'},
-  {id:'oc8',name:'Ordinary Differential Equations',tutor:'Jason Bramburger',platform:'YouTube',cat:'Math',units:33,status:'Planned',link:'https://youtube.com/playlist?list=PLXsDp0z6VWFTkAhFApYsNfqgRvZrPTeom&si=uPSf2PZ8wHlqRkzU'}
+const OC_SEED = [
+  {id:'oc1',name:'Statistics 110',tutor:'Joe Blitzstein',platform:'YouTube',cat:'Statistics',units:35,status:'Pending',link:'https://youtube.com/playlist?list=PL2SOU6wwxB0uwwH80KTQ6ht66KWxbzTIo&si=A3DYcrjkislb6Lnj'},
+  {id:'oc2',name:'Algebra 1M',tutor:'Dr. Aviv Censor',platform:'YouTube',cat:'Math',units:73,status:'Pending',link:'https://youtube.com/playlist?list=PLW3u28VuDAHJNrf3JCgT0GG_rjFVz0-j9&si=nRwan4qEkQ-tiOV2'},
+  {id:'oc3',name:'Statistics (Khan Academy)',tutor:'Khan Academy',platform:'YouTube',cat:'Statistics',units:67,status:'Pending',link:'https://youtube.com/playlist?list=PL1328115D3D8A2566&si=Udndk7Ob_u9jYgRe'},
+  {id:'oc4',name:'Random Variables',tutor:'Khan Academy',platform:'YouTube',cat:'Statistics',units:19,status:'Pending',link:'https://youtube.com/playlist?list=PLU5aQXLWR3_xDN0M2ZeZ_zHIia0e42_3O&si=2exaXzlBJL_JSKR6'},
+  {id:'oc5',name:'Essence of Calculus',tutor:'3Blue1Brown',platform:'YouTube',cat:'Math',units:12,status:'Pending',link:'https://youtube.com/playlist?list=PLZHQObOWTQDMsr9K-rj53DwVRMYO3t5Yr&si=-V81cBsk7NYbyOt4'},
+  {id:'oc6',name:'Essence of Linear Algebra',tutor:'3Blue1Brown',platform:'YouTube',cat:'Math',units:16,status:'Running',link:'https://youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab&si=5xlahGHRk4ZK1dRT'},
+  {id:'oc7',name:'Differential Equations',tutor:'3Blue1Brown',platform:'YouTube',cat:'Math',units:8,status:'Pending',link:'https://youtube.com/playlist?list=PLZHQObOWTQDNPOjrT6KVlfJuKtYTftqH6&si=A5HfBv2we0KXWeEV'},
+  {id:'oc8',name:'Ordinary Differential Equations',tutor:'Jason Bramburger',platform:'YouTube',cat:'Math',units:33,status:'Pending',link:'https://youtube.com/playlist?list=PLXsDp0z6VWFTkAhFApYsNfqgRvZrPTeom&si=uPSf2PZ8wHlqRkzU'}
 ];
+function getOnlineCourses() { return ls('online_courses', OC_SEED); }
+function saveOnlineCourses(list) { ss('online_courses', list); }
 
 const GRADE_SCALE = [
   {grade:'A+',gpa:4.00,min:80},
@@ -2129,24 +2195,74 @@ function toggleAccordion(el) {
 
 /* ===== ONLINE COURSES ===== */
 function renderCoursesPage() {
+  const allCourses = getOnlineCourses();
+  // Sort: Running first, then Pending, then Done
+  const sorted = [
+    ...allCourses.filter(c=>c.status==='Running'),
+    ...allCourses.filter(c=>c.status==='Pending'),
+    ...allCourses.filter(c=>c.status==='Done')
+  ];
+  const runningCount = allCourses.filter(c=>c.status==='Running').length;
   const cont = document.getElementById('online-courses-list');
   cont.innerHTML = '';
-  ONLINE_COURSES.forEach(c => {
+
+  if (sorted.length === 0) {
+    cont.innerHTML = '<div style="color:var(--text-muted);font-size:13px;text-align:center;padding:60px 20px">No courses yet. Click <strong>+ Add Course</strong> to get started.</div>';
+    renderCoursesDonut();
+    return;
+  }
+
+  sorted.forEach(c => {
     const progress = ls('oc_progress_'+c.id, []);
     const done = progress.filter(Boolean).length;
     const pct = c.units > 0 ? Math.round(done/c.units*100) : 0;
-    const statusBadge = c.status==='Active'?'badge-active':c.status==='Paused'?'badge-urgent':'badge-planned';
+    const isRunning = c.status === 'Running';
+    const isPending = c.status === 'Pending';
+    const isDone = c.status === 'Done';
+
+    let statusBadge = 'badge-pending';
+    if (isRunning) statusBadge = 'badge-running';
+    if (isDone) statusBadge = 'badge-done';
+
+    // Status buttons
+    let statusActions = '';
+    if (isRunning) {
+      statusActions = `
+        <span class="oc-status-label">Set to:</span>
+        <button class="btn" style="padding:4px 10px;font-size:11px" onclick="setOCStatus('${c.id}','Pending')">⏸ Pending</button>
+        <button class="btn" style="padding:4px 10px;font-size:11px" onclick="setOCStatus('${c.id}','Done')">✓ Done</button>
+      `;
+    } else if (isPending) {
+      const canRun = runningCount < 2;
+      if (canRun) {
+        statusActions = `
+          <span class="oc-status-label">Set to:</span>
+          <button class="btn btn-primary" style="padding:4px 10px;font-size:11px" onclick="setOCStatus('${c.id}','Running')">▶ Set Running</button>
+          <button class="btn" style="padding:4px 10px;font-size:11px" onclick="setOCStatus('${c.id}','Done')">✓ Done</button>
+        `;
+      } else {
+        statusActions = `<span class="oc-lock-notice">⚠ 2 courses already Running. Set one to Pending first to run this.</span>`;
+      }
+    } else if (isDone) {
+      statusActions = `
+        <span class="oc-status-label">Set to:</span>
+        <button class="btn" style="padding:4px 10px;font-size:11px" onclick="setOCStatus('${c.id}','Pending')">↩ Pending</button>
+      `;
+    }
+
     const div = document.createElement('div');
-    div.className = 'course-card';
+    div.className = 'course-card' + (isRunning ? ';border-color:rgba(129,199,132,0.35)' : '');
+    if (isRunning) div.style.borderColor = 'rgba(129,199,132,0.35)';
     div.innerHTML = `
       <div class="course-card-header">
-        <div>
-          <div class="course-name">${c.name}</div>
-          <div class="course-tutor">by ${c.tutor} · ${c.platform} · ${c.cat}</div>
+        <div style="flex:1;min-width:0">
+          <div class="course-name">${escapeHtml(c.name)}</div>
+          <div class="course-tutor">by ${escapeHtml(c.tutor)} · ${escapeHtml(c.platform)} · ${escapeHtml(c.cat)}</div>
         </div>
-        <div style="display:flex;align-items:center;gap:8px">
-          <a href="${c.link}" target="_blank" rel="noopener" class="btn" style="padding:5px 10px;font-size:11px;text-decoration:none">▶ Open</a>
+        <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+          ${c.link ? `<a href="${c.link}" target="_blank" rel="noopener" class="btn" style="padding:5px 10px;font-size:11px;text-decoration:none">▶ Open</a>` : ''}
           <span class="badge ${statusBadge}">${c.status}</span>
+          <button class="btn btn-danger" style="padding:4px 8px;font-size:11px" onclick="deleteOC('${c.id}')" title="Delete course">🗑</button>
         </div>
       </div>
       <div class="flex-between text-sm text-muted">
@@ -2155,19 +2271,50 @@ function renderCoursesPage() {
       </div>
       <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
       <div class="lesson-grid" id="lessons-${c.id}"></div>
+      <div class="oc-actions">${statusActions}</div>
     `;
     cont.appendChild(div);
+
     const grid = div.querySelector(`#lessons-${c.id}`);
-    for (let i=0; i<c.units; i++) {
+    for (let i = 0; i < c.units; i++) {
       const dot = document.createElement('div');
-      dot.className = 'lesson-dot'+(progress[i]?' done':'');
-      dot.textContent = i+1;
-      dot.title = `Lesson ${i+1}`;
-      dot.onclick = () => toggleLesson(c.id, i, c.units);
+      dot.className = 'lesson-dot' + (progress[i] ? ' done' : '') + (isRunning ? '' : ' locked');
+      dot.textContent = i + 1;
+      dot.title = isRunning ? `Lesson ${i+1}` : `Set course to Running to update progress`;
+      if (isRunning) {
+        dot.onclick = () => toggleLesson(c.id, i, c.units);
+      }
       grid.appendChild(dot);
     }
   });
   renderCoursesDonut();
+}
+
+function setOCStatus(id, newStatus) {
+  const courses = getOnlineCourses();
+  const runningCount = courses.filter(c => c.status === 'Running').length;
+  const course = courses.find(c => c.id === id);
+  if (!course) return;
+  if (newStatus === 'Running' && runningCount >= 2) {
+    showToast('⚠ Already 2 Running courses! Set one to Pending first.');
+    return;
+  }
+  course.status = newStatus;
+  saveOnlineCourses(courses);
+  renderCoursesPage();
+  updateHomeRunningCourses();
+  showToast(`Course set to ${newStatus}.`);
+}
+
+function deleteOC(id) {
+  if (!confirm('Delete this course? Progress will also be lost.')) return;
+  let courses = getOnlineCourses();
+  courses = courses.filter(c => c.id !== id);
+  saveOnlineCourses(courses);
+  localStorage.removeItem('oc_progress_' + id);
+  renderCoursesPage();
+  updateHomeRunningCourses();
+  showToast('Course deleted.');
 }
 
 function toggleLesson(courseId, idx, total) {
@@ -2176,24 +2323,93 @@ function toggleLesson(courseId, idx, total) {
   progress[idx] = !progress[idx];
   ss('oc_progress_'+courseId, progress);
   renderCoursesPage();
+  updateHomeRunningCourses();
   showToast('Progress saved!');
+}
+
+function openAddOCModal() {
+  document.getElementById('oc-add-modal').classList.add('open');
+}
+function closeAddOCModal() {
+  document.getElementById('oc-add-modal').classList.remove('open');
+  ['oc-inp-name','oc-inp-tutor','oc-inp-units','oc-inp-link'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+}
+function saveNewOC() {
+  const name = document.getElementById('oc-inp-name').value.trim();
+  const tutor = document.getElementById('oc-inp-tutor').value.trim();
+  const units = parseInt(document.getElementById('oc-inp-units').value);
+  const platform = document.getElementById('oc-inp-platform').value;
+  const cat = document.getElementById('oc-inp-cat').value;
+  const link = document.getElementById('oc-inp-link').value.trim();
+  const status = document.getElementById('oc-inp-status').value;
+
+  if (!name || !tutor) { showToast('⚠ Please enter a course name and instructor.'); return; }
+  if (!units || units < 1) { showToast('⚠ Please enter a valid number of lessons.'); return; }
+
+  const courses = getOnlineCourses();
+  if (status === 'Running' && courses.filter(c=>c.status==='Running').length >= 2) {
+    showToast('⚠ Already 2 Running courses! Set initial status to Pending instead.');
+    return;
+  }
+  courses.push({
+    id: 'oc' + Date.now(),
+    name, tutor, platform, cat, units, status,
+    link: link || ''
+  });
+  saveOnlineCourses(courses);
+  closeAddOCModal();
+  renderCoursesPage();
+  updateHomeRunningCourses();
+  showToast('Course added!');
 }
 
 function renderCoursesDonut() {
   const ctx = document.getElementById('chart-courses-donut')?.getContext('2d');
   if (!ctx) return;
   if (coursesDonutChart) coursesDonutChart.destroy();
-  const active = ONLINE_COURSES.filter(c=>c.status==='Active').length;
-  const planned = ONLINE_COURSES.filter(c=>c.status==='Planned').length;
-  const done = ONLINE_COURSES.filter(c=>c.status==='Done').length;
+  const courses = getOnlineCourses();
+  const running = courses.filter(c=>c.status==='Running').length;
+  const pending = courses.filter(c=>c.status==='Pending').length;
+  const done = courses.filter(c=>c.status==='Done').length;
   coursesDonutChart = new Chart(ctx, {
     type: 'doughnut',
     data: {
-      labels:['Active','Planned','Done'],
-      datasets:[{data:[active,planned,done],backgroundColor:['rgba(79,195,247,0.7)','rgba(129,199,132,0.5)','rgba(255,255,255,0.12)'],borderWidth:0}]
+      labels:['Running','Pending','Done'],
+      datasets:[{data:[running,pending,done],backgroundColor:['rgba(129,199,132,0.7)','rgba(79,195,247,0.5)','rgba(255,255,255,0.12)'],borderWidth:0}]
     },
     options: { plugins:{legend:{display:false}}, cutout:'72%', responsive:true, maintainAspectRatio:false }
   });
+}
+
+/* ===== HOME: RUNNING COURSES WIDGET ===== */
+function updateHomeRunningCourses() {
+  const courses = getOnlineCourses();
+  const running = courses.filter(c => c.status === 'Running');
+  const body = document.getElementById('home-running-courses-body');
+  if (!body) return;
+  if (running.length === 0) {
+    body.innerHTML = '<div style="color:var(--text-muted);font-size:12px;text-align:center;padding:20px 0">No running courses. Go to Online Courses and set up to 2 as Running.</div>';
+    return;
+  }
+  const cards = running.map(c => {
+    const progress = ls('oc_progress_' + c.id, []);
+    const done = progress.filter(Boolean).length;
+    const pct = c.units > 0 ? Math.round(done / c.units * 100) : 0;
+    return `
+      <div class="oc-running-card">
+        <div class="oc-running-name" title="${escapeHtml(c.name)}">${escapeHtml(c.name)}</div>
+        <div class="oc-running-meta">${escapeHtml(c.tutor)} · ${escapeHtml(c.cat)}</div>
+        <div class="flex-between" style="margin-bottom:5px">
+          <span class="text-sm text-muted">${done} / ${c.units} lessons</span>
+          <span class="oc-running-pct">${pct}%</span>
+        </div>
+        <div class="progress-bar" style="height:6px"><div class="progress-fill" style="width:${pct}%"></div></div>
+      </div>`;
+  }).join('');
+  body.innerHTML = `<div class="oc-running-widget">${cards}</div>`;
 }
 
 /* ===== PROJECTS ===== */
