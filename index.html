@@ -7,7 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 /* ===== CSS VARIABLES ===== */
 :root {
@@ -1822,7 +1821,7 @@ const SEMESTERS = [
 ];
 const CURRENT_SEM = 3;
 
-let OC_SEED = [
+const OC_SEED = [
   {id:'oc1',name:'Statistics 110',tutor:'Joe Blitzstein',platform:'YouTube',cat:'Statistics',units:35,status:'Pending',link:'https://youtube.com/playlist?list=PL2SOU6wwxB0uwwH80KTQ6ht66KWxbzTIo&si=A3DYcrjkislb6Lnj'},
   {id:'oc2',name:'Algebra 1M',tutor:'Dr. Aviv Censor',platform:'YouTube',cat:'Math',units:73,status:'Pending',link:'https://youtube.com/playlist?list=PLW3u28VuDAHJNrf3JCgT0GG_rjFVz0-j9&si=nRwan4qEkQ-tiOV2'},
   {id:'oc3',name:'Statistics (Khan Academy)',tutor:'Khan Academy',platform:'YouTube',cat:'Statistics',units:67,status:'Pending',link:'https://youtube.com/playlist?list=PL1328115D3D8A2566&si=Udndk7Ob_u9jYgRe'},
