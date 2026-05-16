@@ -312,7 +312,8 @@ body {
 }
 .nav-item:hover { background: rgba(255,255,255,0.07); color: var(--text); }
 .nav-item.active { background: rgba(79,195,247,0.14); color: var(--accent); }
-.nav-item .icon { font-size: 16px; min-width: 20px; text-align: center; }
+.nav-item .icon { font-size: 16px; min-width: 20px; text-align: center; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.nav-item .icon svg { width: 17px; height: 17px; stroke: currentColor; flex-shrink: 0; }
 .nav-text { overflow: hidden; text-overflow: ellipsis; }
 #sidebar.collapsed .nav-text { display: none; }
 
@@ -669,36 +670,73 @@ label { font-size: 11px; color: var(--text-muted); display: block; margin-bottom
 .chart-wrap-sm { position: relative; height: 160px; }
 
 /* ===== SEMESTER PROGRESS ===== */
-.sp-course-block { background: var(--bg-card); border: 1px solid var(--border-soft); border-radius: var(--radius); margin-bottom: 16px; overflow: hidden; }
-.sp-course-header { display: flex; align-items: center; gap: 14px; padding: 16px 20px; background: var(--bg-card); }
+.sp-course-block { background: var(--bg-card); border: 1px solid var(--border-soft); border-radius: var(--radius); margin-bottom: 20px; overflow: hidden; transition: box-shadow 0.2s; }
+.sp-course-block:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.28); }
+.sp-course-header { display: flex; align-items: center; gap: 14px; padding: 16px 20px; background: linear-gradient(90deg, rgba(79,195,247,0.06), transparent); border-bottom: 1px solid var(--border-soft); }
 .sp-course-name { font-family: 'Cinzel', serif; font-size: 14px; font-weight: 600; color: var(--text); flex: 1; }
-.sp-course-pct { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--accent); background: rgba(79,195,247,0.1); border: 1px solid rgba(79,195,247,0.2); border-radius: 6px; padding: 2px 10px; }
-.sp-course-progress-bar { height: 4px; background: var(--bg-input); margin: 0 20px 16px; border-radius: 3px; overflow: hidden; }
-.sp-course-progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 3px; transition: width 0.5s ease; }
-.sp-course-body { padding: 0 20px 16px; border-top: 1px solid var(--border-soft); }
-.sp-add-topic-row { display: flex; gap: 8px; margin-top: 14px; align-items: center; }
-.sp-topic-item { margin-top: 10px; background: var(--bg-input); border: 1px solid var(--border-soft); border-radius: var(--radius-sm); overflow: hidden; }
-.sp-topic-header { display: flex; align-items: center; gap: 10px; padding: 10px 14px; cursor: pointer; user-select: none; }
-.sp-topic-check { width: 18px; height: 18px; flex-shrink: 0; border-radius: 4px; border: 2px solid var(--border); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 11px; transition: all 0.15s; }
-.sp-topic-check.checked { background: var(--accent2); border-color: var(--accent2); color: #000; }
-.sp-topic-name { flex: 1; font-size: 13px; color: var(--text); }
+.sp-course-pct { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--accent); background: rgba(79,195,247,0.1); border: 1px solid rgba(79,195,247,0.2); border-radius: 6px; padding: 2px 10px; min-width: 52px; text-align: center; }
+.sp-course-progress-bar { height: 4px; background: var(--bg-input); margin: 0; border-radius: 0; overflow: hidden; }
+.sp-course-progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 0; transition: width 0.55s cubic-bezier(.4,0,.2,1); }
+.sp-course-body { padding: 14px 16px 16px; }
+.sp-course-actions { display: flex; gap: 6px; align-items: center; }
+
+/* Course Content */
+.sp-content-block { background: rgba(255,255,255,0.025); border: 1px solid var(--border-soft); border-radius: 10px; margin-bottom: 10px; overflow: hidden; }
+.sp-content-header { display: flex; align-items: center; gap: 10px; padding: 10px 14px; cursor: pointer; user-select: none; border-bottom: 1px solid transparent; transition: background 0.15s; }
+.sp-content-block.has-topics .sp-content-header { border-bottom-color: var(--border-soft); }
+.sp-content-block.collapsed .sp-content-header { border-bottom-color: transparent; }
+.sp-content-header:hover { background: rgba(255,255,255,0.04); }
+.sp-content-name { flex: 1; font-size: 12.5px; font-weight: 600; color: var(--text); letter-spacing: 0.2px; }
+.sp-content-pct-wrap { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.sp-content-mini-bar { width: 52px; height: 4px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden; flex-shrink: 0; }
+.sp-content-mini-fill { height: 100%; background: linear-gradient(90deg, var(--accent2), var(--accent)); border-radius: 3px; transition: width 0.4s ease; }
+.sp-content-pct { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--accent2); min-width: 32px; text-align: right; }
+.sp-content-done-badge { font-size: 9px; background: rgba(129,199,132,0.2); color: var(--accent2); border: 1px solid rgba(129,199,132,0.35); border-radius: 4px; padding: 1px 6px; letter-spacing: 0.5px; font-weight: 700; white-space: nowrap; }
+.sp-content-chevron { width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; border-radius: 4px; background: rgba(255,255,255,0.05); transition: transform 0.22s, background 0.15s; flex-shrink: 0; }
+.sp-content-chevron:hover { background: rgba(255,255,255,0.1); }
+.sp-content-chevron svg { width: 11px; height: 11px; stroke: var(--text-dim); transition: transform 0.22s; }
+.sp-content-block.collapsed .sp-content-chevron svg { transform: rotate(-90deg); }
+.sp-content-body { padding: 8px 14px 12px 14px; }
+.sp-content-block.collapsed .sp-content-body { display: none; }
+.sp-add-content-row { display: flex; gap: 8px; margin-top: 14px; align-items: center; }
+
+/* Content Topics */
+.sp-topic-item { margin-top: 6px; background: rgba(255,255,255,0.018); border: 1px solid var(--border-soft); border-radius: var(--radius-sm); overflow: hidden; }
+.sp-topic-header { display: flex; align-items: center; gap: 10px; padding: 8px 12px; cursor: default; user-select: none; }
+.sp-topic-check { width: 18px; height: 18px; flex-shrink: 0; border-radius: 4px; border: 2px solid var(--border); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+.sp-topic-check svg { width: 11px; height: 11px; stroke: #000; stroke-width: 2.5; display: none; }
+.sp-topic-check.checked { background: var(--accent2); border-color: var(--accent2); }
+.sp-topic-check.checked svg { display: block; }
+.sp-topic-check.partial { background: rgba(129,199,132,0.2); border-color: var(--accent2); }
+.sp-topic-name { flex: 1; font-size: 12px; color: var(--text); }
 .sp-topic-name.done { text-decoration: line-through; color: var(--text-muted); }
-.sp-topic-chevron { font-size: 11px; color: var(--text-dim); transition: transform 0.22s; flex-shrink: 0; }
-.sp-topic-item.open .sp-topic-chevron { transform: rotate(180deg); }
-.sp-subtopics { display: none; padding: 4px 14px 12px 42px; border-top: 1px solid var(--border-soft); }
-.sp-topic-item.open .sp-subtopics { display: block; }
-.sp-subtopic-item { display: flex; align-items: center; gap: 8px; padding: 5px 0; font-size: 12px; color: var(--text-muted); border-bottom: 1px solid rgba(255,255,255,0.03); }
-.sp-subtopic-check { width: 14px; height: 14px; flex-shrink: 0; border-radius: 3px; border: 1px solid var(--border); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 9px; transition: all 0.15s; }
-.sp-subtopic-check.checked { background: var(--accent); border-color: var(--accent); color: #000; }
+.sp-topic-sub-count { font-size: 9px; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; white-space: nowrap; }
+.sp-topic-expand-btn { width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; border-radius: 3px; cursor: pointer; flex-shrink: 0; transition: background 0.15s; }
+.sp-topic-expand-btn:hover { background: rgba(255,255,255,0.08); }
+.sp-topic-expand-btn svg { width: 10px; height: 10px; stroke: var(--text-dim); transition: transform 0.2s; }
+.sp-topic-item.sub-open .sp-topic-expand-btn svg { transform: rotate(180deg); }
+.sp-subtopics { display: none; padding: 4px 12px 10px 40px; border-top: 1px solid var(--border-soft); background: rgba(0,0,0,0.06); }
+.sp-topic-item.sub-open .sp-subtopics { display: block; }
+.sp-subtopic-item { display: flex; align-items: center; gap: 8px; padding: 4px 0; font-size: 11.5px; color: var(--text-muted); border-bottom: 1px solid rgba(255,255,255,0.025); }
+.sp-subtopic-item:last-of-type { border-bottom: none; }
+.sp-subtopic-check { width: 14px; height: 14px; flex-shrink: 0; border-radius: 3px; border: 1.5px solid var(--border); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+.sp-subtopic-check svg { width: 9px; height: 9px; stroke: #000; stroke-width: 2.5; display: none; }
+.sp-subtopic-check.checked { background: var(--accent); border-color: var(--accent); }
+.sp-subtopic-check.checked svg { display: block; }
 .sp-subtopic-name { flex: 1; }
-.sp-subtopic-name.done { text-decoration: line-through; opacity: 0.6; }
+.sp-subtopic-name.done { text-decoration: line-through; opacity: 0.55; }
 .sp-add-subtopic-row { display: flex; gap: 6px; margin-top: 8px; align-items: center; }
-.sp-del-btn { background: none; border: none; cursor: pointer; color: var(--text-dim); font-size: 13px; padding: 2px 5px; border-radius: 4px; transition: color 0.15s; }
-.sp-del-btn:hover { color: #ef5350; }
+.sp-add-topic-row { display: flex; gap: 8px; margin-top: 8px; align-items: center; }
+.sp-del-btn { background: none; border: none; cursor: pointer; color: var(--text-dim); padding: 3px 5px; border-radius: 4px; transition: color 0.15s; line-height: 1; display: flex; align-items: center; justify-content: center; }
+.sp-del-btn:hover { color: #ef5350; background: rgba(239,83,80,0.08); }
+.sp-del-btn svg { width: 13px; height: 13px; stroke: currentColor; }
 .sp-input-inline { background: var(--bg-input); border: 1px solid var(--border-soft); border-radius: var(--radius-sm); color: var(--text); font-family: 'Sora', sans-serif; font-size: 12px; padding: 6px 10px; outline: none; flex: 1; }
 .sp-input-inline:focus { border-color: var(--accent); }
-.sp-btn-sm { background: var(--accent); border: none; border-radius: var(--radius-sm); color: #000; font-weight: 600; font-size: 11px; padding: 6px 12px; cursor: pointer; white-space: nowrap; }
-.sp-course-actions { display: flex; gap: 6px; align-items: center; }
+.sp-btn-sm { background: var(--accent); border: none; border-radius: var(--radius-sm); color: #000; font-weight: 600; font-size: 11px; padding: 6px 12px; cursor: pointer; white-space: nowrap; transition: opacity 0.15s; }
+.sp-btn-sm:hover { opacity: 0.85; }
+.sp-btn-sm.secondary { background: rgba(255,255,255,0.09); color: var(--text-muted); }
+.sp-btn-sm.secondary:hover { background: rgba(255,255,255,0.14); color: var(--text); }
+.sp-content-empty { font-size: 11px; color: var(--text-dim); text-align: center; padding: 12px 0; font-style: italic; }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 900px) {
@@ -772,22 +810,22 @@ label { font-size: 11px; color: var(--text-muted); display: block; margin-bottom
   </div>
   <div class="nav-section">
     <div class="nav-label">Overview</div>
-    <button class="nav-item active" onclick="showPage('home',this)"><span class="icon">🏠</span><span class="nav-text">Home</span></button>
-    <button class="nav-item" onclick="showPage('calendar',this)"><span class="icon">📅</span><span class="nav-text">Calendar</span></button>
+    <button class="nav-item active" onclick="showPage('home',this)"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg></span><span class="nav-text">Home</span></button>
+    <button class="nav-item" onclick="showPage('calendar',this)"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><rect x="8" y="14" width="2" height="2" rx="0.4"/><rect x="13" y="14" width="2" height="2" rx="0.4"/></svg></span><span class="nav-text">Calendar</span></button>
     <div class="nav-label">Academics</div>
-    <button class="nav-item" onclick="showPage('grades',this)"><span class="icon">📊</span><span class="nav-text">Grades & CGPA</span></button>
-    <button class="nav-item" onclick="showPage('curriculum',this)"><span class="icon">🗺️</span><span class="nav-text">Curriculum</span></button>
-    <button class="nav-item" onclick="showPage('courses',this)"><span class="icon">🎓</span><span class="nav-text">Online Courses</span></button>
-    <button class="nav-item" onclick="showPage('semprogress',this)"><span class="icon">📈</span><span class="nav-text">Semester Progress</span></button>
+    <button class="nav-item" onclick="showPage('grades',this)"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/><polyline points="6,13 9,8 12,11 15,7 18,10"/></svg></span><span class="nav-text">Grades & CGPA</span></button>
+    <button class="nav-item" onclick="showPage('curriculum',this)"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span><span class="nav-text">Curriculum</span></button>
+    <button class="nav-item" onclick="showPage('courses',this)"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5-10-5z"/><path d="M6 12v5c3.33 2 8.67 2 12 0v-5"/></svg></span><span class="nav-text">Online Courses</span></button>
+    <button class="nav-item" onclick="showPage('semprogress',this)"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span><span class="nav-text">Semester Progress</span></button>
     <div class="nav-label">Development</div>
-    <button class="nav-item" onclick="showPage('projects',this)"><span class="icon">🚀</span><span class="nav-text">Projects</span></button>
-    <button class="nav-item" onclick="showPage('skills',this)"><span class="icon">⚡</span><span class="nav-text">Skills</span></button>
-    <button class="nav-item" onclick="showPage('goals',this)"><span class="icon">🎯</span><span class="nav-text">Goals & Competitions</span></button>
+    <button class="nav-item" onclick="showPage('projects',this)"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></span><span class="nav-text">Projects</span></button>
+    <button class="nav-item" onclick="showPage('skills',this)"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span><span class="nav-text">Skills</span></button>
+    <button class="nav-item" onclick="showPage('goals',this)"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/></svg></span><span class="nav-text">Goals & Competitions</span></button>
     <div class="nav-label">Tools</div>
-    <button class="nav-item" onclick="showPage('books',this)"><span class="icon">📚</span><span class="nav-text">Reading Tracker</span></button>
-    <button class="nav-item" onclick="showPage('pomodoro',this)"><span class="icon">⏱️</span><span class="nav-text">Pomodoro</span></button>
-    <button class="nav-item" onclick="showPage('habits',this)"><span class="icon">✅</span><span class="nav-text">Habit Tracker</span></button>
-    <button class="nav-item" onclick="showPage('notes',this)"><span class="icon">📝</span><span class="nav-text">Quick Notes</span></button>
+    <button class="nav-item" onclick="showPage('books',this)"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="9" y1="7" x2="15" y2="7"/><line x1="9" y1="11" x2="13" y2="11"/></svg></span><span class="nav-text">Reading Tracker</span></button>
+    <button class="nav-item" onclick="showPage('pomodoro',this)"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="9"/><polyline points="12 8 12 13 15 16"/><path d="M9 2h6"/><path d="M12 2v2"/></svg></span><span class="nav-text">Pomodoro</span></button>
+    <button class="nav-item" onclick="showPage('habits',this)"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><path d="M3 17l2 2 4-4"/></svg></span><span class="nav-text">Habit Tracker</span></button>
+    <button class="nav-item" onclick="showPage('notes',this)"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg></span><span class="nav-text">Quick Notes</span></button>
   </div>
 </nav>
 
@@ -810,7 +848,7 @@ label { font-size: 11px; color: var(--text-muted); display: block; margin-bottom
   <div class="grid-4 mb-16">
     <div class="card"><div class="card-title">Current CGPA</div><div class="stat-big text-mono" id="home-cgpa">—</div><div class="stat-label">Target: 3.50+</div></div>
     <div class="card"><div class="card-title">Semester</div><div class="stat-big">3rd</div><div class="stat-label">2nd Year · 1st Sem</div></div>
-    <div class="card"><div class="card-title">Active Courses</div><div class="stat-big">8</div><div class="stat-label">MAT, CSE, ECO</div></div>
+    <div class="card"><div class="card-title">Active Courses</div><div class="stat-big text-mono" id="home-active-courses">—</div><div class="stat-label" id="home-active-courses-label">From Semester Progress</div></div>
     <div class="card"><div class="card-title">Online Courses</div><div class="stat-big">8</div><div class="stat-label">1 Active · 7 Planned</div></div>
   </div>
   <div class="grid-2">
@@ -1626,6 +1664,15 @@ async function updateHomeStats() {
   await renderHomeCharts();
   await renderCountdownWidgets();
   await updateHomeRunningCourses();
+  // Active courses from semester progress
+  const spCourses = await getSPCourses();
+  const el = document.getElementById('home-active-courses');
+  const lbl = document.getElementById('home-active-courses-label');
+  if (el) el.textContent = spCourses.length || '0';
+  if (lbl) {
+    const codes = spCourses.slice(0,3).map(c=>c.code?c.code.split(' ')[0]:c.name.split(' ')[0]).join(', ');
+    lbl.textContent = spCourses.length > 0 ? codes + (spCourses.length > 3 ? '…' : '') : 'Add courses in Semester Progress';
+  }
 }
 
 /* ============================
@@ -2170,84 +2217,232 @@ async function factoryReset(){
 }
 
 /* ============================
-   SEMESTER PROGRESS
+   SEMESTER PROGRESS  (4-level: Course > CourseContent > ContentTopic > SubTopic)
    ============================ */
 async function getSPCourses(){return await dbGet('sp_courses',[]);}
-async function saveSPCourses(c){await dbSet('sp_courses',c);}
+async function saveSPCourses(c){
+  delete _cache['sp_courses'];  // bust cache so home stat refreshes
+  await dbSet('sp_courses',c);
+}
 
+/* ── Modal ── */
 function openAddCourseModal(){document.getElementById('sp-course-modal').style.display='flex';setTimeout(()=>document.getElementById('sp-course-name-inp').focus(),50);}
 function closeAddCourseModal(){document.getElementById('sp-course-modal').style.display='none';document.getElementById('sp-course-name-inp').value='';document.getElementById('sp-course-code-inp').value='';}
 
 async function saveNewCourse(){
   const name=document.getElementById('sp-course-name-inp').value.trim();if(!name)return;
   const code=document.getElementById('sp-course-code-inp').value.trim();
-  const courses=await getSPCourses();courses.push({id:'spc'+Date.now(),name,code,topics:[]});
+  const courses=await getSPCourses();
+  courses.push({id:'spc'+Date.now(),name,code,contents:[]});
   await saveSPCourses(courses);closeAddCourseModal();renderSemProgressPage();showToast('Course added!');
+  updateHomeStats();
 }
+
 async function deleteSPCourse(cid){
-  if(!confirm('Delete this course and all its contents?'))return;
-  const courses=(await getSPCourses()).filter(c=>c.id!==cid);await saveSPCourses(courses);renderSemProgressPage();
+  if(!confirm('Delete this course and all its content?'))return;
+  const courses=(await getSPCourses()).filter(c=>c.id!==cid);
+  await saveSPCourses(courses);renderSemProgressPage();updateHomeStats();
 }
-async function addSPTopic(cid){
-  const inp=document.getElementById('sp-inp-topic-'+cid);const val=inp.value.trim();if(!val)return;
+
+/* ── Course Content CRUD ── */
+async function addSPContent(cid){
+  const inp=document.getElementById('sp-inp-content-'+cid);
+  const val=inp.value.trim();if(!val)return;
   const courses=await getSPCourses();const course=courses.find(c=>c.id===cid);if(!course)return;
-  course.topics.push({id:'spt'+Date.now(),name:val,checked:false,subTopics:[]});
+  if(!course.contents)course.contents=[];
+  course.contents.push({id:'spcc'+Date.now(),name:val,collapsed:false,topics:[]});
   await saveSPCourses(courses);inp.value='';renderSemProgressPage();
 }
-async function toggleSPTopic(cid,tid){
+async function deleteSPContent(cid,ccid){
   const courses=await getSPCourses();const course=courses.find(c=>c.id===cid);if(!course)return;
-  const topic=course.topics.find(t=>t.id===tid);if(!topic)return;
-  topic.checked=!topic.checked;if(topic.subTopics)topic.subTopics.forEach(st=>st.checked=topic.checked);
+  course.contents=(course.contents||[]).filter(cc=>cc.id!==ccid);
   await saveSPCourses(courses);renderSemProgressPage();
 }
-async function deleteSPTopic(cid,tid){
+async function toggleSPContentCollapse(cid,ccid){
   const courses=await getSPCourses();const course=courses.find(c=>c.id===cid);if(!course)return;
-  course.topics=course.topics.filter(t=>t.id!==tid);await saveSPCourses(courses);renderSemProgressPage();
+  const content=(course.contents||[]).find(cc=>cc.id===ccid);if(!content)return;
+  content.collapsed=!content.collapsed;
+  await saveSPCourses(courses);renderSemProgressPage();
 }
-async function addSPSubTopic(cid,tid){
-  const inp=document.getElementById('sp-inp-sub-'+tid);const val=inp.value.trim();if(!val)return;
+
+/* ── Content Topic CRUD ── */
+async function addSPTopic(cid,ccid){
+  const inp=document.getElementById('sp-inp-topic-'+ccid);
+  const val=inp.value.trim();if(!val)return;
   const courses=await getSPCourses();const course=courses.find(c=>c.id===cid);if(!course)return;
-  const topic=course.topics.find(t=>t.id===tid);if(!topic)return;
+  const content=(course.contents||[]).find(cc=>cc.id===ccid);if(!content)return;
+  content.topics.push({id:'spct'+Date.now(),name:val,checked:false,subTopics:[]});
+  await saveSPCourses(courses);inp.value='';renderSemProgressPage();
+}
+async function toggleSPTopic(cid,ccid,tid){
+  const courses=await getSPCourses();const course=courses.find(c=>c.id===cid);if(!course)return;
+  const content=(course.contents||[]).find(cc=>cc.id===ccid);if(!content)return;
+  const topic=content.topics.find(t=>t.id===tid);if(!topic)return;
+  topic.checked=!topic.checked;
+  if(topic.subTopics&&topic.subTopics.length>0)topic.subTopics.forEach(st=>st.checked=topic.checked);
+  await saveSPCourses(courses);renderSemProgressPage();
+}
+async function deleteSPTopic(cid,ccid,tid){
+  const courses=await getSPCourses();const course=courses.find(c=>c.id===cid);if(!course)return;
+  const content=(course.contents||[]).find(cc=>cc.id===ccid);if(!content)return;
+  content.topics=content.topics.filter(t=>t.id!==tid);
+  await saveSPCourses(courses);renderSemProgressPage();
+}
+
+/* ── Sub-Topic CRUD ── */
+async function addSPSubTopic(cid,ccid,tid){
+  const inp=document.getElementById('sp-inp-sub-'+tid);
+  const val=inp.value.trim();if(!val)return;
+  const courses=await getSPCourses();const course=courses.find(c=>c.id===cid);if(!course)return;
+  const content=(course.contents||[]).find(cc=>cc.id===ccid);if(!content)return;
+  const topic=content.topics.find(t=>t.id===tid);if(!topic)return;
   if(!topic.subTopics)topic.subTopics=[];
   topic.subTopics.push({id:'spst'+Date.now(),name:val,checked:false});
   await saveSPCourses(courses);inp.value='';renderSemProgressPage();
 }
-async function toggleSPSubTopic(cid,tid,stid){
+async function toggleSPSubTopic(cid,ccid,tid,stid){
   const courses=await getSPCourses();const course=courses.find(c=>c.id===cid);if(!course)return;
-  const topic=course.topics.find(t=>t.id===tid);if(!topic||!topic.subTopics)return;
+  const content=(course.contents||[]).find(cc=>cc.id===ccid);if(!content)return;
+  const topic=content.topics.find(t=>t.id===tid);if(!topic||!topic.subTopics)return;
   const st=topic.subTopics.find(s=>s.id===stid);if(!st)return;
   st.checked=!st.checked;
   if(topic.subTopics.length>0)topic.checked=topic.subTopics.every(s=>s.checked);
   await saveSPCourses(courses);renderSemProgressPage();
 }
-async function deleteSPSubTopic(cid,tid,stid){
+async function deleteSPSubTopic(cid,ccid,tid,stid){
   const courses=await getSPCourses();const course=courses.find(c=>c.id===cid);if(!course)return;
-  const topic=course.topics.find(t=>t.id===tid);if(!topic)return;
-  topic.subTopics=(topic.subTopics||[]).filter(s=>s.id!==stid);await saveSPCourses(courses);renderSemProgressPage();
+  const content=(course.contents||[]).find(cc=>cc.id===ccid);if(!content)return;
+  const topic=content.topics.find(t=>t.id===tid);if(!topic)return;
+  topic.subTopics=(topic.subTopics||[]).filter(s=>s.id!==stid);
+  await saveSPCourses(courses);renderSemProgressPage();
 }
-function spCalcProgress(course){
-  const topics=course.topics||[];if(topics.length===0)return 0;
-  return Math.round(topics.filter(t=>t.checked).length/topics.length*100);
+
+/* ── toggle sub-topic expand (local only, no DB call) ── */
+function toggleSPTopicSubExpand(tid){
+  const el=document.getElementById('sp-topic-item-'+tid);
+  if(el)el.classList.toggle('sub-open');
 }
-function toggleSPTopicExpand(tid){const el=document.getElementById('sp-topic-item-'+tid);if(el)el.classList.toggle('open');}
+
+/* ── Progress helpers ── */
+function spTopicIsDone(topic){
+  const subs=topic.subTopics||[];
+  if(subs.length>0)return subs.every(s=>s.checked);
+  return !!topic.checked;
+}
+function spCalcContentProgress(content){
+  const topics=content.topics||[];if(topics.length===0)return 0;
+  return Math.round(topics.filter(t=>spTopicIsDone(t)).length/topics.length*100);
+}
+function spCalcCourseProgress(course){
+  const contents=course.contents||[];if(contents.length===0)return 0;
+  const done=contents.filter(cc=>spCalcContentProgress(cc)===100).length;
+  return Math.round(done/contents.length*100);
+}
+
+/* ── Render ── */
+const CHECKMARK_SVG=`<svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><polyline points="1.5,6 5,9.5 10.5,2.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const CHEVRON_DOWN_SVG=`<svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><polyline points="2,4 6,8 10,4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const TRASH_SVG=`<svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><polyline points="1,3.5 13,3.5"/><path d="M5.5 3.5V2.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1"/><rect x="2.5" y="3.5" width="9" height="8.5" rx="1"/><line x1="5.5" y1="6" x2="5.5" y2="9.5"/><line x1="8.5" y1="6" x2="8.5" y2="9.5"/></svg>`;
 
 async function renderSemProgressPage(){
   const courses=await getSPCourses();
   const list=document.getElementById('sp-courses-list');
   const empty=document.getElementById('sp-empty-state');
   const radarCard=document.getElementById('sp-radar-card');
-  if(courses.length===0){if(empty)empty.style.display='block';if(radarCard)radarCard.style.display='none';list.innerHTML='';list.appendChild(empty);updateSPRadarChart([]);return;}
-  if(empty)empty.style.display='none';if(radarCard)radarCard.style.display=courses.length>=3?'block':'none';
+  if(courses.length===0){
+    if(empty)empty.style.display='block';
+    if(radarCard)radarCard.style.display='none';
+    list.innerHTML='';list.appendChild(empty);
+    updateSPRadarChart([]);return;
+  }
+  if(empty)empty.style.display='none';
+  if(radarCard)radarCard.style.display=courses.length>=3?'block':'none';
   list.innerHTML='';
+
   courses.forEach(course=>{
-    const pct=spCalcProgress(course);
-    const block=document.createElement('div');block.className='sp-course-block';
-    const topicsHTML=(course.topics||[]).map(topic=>{
-      const subs=(topic.subTopics||[]);
-      const subsHTML=subs.map(st=>`<div class="sp-subtopic-item"><div class="sp-subtopic-check${st.checked?' checked':''}" onclick="toggleSPSubTopic('${course.id}','${topic.id}','${st.id}')">${st.checked?'✓':''}</div><span class="sp-subtopic-name${st.checked?' done':''}">${escapeHtml(st.name)}</span><button class="sp-del-btn" onclick="deleteSPSubTopic('${course.id}','${topic.id}','${st.id}')">✕</button></div>`).join('');
-      return `<div class="sp-topic-item" id="sp-topic-item-${topic.id}"><div class="sp-topic-header" onclick="toggleSPTopicExpand('${topic.id}')"><div class="sp-topic-check${topic.checked?' checked':''}" onclick="event.stopPropagation();toggleSPTopic('${course.id}','${topic.id}')">${topic.checked?'✓':''}</div><span class="sp-topic-name${topic.checked?' done':''}">${escapeHtml(topic.name)}</span><span style="font-size:10px;color:var(--text-dim);margin-right:6px">${subs.filter(s=>s.checked).length}/${subs.length} sub</span><span class="sp-topic-chevron">▾</span><button class="sp-del-btn" onclick="event.stopPropagation();deleteSPTopic('${course.id}','${topic.id}')">✕</button></div><div class="sp-subtopics">${subsHTML}<div class="sp-add-subtopic-row"><input class="sp-input-inline" id="sp-inp-sub-${topic.id}" placeholder="Add sub-topic..." onkeydown="if(event.key==='Enter')addSPSubTopic('${course.id}','${topic.id}')"><button class="sp-btn-sm" onclick="addSPSubTopic('${course.id}','${topic.id}')">+ Sub</button></div></div></div>`;
+    const coursePct=spCalcCourseProgress(course);
+    const block=document.createElement('div');
+    block.className='sp-course-block';
+
+    // Build contents HTML
+    const contentsHTML=(course.contents||[]).map(content=>{
+      const contentPct=spCalcContentProgress(content);
+      const isDone=contentPct===100;
+      const topics=content.topics||[];
+      const hasSubs=topics.length>0;
+
+      const topicsHTML=topics.map(topic=>{
+        const subs=topic.subTopics||[];
+        const topicDone=spTopicIsDone(topic);
+        const isPartial=!topicDone && subs.length>0 && subs.some(s=>s.checked);
+        const checkClass='sp-topic-check'+(topicDone?' checked':isPartial?' partial':'');
+        const subCount=subs.length>0?`<span class="sp-topic-sub-count">${subs.filter(s=>s.checked).length}/${subs.length} sub</span>`:'';
+        const expandBtn=subs.length>0||true?`<span class="sp-topic-expand-btn" onclick="toggleSPTopicSubExpand('${topic.id}')" title="Toggle sub-topics">${CHEVRON_DOWN_SVG}</span>`:'';
+
+        const subsHTML=subs.map(st=>`
+          <div class="sp-subtopic-item">
+            <div class="sp-subtopic-check${st.checked?' checked':''}" onclick="toggleSPSubTopic('${course.id}','${content.id}','${topic.id}','${st.id}')">${CHECKMARK_SVG}</div>
+            <span class="sp-subtopic-name${st.checked?' done':''}">${escapeHtml(st.name)}</span>
+            <button class="sp-del-btn" onclick="deleteSPSubTopic('${course.id}','${content.id}','${topic.id}','${st.id}')" title="Delete sub-topic">${TRASH_SVG}</button>
+          </div>`).join('');
+
+        return `<div class="sp-topic-item" id="sp-topic-item-${topic.id}">
+          <div class="sp-topic-header">
+            <div class="${checkClass}" onclick="toggleSPTopic('${course.id}','${content.id}','${topic.id}')">${CHECKMARK_SVG}</div>
+            <span class="sp-topic-name${topicDone?' done':''}">${escapeHtml(topic.name)}</span>
+            ${subCount}
+            ${expandBtn}
+            <button class="sp-del-btn" onclick="deleteSPTopic('${course.id}','${content.id}','${topic.id}')" title="Delete topic">${TRASH_SVG}</button>
+          </div>
+          <div class="sp-subtopics">
+            ${subsHTML}
+            <div class="sp-add-subtopic-row">
+              <input class="sp-input-inline" id="sp-inp-sub-${topic.id}" placeholder="Add sub-topic…" onkeydown="if(event.key==='Enter')addSPSubTopic('${course.id}','${content.id}','${topic.id}')">
+              <button class="sp-btn-sm secondary" onclick="addSPSubTopic('${course.id}','${content.id}','${topic.id}')">+ Sub</button>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+
+      return `<div class="sp-content-block${content.collapsed?' collapsed':''}${hasSubs?' has-topics':''}">
+        <div class="sp-content-header" onclick="toggleSPContentCollapse('${course.id}','${content.id}')">
+          <span class="sp-content-name">${escapeHtml(content.name)}</span>
+          <div class="sp-content-pct-wrap">
+            <div class="sp-content-mini-bar"><div class="sp-content-mini-fill" style="width:${contentPct}%"></div></div>
+            <span class="sp-content-pct">${contentPct}%</span>
+            ${isDone?`<span class="sp-content-done-badge">✓ DONE</span>`:''}
+          </div>
+          <div class="sp-content-chevron">${CHEVRON_DOWN_SVG}</div>
+          <button class="sp-del-btn" onclick="event.stopPropagation();deleteSPContent('${course.id}','${content.id}')" title="Delete content">${TRASH_SVG}</button>
+        </div>
+        <div class="sp-content-body">
+          ${topics.length===0?'<div class="sp-content-empty">No topics yet — add your first one below</div>':''}
+          ${topicsHTML}
+          <div class="sp-add-topic-row">
+            <input class="sp-input-inline" id="sp-inp-topic-${content.id}" placeholder="Add content topic…" onkeydown="if(event.key==='Enter')addSPTopic('${course.id}','${content.id}')">
+            <button class="sp-btn-sm" onclick="addSPTopic('${course.id}','${content.id}')">+ Topic</button>
+          </div>
+        </div>
+      </div>`;
     }).join('');
-    block.innerHTML=`<div class="sp-course-header"><div class="sp-course-name">${escapeHtml(course.name)}${course.code?`<span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-dim);margin-left:10px">${escapeHtml(course.code)}</span>`:''}</div><div class="sp-course-actions"><span class="sp-course-pct">${pct}%</span><button class="sp-del-btn" onclick="deleteSPCourse('${course.id}')" style="font-size:15px">🗑️</button></div></div><div class="sp-course-progress-bar"><div class="sp-course-progress-fill" style="width:${pct}%"></div></div><div class="sp-course-body">${topicsHTML}<div class="sp-add-topic-row" style="margin-top:${(course.topics||[]).length>0?'14px':'4px'}"><input class="sp-input-inline" id="sp-inp-topic-${course.id}" placeholder="Add course content topic..." onkeydown="if(event.key==='Enter')addSPTopic('${course.id}')"><button class="sp-btn-sm" onclick="addSPTopic('${course.id}')">+ Topic</button></div></div>`;
+
+    block.innerHTML=`
+      <div class="sp-course-header">
+        <div class="sp-course-name">${escapeHtml(course.name)}${course.code?`<span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-dim);margin-left:10px">${escapeHtml(course.code)}</span>`:''}</div>
+        <div class="sp-course-actions">
+          <span class="sp-course-pct">${coursePct}%</span>
+          <button class="sp-del-btn" onclick="deleteSPCourse('${course.id}')" title="Delete course" style="font-size:14px">${TRASH_SVG}</button>
+        </div>
+      </div>
+      <div class="sp-course-progress-bar"><div class="sp-course-progress-fill" style="width:${coursePct}%"></div></div>
+      <div class="sp-course-body">
+        ${(course.contents||[]).length===0?'<div style="font-size:11px;color:var(--text-dim);text-align:center;padding:16px 0;font-style:italic">No course content yet — add your first section below</div>':''}
+        ${contentsHTML}
+        <div class="sp-add-content-row">
+          <input class="sp-input-inline" id="sp-inp-content-${course.id}" placeholder="Add course content (e.g. Chapter 1, Unit A)…" onkeydown="if(event.key==='Enter')addSPContent('${course.id}')">
+          <button class="sp-btn-sm" onclick="addSPContent('${course.id}')">+ Content</button>
+        </div>
+      </div>`;
     list.appendChild(block);
   });
   updateSPRadarChart(courses);
@@ -2258,7 +2453,7 @@ function updateSPRadarChart(courses){
   if(spRadarChart){spRadarChart.destroy();spRadarChart=null;}
   if(!courses||courses.length<1)return;
   const labels=courses.map(c=>c.name.length>18?c.name.slice(0,16)+'…':c.name);
-  const data=courses.map(c=>spCalcProgress(c));
+  const data=courses.map(c=>spCalcCourseProgress(c));
   const isDark=document.documentElement.getAttribute('data-theme')!=='light';
   const gridColor=isDark?'rgba(255,255,255,0.08)':'rgba(0,0,0,0.08)';
   const accentColor=getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()||'#4fc3f7';
