@@ -2254,6 +2254,7 @@ async function addSPContent(cid){
   await saveSPCourses(courses);inp.value='';renderSemProgressPage();
 }
 async function deleteSPContent(cid,ccid){
+    if(!confirm('Delete this content section and all its topics?'))return;
   const courses=await getSPCourses();const course=courses.find(c=>c.id===cid);if(!course)return;
   course.contents=(course.contents||[]).filter(cc=>cc.id!==ccid);
   await saveSPCourses(courses);renderSemProgressPage();
@@ -2283,6 +2284,7 @@ async function toggleSPTopic(cid,ccid,tid){
   await saveSPCourses(courses);renderSemProgressPage();
 }
 async function deleteSPTopic(cid,ccid,tid){
+    if(!confirm('Delete this topic and all its sub-topics?'))return;
   const courses=await getSPCourses();const course=courses.find(c=>c.id===cid);if(!course)return;
   const content=(course.contents||[]).find(cc=>cc.id===ccid);if(!content)return;
   content.topics=content.topics.filter(t=>t.id!==tid);
