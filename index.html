@@ -149,11 +149,42 @@ const DASHBOARD_PIN = 'd2fd3bb387a840ba902e32de60e7ec1f8ca9a417d61163164ae2b6c1a
   --text-dim: #9aa0c0;
   --shadow: 0 8px 32px rgba(0,0,50,0.1);
 }
-[data-palette="cyberpunk"] { --accent: #ff0066; --accent2: #00ffcc; --bg-base: #0d0014; }
-[data-palette="nord"] { --accent: #88c0d0; --accent2: #a3be8c; --bg-base: #0f1117; }
-[data-palette="minimal"] { --accent: #c9a96e; --accent2: #a0c4a0; --bg-base: #0c0c0c; }
+[data-palette="cyberpunk"] {
+  --accent: #ff0066; --accent2: #00ffcc; --bg-base: #0d0014;
+  --bg-panel: rgba(18,0,30,0.88); --bg-card: rgba(28,0,45,0.8);
+  --border: rgba(255,0,102,0.25); --border-soft: rgba(255,0,102,0.1);
+  --text: #f0e0ff; --text-muted: #b070c0; --text-dim: #704080;
+}
+[data-palette="nord"] {
+  --accent: #88c0d0; --accent2: #a3be8c; --bg-base: #0f1117;
+  --bg-panel: rgba(20,24,38,0.88); --bg-card: rgba(28,34,52,0.8);
+  --border: rgba(136,192,208,0.22); --border-soft: rgba(136,192,208,0.1);
+  --text: #eceff4; --text-muted: #81a1c1; --text-dim: #4c566a;
+}
+[data-palette="minimal"] {
+  --accent: #c9a96e; --accent2: #a0c4a0; --bg-base: #0c0c0c;
+  --bg-panel: rgba(16,16,16,0.92); --bg-card: rgba(22,22,22,0.85);
+  --border: rgba(201,169,110,0.2); --border-soft: rgba(255,255,255,0.07);
+  --text: #e8e0d0; --text-muted: #8a7a60; --text-dim: #4a4030;
+}
 [data-reduce-motion="true"] * { animation: none !important; transition: none !important; }
 [data-high-contrast="true"] { --text: #ffffff; --text-muted: #ffffff; --bg-panel: rgba(0,0,0,0.95); }
+
+/* Fix light theme select/dropdown background */
+[data-theme="light"] select,
+[data-theme="light"] select option {
+  background: #f0f4ff;
+  color: #1a2040;
+}
+[data-theme="light"] .modal-panel select {
+  background: #ffffff;
+  color: #1a2040;
+  border-color: rgba(79,195,247,0.3);
+}
+[data-theme="light"] .form-group select {
+  background: #ffffff;
+  color: #1a2040;
+}
 
 /* ===== RESET & BASE ===== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -626,6 +657,100 @@ label { font-size: 11px; color: var(--text-muted); display: block; margin-bottom
 #notes-area { width: 100%; min-height: 300px; resize: vertical; background: var(--bg-card); border: 1px solid var(--border-soft); border-radius: var(--radius); padding: 18px; font-family: 'Sora', sans-serif; font-size: 13px; color: var(--text); line-height: 1.7; }
 #notes-area:focus { border-color: var(--accent); }
 
+/* ===== NOTES CARDS ===== */
+.notes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; margin-top: 16px; }
+.note-card { background: var(--bg-card); border: 1px solid var(--border-soft); border-radius: var(--radius); padding: 16px; position: relative; transition: border-color 0.2s, box-shadow 0.2s; }
+.note-card:hover { border-color: var(--border); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+.note-card.default-note { border-color: var(--accent); border-left: 3px solid var(--accent); background: rgba(79,195,247,0.04); }
+.note-card-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; }
+.note-card-title-input { background: transparent; border: none; font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 600; color: var(--text); width: 100%; outline: none; }
+.note-card-body { font-size: 12px; line-height: 1.6; color: var(--text-muted); min-height: 60px; }
+.note-card textarea { width: 100%; background: transparent; border: none; font-family: 'Sora', sans-serif; font-size: 12px; line-height: 1.6; color: var(--text-muted); resize: none; outline: none; min-height: 80px; }
+.note-card-meta { font-size: 10px; color: var(--text-dim); margin-top: 8px; }
+.note-card-actions { display: flex; gap: 6px; margin-top: 10px; justify-content: flex-end; }
+.note-home-preview { background: var(--bg-card); border: 1px solid var(--accent); border-left: 3px solid var(--accent); border-radius: var(--radius); padding: 16px; }
+.note-home-title { font-family: 'Cinzel', serif; font-size: 12px; color: var(--accent); margin-bottom: 10px; letter-spacing: 0.5px; }
+.note-home-body { font-size: 12px; line-height: 1.7; color: var(--text-muted); white-space: pre-wrap; }
+
+/* ===== SKILLS REDESIGN ===== */
+.skills-cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+.skill-card { background: var(--bg-card); border: 1px solid var(--border-soft); border-radius: var(--radius); padding: 14px 16px; position: relative; transition: border-color 0.2s, box-shadow 0.2s; }
+.skill-card:hover { border-color: var(--border); box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+.skill-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.skill-card-name { font-size: 13px; font-weight: 600; color: var(--text); flex: 1; }
+.skill-card-cat { font-size: 9px; padding: 2px 6px; border-radius: 10px; background: var(--bg-input); color: var(--text-dim); border: 1px solid var(--border-soft); }
+.skill-card-dots { display: flex; gap: 5px; margin-bottom: 8px; }
+.skill-card-dot { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--border); cursor: pointer; transition: all 0.15s; background: transparent; }
+.skill-card-dot.filled { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 6px rgba(79,195,247,0.4); }
+.skill-card-level { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--accent); }
+.skill-three-dot { background: transparent; border: none; color: var(--text-dim); cursor: pointer; font-size: 16px; padding: 2px 6px; border-radius: 4px; transition: color 0.15s, background 0.15s; line-height: 1; }
+.skill-three-dot:hover { color: var(--text); background: var(--bg-input); }
+.skill-ctx-menu { position: absolute; right: 10px; top: 38px; background: var(--bg-panel); border: 1px solid var(--border); border-radius: var(--radius-sm); box-shadow: 0 8px 24px rgba(0,0,0,0.5); z-index: 50; overflow: hidden; display: none; min-width: 130px; }
+.skill-ctx-menu.open { display: block; }
+.skill-ctx-item { padding: 9px 14px; font-size: 12px; color: var(--text); cursor: pointer; display: flex; align-items: center; gap: 8px; transition: background 0.15s; white-space: nowrap; }
+.skill-ctx-item:hover { background: var(--bg-input); color: var(--accent); }
+.skill-ctx-item.danger:hover { color: #ef5350; }
+
+/* ===== IDEAS SECTION ===== */
+.ideas-grid { display: flex; flex-direction: column; gap: 14px; }
+.idea-card { background: var(--bg-card); border: 1px solid var(--border-soft); border-radius: var(--radius); overflow: hidden; transition: border-color 0.2s; }
+.idea-card:hover { border-color: var(--border); }
+.idea-card-header { display: flex; align-items: center; gap: 12px; padding: 16px 18px; cursor: pointer; user-select: none; }
+.idea-card-icon { font-size: 20px; flex-shrink: 0; }
+.idea-card-title { font-size: 14px; font-weight: 600; color: var(--text); flex: 1; }
+.idea-card-meta { font-size: 10px; color: var(--text-dim); }
+.idea-card-chevron { font-size: 12px; color: var(--text-muted); transition: transform 0.25s; flex-shrink: 0; }
+.idea-card.open .idea-card-chevron { transform: rotate(180deg); }
+.idea-card-body { display: none; padding: 0 18px 18px; border-top: 1px solid var(--border-soft); }
+.idea-card.open .idea-card-body { display: block; padding-top: 16px; }
+.idea-desc { font-size: 12.5px; color: var(--text-muted); line-height: 1.6; margin-bottom: 16px; }
+/* Flowchart / tree */
+.idea-tree { position: relative; overflow-x: auto; padding: 10px 0; }
+.idea-tree-node { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
+.idea-tree-connector { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; padding-top: 14px; }
+.idea-tree-line-v { width: 2px; flex: 1; background: var(--border-soft); min-height: 20px; }
+.idea-tree-line-h { width: 18px; height: 2px; background: var(--border-soft); }
+.idea-node-box { background: var(--bg-input); border: 1px solid var(--border-soft); border-radius: var(--radius-sm); padding: 8px 12px; font-size: 12px; color: var(--text); display: flex; align-items: center; gap: 8px; cursor: default; transition: border-color 0.15s; min-width: 120px; }
+.idea-node-box:hover { border-color: var(--accent); }
+.idea-node-box.root-node { background: rgba(79,195,247,0.08); border-color: var(--accent); font-weight: 600; font-size: 13px; color: var(--accent); }
+.idea-node-input { background: transparent; border: none; font-family: 'Sora', sans-serif; font-size: 12px; color: var(--text); outline: none; flex: 1; min-width: 80px; }
+.idea-node-input.root-input { font-size: 13px; font-weight: 600; color: var(--accent); }
+.idea-node-del { background: transparent; border: none; color: var(--text-dim); cursor: pointer; font-size: 12px; padding: 0 2px; line-height: 1; opacity: 0.5; transition: opacity 0.15s; }
+.idea-node-del:hover { opacity: 1; color: #ef5350; }
+.idea-children { margin-left: 32px; border-left: 2px solid var(--border-soft); padding-left: 16px; }
+.idea-add-child-btn { font-size: 11px; color: var(--text-dim); background: transparent; border: 1px dashed var(--border-soft); border-radius: 6px; padding: 4px 10px; cursor: pointer; margin-top: 4px; transition: all 0.15s; }
+.idea-add-child-btn:hover { color: var(--accent); border-color: var(--accent); }
+.idea-tree-actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; align-items: center; justify-content: space-between; }
+.idea-card-actions { display: flex; gap: 6px; flex-shrink: 0; }
+
+/* ===== PROFILE IN SETTINGS ===== */
+.profile-photo-wrap { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+.profile-photo-circle { width: 64px; height: 64px; border-radius: 50%; background: var(--bg-input); border: 2px solid var(--border); overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; transition: border-color 0.2s; flex-shrink: 0; }
+.profile-photo-circle:hover { border-color: var(--accent); }
+.profile-photo-circle img { width: 100%; height: 100%; object-fit: cover; }
+.sidebar-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--bg-input); border: 1px solid var(--border); overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; margin-bottom: 8px; }
+.sidebar-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ===== HOME ACTIVE COURSES CARD ===== */
+.active-courses-list { margin-top: 8px; }
+.active-course-item { margin-bottom: 10px; }
+.active-course-name { font-size: 11.5px; color: var(--text); margin-bottom: 3px; display: flex; justify-content: space-between; }
+.active-course-pct { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--accent); }
+.active-course-bar { height: 4px; background: var(--bg-input); border-radius: 3px; overflow: hidden; }
+.active-course-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 3px; transition: width 0.6s ease; }
+
+/* ===== SP HOME RADAR CARD ===== */
+.sp-home-radar-card { aspect-ratio: 1; min-height: 0; }
+.sp-home-radar-card .chart-wrap { height: 100%; min-height: 220px; }
+
+/* ===== SKILL ROW (keep for compat) ===== */
+.skill-row { display: flex; align-items: center; padding: 10px 14px; border-radius: var(--radius-sm); background: var(--bg-card); border: 1px solid var(--border-soft); margin-bottom: 8px; gap: 16px; }
+.skill-name { flex: 1; font-size: 13px; color: var(--text); }
+.skill-dots { display: flex; gap: 6px; }
+.skill-dot { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--border); cursor: pointer; transition: all 0.15s; background: transparent; }
+.skill-dot.filled { background: var(--accent); border-color: var(--accent); }
+.skill-category-tag { font-size: 9px; padding: 2px 7px; border-radius: 10px; background: var(--bg-input); color: var(--text-dim); border: 1px solid var(--border-soft); }
+
 /* ===== SETTINGS MODAL ===== */
 #settings-modal { position: fixed; inset: 0; z-index: 200; display: none; align-items: center; justify-content: center; }
 #settings-modal.open { display: flex; }
@@ -670,7 +795,9 @@ label { font-size: 11px; color: var(--text-muted); display: block; margin-bottom
 .chart-wrap-sm { position: relative; height: 160px; }
 
 /* ===== SEMESTER PROGRESS ===== */
-.sp-course-block { background: var(--bg-card); border: 1px solid var(--border-soft); border-radius: var(--radius); margin-bottom: 20px; overflow: hidden; transition: box-shadow 0.2s; }
+.sp-courses-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 900px) { .sp-courses-grid { grid-template-columns: 1fr; } }
+.sp-course-block { background: var(--bg-card); border: 1px solid var(--border-soft); border-radius: var(--radius); margin-bottom: 0; overflow: hidden; transition: box-shadow 0.2s; }
 .sp-course-block:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.28); }
 .sp-course-header { display: flex; align-items: center; gap: 14px; padding: 16px 20px; background: linear-gradient(90deg, rgba(79,195,247,0.06), transparent); border-bottom: 1px solid var(--border-soft); }
 .sp-course-name { font-family: 'Cinzel', serif; font-size: 14px; font-weight: 600; color: var(--text); flex: 1; }
@@ -805,8 +932,9 @@ label { font-size: 11px; color: var(--text-muted); display: block; margin-bottom
   <button class="sidebar-toggle" onclick="toggleSidebar()">❮</button>
   <div class="sidebar-header">
     <div class="sidebar-arabic">وَالسَّلَامُ عَلَىٰ مَنِ اتَّبَعَ الْهُدَىٰ</div>
-    <div class="sidebar-name">Dahiatur Riduan</div>
-    <div class="sidebar-sub">BSc Mathematics · SUST · Y2S1</div>
+    <div class="sidebar-avatar" id="sidebar-avatar" title="Edit Profile" onclick="openSettings('profile')" style="cursor:pointer">👤</div>
+    <div class="sidebar-name" id="sidebar-name">Dahiatur Riduan</div>
+    <div class="sidebar-sub" id="sidebar-sub">BSc Mathematics · SUST · Y2S1</div>
   </div>
   <div class="nav-section">
     <div class="nav-label">Overview</div>
@@ -825,7 +953,8 @@ label { font-size: 11px; color: var(--text-muted); display: block; margin-bottom
     <button class="nav-item" onclick="showPage('books',this)"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="9" y1="7" x2="15" y2="7"/><line x1="9" y1="11" x2="13" y2="11"/></svg></span><span class="nav-text">Reading Tracker</span></button>
     <button class="nav-item" onclick="showPage('pomodoro',this)"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="9"/><polyline points="12 8 12 13 15 16"/><path d="M9 2h6"/><path d="M12 2v2"/></svg></span><span class="nav-text">Pomodoro</span></button>
     <button class="nav-item" onclick="showPage('habits',this)"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><path d="M3 17l2 2 4-4"/></svg></span><span class="nav-text">Habit Tracker</span></button>
-    <button class="nav-item" onclick="showPage('notes',this)"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg></span><span class="nav-text">Quick Notes</span></button>
+    <button class="nav-item" onclick="showPage('notes',this)"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg></span><span class="nav-text">Notes</span></button>
+    <button class="nav-item" onclick="showPage('ideas',this)"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg></span><span class="nav-text">Ideas</span></button>
   </div>
 </nav>
 
@@ -843,13 +972,20 @@ label { font-size: 11px; color: var(--text-muted); display: block; margin-bottom
 <div class="page active" id="page-home">
   <div class="page-header">
     <h1>بسم الله الرحمن الرحيم</h1>
-    <p>Assalamu Alaikum, Dahiatur.</p>
+    <p id="home-greeting">Assalamu Alaikum, Dahiatur.</p>
   </div>
   <div class="grid-4 mb-16">
     <div class="card"><div class="card-title">Current CGPA</div><div class="stat-big text-mono" id="home-cgpa">—</div><div class="stat-label">Target: 3.50+</div></div>
-    <div class="card"><div class="card-title">Semester</div><div class="stat-big">3rd</div><div class="stat-label">2nd Year · 1st Sem</div></div>
-    <div class="card"><div class="card-title">Active Courses</div><div class="stat-big text-mono" id="home-active-courses">—</div><div class="stat-label" id="home-active-courses-label">From Semester Progress</div></div>
-    <div class="card"><div class="card-title">Online Courses</div><div class="stat-big">8</div><div class="stat-label">1 Active · 7 Planned</div></div>
+    <div class="card" style="grid-column: span 2;">
+      <div class="card-title">Active Courses</div>
+      <div class="active-courses-list" id="home-active-courses-list">
+        <div style="color:var(--text-muted);font-size:12px;text-align:center;padding:12px 0">No courses in Semester Progress yet.</div>
+      </div>
+    </div>
+    <div class="card sp-home-radar-card" id="sp-radar-card-home" style="display:none">
+      <div class="card-title" style="font-size:10px;letter-spacing:1.5px">FOCUS RADAR</div>
+      <div class="chart-wrap"><canvas id="chart-sp-radar-home"></canvas></div>
+    </div>
   </div>
   <div class="grid-2">
     <div class="card"><div class="card-title">CGPA Trend</div><div class="chart-wrap"><canvas id="chart-cgpa-home"></canvas></div></div>
@@ -862,13 +998,11 @@ label { font-size: 11px; color: var(--text-muted); display: block; margin-bottom
     <div class="card-title">▶ Running Online Courses</div>
     <div id="home-running-courses-body"><div style="color:var(--text-muted);font-size:12px;text-align:center;padding:20px 0">No running courses.</div></div>
   </div>
-  <div class="card">
-    <div class="card mb-16" id="sp-radar-card" style="display:none">
-    <div class="card-title">Focus Radar — Course Coverage Overview</div>
-    <div style="max-width:480px;margin:0 auto"><div class="chart-wrap" style="height:320px"><canvas id="chart-sp-radar"></canvas></div></div>
+  <div class="card mt-16" id="home-default-note-card">
+    <div class="note-home-title">📌 Important Tasks</div>
+    <div class="note-home-body" id="home-default-note-body">—</div>
   </div>
-  </div>
-  <div class="mission-card">
+  <div class="mission-card mt-16">
     <div class="mission-arabic">وَالسَّلَامُ عَلَىٰ مَنِ اتَّبَعَ الْهُدَىٰ</div>
     <div class="mission-text">"I'll become one of the best servants of Allah, following the guidance of my Creator and his Messenger (ﷺ). Do my best for Allah, the ummah, for my family, for myself by being a great Mathematician, an exceptional polymath, a skilled programmer, pursuing knowledge of Aviation, Avionics and engineering as my intellectual side quest and seeking ilm. To become a Da'yee, to help my muslim brothers and sisters, to let my people out of misery. I'll be the best son, the best dad, the best husband — fulfilling every responsibility with which I have been sent into this world. Insha'Allah."</div>
   </div>
@@ -927,13 +1061,37 @@ label { font-size: 11px; color: var(--text-muted); display: block; margin-bottom
 
 <!-- SKILLS -->
 <div class="page" id="page-skills">
-  <div class="page-header"><h1>Skills Matrix</h1><p>Rate your skills 0–5 · Connected to live radar chart.</p></div>
-  <div class="grid-2">
-    <div>
-      <div class="card mb-16"><div class="card-title">Hardware & Domain Skills</div><div id="skills-hardware"></div></div>
-      <div class="card"><div class="card-title">Software & Programming</div><div id="skills-software"></div></div>
-    </div>
-    <div class="card"><div class="card-title">Skills Radar</div><div class="chart-wrap"><canvas id="chart-skills-radar"></canvas></div></div>
+  <div class="page-header flex-between">
+    <div><h1>Skills Matrix</h1><p>Rate your skills 0–5 · Connected to live radar chart.</p></div>
+    <button class="btn btn-primary" onclick="openAddSkillModal()">+ Add Skill</button>
+  </div>
+  <div class="card mb-16">
+    <div class="card-title">Skills Radar</div>
+    <div style="max-width:480px;margin:0 auto"><div class="chart-wrap" style="height:300px"><canvas id="chart-skills-radar"></canvas></div></div>
+  </div>
+  <div class="card mb-16">
+    <div class="card-title">Hardware & Domain</div>
+    <div class="skills-cards-grid" id="skills-hardware"></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Software & Programming</div>
+    <div class="skills-cards-grid" id="skills-software"></div>
+  </div>
+</div>
+
+<!-- ADD SKILL MODAL -->
+<div id="skill-modal" style="position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center">
+  <div class="modal-backdrop" onclick="closeSkillModal()"></div>
+  <div class="modal-panel" style="width:380px">
+    <div class="modal-title" id="skill-modal-title">Add Skill<button class="modal-close" onclick="closeSkillModal()">✕</button></div>
+    <input type="hidden" id="skill-modal-mode" value="add">
+    <input type="hidden" id="skill-modal-prefix" value="">
+    <input type="hidden" id="skill-modal-idx" value="">
+    <div class="form-group"><label>Skill Name</label><input type="text" id="sk-name" placeholder="e.g. Python"></div>
+    <div class="form-group"><label>Category</label><input type="text" id="sk-cat" placeholder="e.g. Programming"></div>
+    <div class="form-group"><label>Group</label><select id="sk-group"><option value="hw">Hardware & Domain</option><option value="sw">Software & Programming</option></select></div>
+    <div class="form-group"><label>Initial Rating (0–5)</label><input type="number" id="sk-rating" min="0" max="5" value="0"></div>
+    <button class="btn btn-primary" onclick="saveSkillModal()" style="width:100%">Save Skill</button>
   </div>
 </div>
 
@@ -1018,15 +1176,22 @@ label { font-size: 11px; color: var(--text-muted); display: block; margin-bottom
 <!-- NOTES -->
 <div class="page" id="page-notes">
   <div class="page-header flex-between">
-    <div><h1>Quick Notes</h1><p>Auto-saved scratchpad.</p></div>
-    <button class="btn" onclick="copyNotes()">📋 Copy</button>
+    <div><h1>Notes</h1><p>Your notes — saved to the cloud automatically.</p></div>
+    <button class="btn btn-primary" onclick="openAddNoteModal()">+ Add Note</button>
   </div>
-  <div class="card">
-    <textarea id="notes-area" placeholder="Start typing... Notes are saved automatically."></textarea>
-    <div class="flex-between mt-16">
-      <span class="text-muted text-sm" id="notes-status">Saved</span>
-      <button class="btn btn-danger" onclick="clearNotes()">Clear Notes</button>
-    </div>
+  <div id="notes-cards-container">
+    <div class="notes-grid" id="notes-grid"></div>
+  </div>
+</div>
+
+<!-- ADD NOTE MODAL -->
+<div id="note-modal" style="position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center">
+  <div class="modal-backdrop" onclick="closeNoteModal()"></div>
+  <div class="modal-panel" style="width:420px">
+    <div class="modal-title">New Note<button class="modal-close" onclick="closeNoteModal()">✕</button></div>
+    <div class="form-group"><label>Title</label><input type="text" id="note-inp-title" placeholder="Note title…"></div>
+    <div class="form-group"><label>Content</label><textarea id="note-inp-body" placeholder="Write your note…" style="width:100%;min-height:100px;background:var(--bg-input);border:1px solid var(--border-soft);border-radius:var(--radius-sm);padding:10px;font-family:'Sora',sans-serif;font-size:12.5px;color:var(--text);resize:vertical;outline:none;"></textarea></div>
+    <button class="btn btn-primary" onclick="saveNewNote()" style="width:100%">Save Note</button>
   </div>
 </div>
 
@@ -1040,57 +1205,133 @@ label { font-size: 11px; color: var(--text-muted); display: block; margin-bottom
     <div class="card-title">Focus Radar — Course Coverage Overview</div>
     <div style="max-width:480px;margin:0 auto"><div class="chart-wrap" style="height:320px"><canvas id="chart-sp-radar"></canvas></div></div>
   </div>
-  <div id="sp-courses-list">
-    <div id="sp-empty-state" style="text-align:center;padding:60px 20px;color:var(--text-muted)">
+  <div class="sp-courses-grid" id="sp-courses-list">
+    <div id="sp-empty-state" style="text-align:center;padding:60px 20px;color:var(--text-muted);grid-column:1/-1">
       <div style="font-size:48px;margin-bottom:16px">📚</div>
       <div style="font-size:14px;font-weight:600;margin-bottom:8px;color:var(--text)">No courses yet</div>
       <div style="font-size:12px">Add your semester courses and start tracking your content progress.</div>
     </div>
   </div>
 </div>
+<!-- IDEAS -->
+<div class="page" id="page-ideas">
+  <div class="page-header flex-between">
+    <div><h1>Ideas</h1><p>Capture ideas and map them into flowcharts.</p></div>
+    <button class="btn btn-primary" onclick="openAddIdeaModal()">+ New Idea</button>
+  </div>
+  <div class="ideas-grid" id="ideas-list">
+    <div id="ideas-empty" style="text-align:center;padding:60px 20px;color:var(--text-muted)">
+      <div style="font-size:48px;margin-bottom:16px">💡</div>
+      <div style="font-size:14px;font-weight:600;margin-bottom:8px;color:var(--text)">No ideas yet</div>
+      <div style="font-size:12px">Start capturing your ideas and build them into a tree.</div>
+    </div>
+  </div>
+</div>
 
 </main>
+
+<!-- ADD IDEA MODAL -->
+<div id="idea-modal" style="position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center">
+  <div class="modal-backdrop" onclick="closeIdeaModal()"></div>
+  <div class="modal-panel" style="width:420px">
+    <div class="modal-title">New Idea<button class="modal-close" onclick="closeIdeaModal()">✕</button></div>
+    <div class="form-group"><label>Idea Title</label><input type="text" id="idea-inp-title" placeholder="What's the idea?"></div>
+    <div class="form-group"><label>Brief Description</label><textarea id="idea-inp-desc" placeholder="Describe it briefly…" style="width:100%;min-height:80px;background:var(--bg-input);border:1px solid var(--border-soft);border-radius:var(--radius-sm);padding:10px;font-family:'Sora',sans-serif;font-size:12.5px;color:var(--text);resize:vertical;outline:none;"></textarea></div>
+    <div class="form-group"><label>Icon (emoji)</label><input type="text" id="idea-inp-icon" placeholder="💡" maxlength="2"></div>
+    <button class="btn btn-primary" onclick="saveNewIdea()" style="width:100%">Create Idea</button>
+  </div>
+</div>
 
 <!-- SETTINGS MODAL -->
 <div id="settings-modal">
   <div class="modal-backdrop" onclick="closeSettings()"></div>
   <div class="modal-panel">
     <div class="modal-title">⚙️ Settings<button class="modal-close" onclick="closeSettings()">✕</button></div>
-    <div class="settings-section">
-      <div class="settings-section-title">Appearance — Theme</div>
-      <div class="palette-grid">
-        <button class="palette-btn active" onclick="setTheme('dark',this)" style="background:linear-gradient(135deg,#0a0e1a,#1a2450)"><span>Dark</span></button>
-        <button class="palette-btn" onclick="setTheme('light',this)" style="background:linear-gradient(135deg,#e8eeff,#c8d8ff)"><span style="color:#1a2040">Light</span></button>
-        <button class="palette-btn" onclick="setPalette('cyberpunk',this)" style="background:linear-gradient(135deg,#0d0014,#ff0066)"><span>Cyber</span></button>
-        <button class="palette-btn" onclick="setPalette('nord',this)" style="background:linear-gradient(135deg,#0f1117,#88c0d0)"><span>Nord</span></button>
-        <button class="palette-btn" onclick="setPalette('minimal',this)" style="background:linear-gradient(135deg,#0c0c0c,#c9a96e)"><span>Gold</span></button>
+
+    <!-- Settings Tabs -->
+    <div class="tabs" style="margin-bottom:20px">
+      <button class="tab-btn active" id="stab-profile" onclick="switchSettingsTab('profile',this)">👤 Profile</button>
+      <button class="tab-btn" id="stab-appearance" onclick="switchSettingsTab('appearance',this)">🎨 Appearance</button>
+      <button class="tab-btn" id="stab-system" onclick="switchSettingsTab('system',this)">⚙️ System</button>
+    </div>
+
+    <!-- Profile Tab -->
+    <div id="settings-tab-profile">
+      <div class="settings-section">
+        <div class="settings-section-title">Profile Photo</div>
+        <div class="profile-photo-wrap">
+          <div class="profile-photo-circle" id="profile-photo-circle" onclick="document.getElementById('profile-photo-input').click()">👤</div>
+          <div>
+            <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px">Click the circle to upload a photo</div>
+            <input type="file" id="profile-photo-input" accept="image/*" style="display:none" onchange="handleProfilePhoto(this)">
+            <button class="btn" style="font-size:11px;padding:4px 10px" onclick="removeProfilePhoto()">Remove Photo</button>
+          </div>
+        </div>
       </div>
-      <div class="color-pickers">
-        <div class="color-picker-wrap"><label style="margin:0;color:var(--text)">Primary Accent</label><input type="color" id="pick-accent" value="#4fc3f7" oninput="setAccent(this.value)"></div>
-        <div class="color-picker-wrap"><label style="margin:0;color:var(--text)">Secondary Accent</label><input type="color" id="pick-accent2" value="#81c784" oninput="setAccent2(this.value)"></div>
+      <div class="settings-section">
+        <div class="settings-section-title">Personal Info</div>
+        <div class="form-group"><label>Your Name</label><input type="text" id="prof-name" placeholder="e.g. Dahiatur Riduan" oninput="liveUpdateProfile()"></div>
+        <div class="form-group"><label>Institution</label><input type="text" id="prof-institution" placeholder="e.g. Shahjalal University of Science & Technology" oninput="liveUpdateProfile()"></div>
+        <div class="form-group"><label>Department / Program</label><input type="text" id="prof-dept" placeholder="e.g. BSc Mathematics" oninput="liveUpdateProfile()"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="form-group" style="margin:0"><label>Year</label>
+            <select id="prof-year" onchange="liveUpdateProfile()">
+              <option value="1">Year 1</option><option value="2">Year 2</option>
+              <option value="3">Year 3</option><option value="4">Year 4</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin:0"><label>Semester</label>
+            <select id="prof-sem" onchange="liveUpdateProfile()">
+              <option value="1">Semester 1</option><option value="2">Semester 2</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="saveProfile()" style="width:100%;margin-top:16px">Save Profile</button>
       </div>
     </div>
-    <div class="settings-section">
-      <div class="settings-section-title">Background Engine</div>
-      <div class="form-group"><label>Background Type</label><select id="bg-type" onchange="setBgType(this.value)"><option value="plexus">Plexus Glow (Default)</option><option value="solid">Solid Color</option><option value="image">Custom Image</option><option value="video">Custom Video</option></select></div>
-      <div id="bg-upload-wrap" style="display:none" class="form-group"><label>Upload File</label><input type="file" id="bg-file" accept="image/*,video/*" onchange="handleBgUpload(this)"></div>
-      <div class="slider-row"><div class="slider-label"><span>Background Opacity</span><span class="slider-value" id="val-bg-opacity">100%</span></div><input type="range" min="0" max="100" value="100" id="sl-bg-opacity" oninput="setBgOpacity(this.value)"></div>
-      <div class="slider-row"><div class="slider-label"><span>Blur Level</span><span class="slider-value" id="val-bg-blur">0px</span></div><input type="range" min="0" max="20" value="0" id="sl-bg-blur" oninput="setBgBlur(this.value)"></div>
-      <div class="slider-row"><div class="slider-label"><span>Overlay Dimmer</span><span class="slider-value" id="val-overlay">25%</span></div><input type="range" min="0" max="90" value="25" id="sl-overlay" oninput="setOverlay(this.value)"></div>
+
+    <!-- Appearance Tab -->
+    <div id="settings-tab-appearance" style="display:none">
+      <div class="settings-section">
+        <div class="settings-section-title">Appearance — Theme</div>
+        <div class="palette-grid">
+          <button class="palette-btn active" onclick="setTheme('dark',this)" style="background:linear-gradient(135deg,#0a0e1a,#1a2450)"><span>Dark</span></button>
+          <button class="palette-btn" onclick="setTheme('light',this)" style="background:linear-gradient(135deg,#e8eeff,#c8d8ff)"><span style="color:#1a2040">Light</span></button>
+          <button class="palette-btn" onclick="setPalette('cyberpunk',this)" style="background:linear-gradient(135deg,#0d0014,#ff0066)"><span>Cyber</span></button>
+          <button class="palette-btn" onclick="setPalette('nord',this)" style="background:linear-gradient(135deg,#0f1117,#88c0d0)"><span>Nord</span></button>
+          <button class="palette-btn" onclick="setPalette('minimal',this)" style="background:linear-gradient(135deg,#0c0c0c,#c9a96e)"><span>Gold</span></button>
+        </div>
+        <div class="color-pickers">
+          <div class="color-picker-wrap"><label style="margin:0;color:var(--text)">Primary Accent</label><input type="color" id="pick-accent" value="#4fc3f7" oninput="setAccent(this.value)"></div>
+          <div class="color-picker-wrap"><label style="margin:0;color:var(--text)">Secondary Accent</label><input type="color" id="pick-accent2" value="#81c784" oninput="setAccent2(this.value)"></div>
+        </div>
+      </div>
+      <div class="settings-section">
+        <div class="settings-section-title">Background Engine</div>
+        <div class="form-group"><label>Background Type</label><select id="bg-type" onchange="setBgType(this.value)"><option value="plexus">Plexus Glow (Default)</option><option value="solid">Solid Color</option><option value="image">Custom Image</option><option value="video">Custom Video</option></select></div>
+        <div id="bg-upload-wrap" style="display:none" class="form-group"><label>Upload File</label><input type="file" id="bg-file" accept="image/*,video/*" onchange="handleBgUpload(this)"></div>
+        <div class="slider-row"><div class="slider-label"><span>Background Opacity</span><span class="slider-value" id="val-bg-opacity">100%</span></div><input type="range" min="0" max="100" value="100" id="sl-bg-opacity" oninput="setBgOpacity(this.value)"></div>
+        <div class="slider-row"><div class="slider-label"><span>Blur Level</span><span class="slider-value" id="val-bg-blur">0px</span></div><input type="range" min="0" max="20" value="0" id="sl-bg-blur" oninput="setBgBlur(this.value)"></div>
+        <div class="slider-row"><div class="slider-label"><span>Overlay Dimmer</span><span class="slider-value" id="val-overlay">25%</span></div><input type="range" min="0" max="90" value="25" id="sl-overlay" oninput="setOverlay(this.value)"></div>
+      </div>
+      <div class="settings-section">
+        <div class="settings-section-title">Accessibility</div>
+        <div class="toggle-row"><div><div class="toggle-label">Reduce Motion</div><div class="toggle-sub">Pauses background animations</div></div><label class="toggle-switch"><input type="checkbox" id="tog-reduce-motion" onchange="setReduceMotion(this.checked)"><span class="toggle-slider"></span></label></div>
+        <div class="toggle-row"><div><div class="toggle-label">High Contrast Text</div></div><label class="toggle-switch"><input type="checkbox" id="tog-high-contrast" onchange="setHighContrast(this.checked)"><span class="toggle-slider"></span></label></div>
+        <div class="slider-row"><div class="slider-label"><span>Base Font Size</span><span class="slider-value" id="val-font-size">14px</span></div><input type="range" min="11" max="18" value="14" id="sl-font-size" oninput="setFontSize(this.value)"></div>
+      </div>
     </div>
-    <div class="settings-section">
-      <div class="settings-section-title">Accessibility</div>
-      <div class="toggle-row"><div><div class="toggle-label">Reduce Motion</div><div class="toggle-sub">Pauses background animations</div></div><label class="toggle-switch"><input type="checkbox" id="tog-reduce-motion" onchange="setReduceMotion(this.checked)"><span class="toggle-slider"></span></label></div>
-      <div class="toggle-row"><div><div class="toggle-label">High Contrast Text</div></div><label class="toggle-switch"><input type="checkbox" id="tog-high-contrast" onchange="setHighContrast(this.checked)"><span class="toggle-slider"></span></label></div>
-      <div class="slider-row"><div class="slider-label"><span>Base Font Size</span><span class="slider-value" id="val-font-size">14px</span></div><input type="range" min="11" max="18" value="14" id="sl-font-size" oninput="setFontSize(this.value)"></div>
-    </div>
-    <div class="settings-section">
-      <div class="settings-section-title">System & Data</div>
-      <div class="flex gap-8" style="flex-wrap:wrap">
-        <button class="btn" onclick="exportData()">📤 Export JSON</button>
-        <button class="btn" onclick="document.getElementById('import-file').click()">📥 Import JSON</button>
-        <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(this)">
-        <button class="btn btn-danger" onclick="factoryReset()">🗑️ Factory Reset</button>
+
+    <!-- System Tab -->
+    <div id="settings-tab-system" style="display:none">
+      <div class="settings-section">
+        <div class="settings-section-title">System & Data</div>
+        <div class="flex gap-8" style="flex-wrap:wrap">
+          <button class="btn" onclick="exportData()">📤 Export JSON</button>
+          <button class="btn" onclick="document.getElementById('import-file').click()">📥 Import JSON</button>
+          <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(this)">
+          <button class="btn btn-danger" onclick="factoryReset()">🗑️ Factory Reset</button>
+        </div>
       </div>
     </div>
   </div>
@@ -1423,6 +1664,9 @@ async function initDashboard() {
     });
   }
 
+  // Load profile
+  await loadProfile();
+
   // Render initial page
   renderCurriculumPage();
   await updateHomeStats();
@@ -1439,7 +1683,7 @@ function showPage(id, btn) {
   document.getElementById('page-'+id).classList.add('active');
   if (btn) btn.classList.add('active');
   closeMobileSidebar();
-  const titles = {home:'Command Dashboard',grades:'Grades & CGPA',curriculum:'Curriculum Map',courses:'Online Courses',semprogress:'Semester Progress',projects:'Projects',skills:'Skills Matrix',goals:'Goals & Competitions',calendar:'Calendar & Timers',books:'Reading Tracker',pomodoro:'Pomodoro Timer',habits:'Habit Tracker',notes:'Quick Notes'};
+  const titles = {home:'Command Dashboard',grades:'Grades & CGPA',curriculum:'Curriculum Map',courses:'Online Courses',semprogress:'Semester Progress',projects:'Projects',skills:'Skills Matrix',goals:'Goals & Competitions',calendar:'Calendar & Timers',books:'Reading Tracker',pomodoro:'Pomodoro Timer',habits:'Habit Tracker',notes:'Notes',ideas:'Ideas'};
   document.getElementById('topbar-title').textContent = titles[id] || id;
   if (id==='grades') renderGradesPage();
   if (id==='courses') renderCoursesPage();
@@ -1450,7 +1694,8 @@ function showPage(id, btn) {
   if (id==='calendar') renderCalendar();
   if (id==='books') renderBooksPage();
   if (id==='habits') renderHabitsPage();
-  if (id==='notes') loadNotes();
+  if (id==='notes') renderNotesPage();
+  if (id==='ideas') renderIdeasPage();
   if (id==='home') updateHomeStats();
 }
 
@@ -1666,15 +1911,28 @@ async function updateHomeStats() {
   await renderHomeCharts();
   await renderCountdownWidgets();
   await updateHomeRunningCourses();
-  // Active courses from semester progress
+  await updateHomeDefaultNote();
+  // Active courses from semester progress - detailed view
   const spCourses = await getSPCourses();
-  const el = document.getElementById('home-active-courses');
-  const lbl = document.getElementById('home-active-courses-label');
-  if (el) el.textContent = spCourses.length || '0';
-  if (lbl) {
-    const codes = spCourses.slice(0,3).map(c=>c.code?c.code.split(' ')[0]:c.name.split(' ')[0]).join(', ');
-    lbl.textContent = spCourses.length > 0 ? codes + (spCourses.length > 3 ? '…' : '') : 'Add courses in Semester Progress';
+  const listEl = document.getElementById('home-active-courses-list');
+  if(listEl) {
+    if(spCourses.length===0) {
+      listEl.innerHTML='<div style="color:var(--text-muted);font-size:12px;text-align:center;padding:12px 0">No courses in Semester Progress yet.</div>';
+    } else {
+      listEl.innerHTML = spCourses.map(c=>{
+        const pct = spCalcCourseProgress(c);
+        return `<div class="active-course-item">
+          <div class="active-course-name">
+            <span>${escapeHtml(c.name)}</span>
+            <span class="active-course-pct">${pct}%</span>
+          </div>
+          <div class="active-course-bar"><div class="active-course-fill" style="width:${pct}%"></div></div>
+        </div>`;
+      }).join('');
+    }
   }
+  // Update SP home radar
+  updateSPRadarChart(spCourses);
 }
 
 /* ============================
@@ -1884,65 +2142,150 @@ async function toggleMilestone(pid, idx, total) {
 function openAddProject() { showToast('Project management: edit DEFAULT_PROJECTS in code for now.'); }
 
 /* ============================
-   SKILLS
+   GOALS
    ============================ */
-const SKILLS_HARDWARE = [{name:'Basic Electronics',cat:'Hardware',rating:0},{name:'Robotics',cat:'Hardware',rating:0}];
-const SKILLS_SOFTWARE = [
+
+/* ============================
+   SKILLS (redesigned + bug fixed)
+   ============================ */
+const DEFAULT_SKILLS_HW = [{name:'Basic Electronics',cat:'Hardware',rating:0},{name:'Robotics',cat:'Hardware',rating:0}];
+const DEFAULT_SKILLS_SW = [
   {name:'C',cat:'Programming',rating:2},{name:'C++',cat:'Programming',rating:0},{name:'Python',cat:'Programming',rating:1},
   {name:'Git',cat:'Dev Tools',rating:0},{name:'MATLAB',cat:'Math Tools',rating:0},{name:'Mathematica',cat:'Math Tools',rating:1},
   {name:'Photoshop',cat:'Design',rating:2},{name:'Illustrator',cat:'Design',rating:0},{name:'After Effects',cat:'Design',rating:0},{name:'Premiere Pro',cat:'Design',rating:0}
 ];
 
-async function getSkillRatings(list, prefix) {
-  const saved = await dbGet('skills_'+prefix, null);
-  if (!saved) return list.map(s=>s.rating);
-  return list.map((s,i)=>saved[i]??s.rating);
+async function getSkillsList(prefix) {
+  const key = prefix==='hw'?'skills_list_hw':'skills_list_sw';
+  const def = prefix==='hw'?DEFAULT_SKILLS_HW:DEFAULT_SKILLS_SW;
+  return await dbGet(key, def);
+}
+async function saveSkillsList(prefix, list) {
+  const key = prefix==='hw'?'skills_list_hw':'skills_list_sw';
+  await dbSet(key, list);
 }
 
 async function renderSkillsPage() {
-  await renderSkillSection('skills-hardware', SKILLS_HARDWARE, 'hw');
-  await renderSkillSection('skills-software', SKILLS_SOFTWARE, 'sw');
+  await renderSkillSection('skills-hardware', 'hw');
+  await renderSkillSection('skills-software', 'sw');
   await renderSkillsRadar();
 }
 
-async function renderSkillSection(containerId, skills, prefix) {
+async function renderSkillSection(containerId, prefix) {
   const cont = document.getElementById(containerId);
   cont.innerHTML = '';
-  const ratings = await getSkillRatings(skills, prefix);
-  skills.forEach((s,i) => {
-    const row = document.createElement('div');
-    row.className = 'skill-row';
-    row.innerHTML = `<div class="skill-name">${s.name}</div><span class="skill-category-tag">${s.cat}</span><div class="skill-dots">${[1,2,3,4,5].map(d=>`<div class="skill-dot${ratings[i]>=d?' filled':''}" onclick="setSkillRating('${prefix}',${i},${d})"></div>`).join('')}</div><span class="text-mono text-sm text-accent">${ratings[i]}/5</span>`;
-    cont.appendChild(row);
+  const skills = await getSkillsList(prefix);
+  skills.forEach((s, i) => {
+    const card = document.createElement('div');
+    card.className = 'skill-card';
+    card.innerHTML = `
+      <div class="skill-card-header">
+        <div>
+          <div class="skill-card-name">${escapeHtml(s.name)}</div>
+          <div class="skill-card-cat" style="margin-top:3px">${escapeHtml(s.cat)}</div>
+        </div>
+        <button class="skill-three-dot" onclick="toggleSkillMenu('skill-menu-${prefix}-${i}',event)" title="Options">⋮</button>
+        <div class="skill-ctx-menu" id="skill-menu-${prefix}-${i}">
+          <div class="skill-ctx-item" onclick="openEditSkillModal('${prefix}',${i})">✏️ Edit</div>
+          <div class="skill-ctx-item danger" onclick="deleteSkill('${prefix}',${i})">🗑️ Remove</div>
+        </div>
+      </div>
+      <div class="skill-card-dots">
+        ${[1,2,3,4,5].map(d=>`<div class="skill-card-dot${s.rating>=d?' filled':''}" onclick="setSkillRating('${prefix}',${i},${d})"></div>`).join('')}
+      </div>
+      <div class="skill-card-level">${s.rating}/5 · ${['None','Beginner','Familiar','Proficient','Advanced','Expert'][s.rating]||''}</div>`;
+    cont.appendChild(card);
   });
+  // Close menus on outside click
+  document.addEventListener('click', closeAllSkillMenus, {once:true});
 }
 
+function toggleSkillMenu(id, e) {
+  e.stopPropagation();
+  document.querySelectorAll('.skill-ctx-menu').forEach(m=>{if(m.id!==id)m.classList.remove('open');});
+  document.getElementById(id).classList.toggle('open');
+}
+function closeAllSkillMenus() {
+  document.querySelectorAll('.skill-ctx-menu').forEach(m=>m.classList.remove('open'));
+}
+document.addEventListener('click', ()=>{document.querySelectorAll('.skill-ctx-menu').forEach(m=>m.classList.remove('open'));});
+
 async function setSkillRating(prefix, idx, val) {
-  const skills = prefix==='hw'?SKILLS_HARDWARE:SKILLS_SOFTWARE;
-  const ratings = await getSkillRatings(skills, 'skills_'+prefix);
-  ratings[idx] = ratings[idx]===val?val-1:val;
-  await dbSet('skills_'+prefix, ratings);
+  const skills = await getSkillsList(prefix);
+  skills[idx].rating = skills[idx].rating===val ? val-1 : val;
+  await saveSkillsList(prefix, skills);
   renderSkillsPage();
+}
+
+function openAddSkillModal() {
+  document.getElementById('skill-modal-mode').value = 'add';
+  document.getElementById('skill-modal-title').innerHTML = 'Add Skill<button class="modal-close" onclick="closeSkillModal()">✕</button>';
+  document.getElementById('sk-name').value=''; document.getElementById('sk-cat').value=''; document.getElementById('sk-rating').value=0;
+  document.getElementById('skill-modal').style.display='flex';
+}
+function openEditSkillModal(prefix, idx) {
+  closeAllSkillMenus();
+  getSkillsList(prefix).then(skills=>{
+    const s = skills[idx];
+    document.getElementById('skill-modal-mode').value='edit';
+    document.getElementById('skill-modal-prefix').value=prefix;
+    document.getElementById('skill-modal-idx').value=idx;
+    document.getElementById('skill-modal-title').innerHTML='Edit Skill<button class="modal-close" onclick="closeSkillModal()">✕</button>';
+    document.getElementById('sk-name').value=s.name;
+    document.getElementById('sk-cat').value=s.cat;
+    document.getElementById('sk-group').value=prefix;
+    document.getElementById('sk-rating').value=s.rating;
+    document.getElementById('skill-modal').style.display='flex';
+  });
+}
+function closeSkillModal(){document.getElementById('skill-modal').style.display='none';}
+async function saveSkillModal() {
+  const name = document.getElementById('sk-name').value.trim();
+  if(!name){showToast('⚠ Enter a skill name.'); return;}
+  const cat = document.getElementById('sk-cat').value.trim()||'General';
+  const group = document.getElementById('sk-group').value;
+  const rating = parseInt(document.getElementById('sk-rating').value)||0;
+  const mode = document.getElementById('skill-modal-mode').value;
+  if(mode==='add') {
+    const skills = await getSkillsList(group);
+    skills.push({name,cat,rating});
+    await saveSkillsList(group, skills);
+    showToast('Skill added!');
+  } else {
+    const prefix = document.getElementById('skill-modal-prefix').value;
+    const idx = parseInt(document.getElementById('skill-modal-idx').value);
+    const skills = await getSkillsList(prefix);
+    skills[idx] = {name,cat,rating};
+    await saveSkillsList(prefix, skills);
+    showToast('Skill updated!');
+  }
+  closeSkillModal(); renderSkillsPage();
+}
+async function deleteSkill(prefix, idx) {
+  if(!confirm('Remove this skill?')) return;
+  const skills = await getSkillsList(prefix);
+  skills.splice(idx, 1);
+  await saveSkillsList(prefix, skills);
+  renderSkillsPage(); showToast('Skill removed.');
 }
 
 async function renderSkillsRadar() {
   const ctx = document.getElementById('chart-skills-radar')?.getContext('2d');
   if (!ctx) return;
   if (skillsRadarChart) skillsRadarChart.destroy();
-  const hwR = await getSkillRatings(SKILLS_HARDWARE, 'skills_hw');
-  const swR = await getSkillRatings(SKILLS_SOFTWARE, 'skills_sw');
-  const labels = [...SKILLS_HARDWARE.map(s=>s.name),...SKILLS_SOFTWARE.slice(0,6).map(s=>s.name)];
-  const data = [...hwR,...swR.slice(0,6)];
+  const hwSkills = await getSkillsList('hw');
+  const swSkills = await getSkillsList('sw');
+  const maxPoints = 10; // show top 10
+  const combined = [...hwSkills,...swSkills].slice(0,maxPoints);
+  const labels = combined.map(s=>s.name);
+  const data = combined.map(s=>s.rating);
+  const isDark = document.documentElement.getAttribute('data-theme')!=='light';
   skillsRadarChart = new Chart(ctx, {
     type: 'radar',
     data: { labels, datasets:[{label:'Skill Level',data,borderColor:'rgba(79,195,247,0.8)',backgroundColor:'rgba(79,195,247,0.1)',borderWidth:2,pointBackgroundColor:'var(--accent)',pointRadius:4}] },
-    options: { scales:{r:{min:0,max:5,ticks:{stepSize:1,color:'#7a8aaa',backdropColor:'transparent',font:{family:'JetBrains Mono',size:9}},grid:{color:'rgba(255,255,255,0.08)'},pointLabels:{color:'#e8edf8',font:{size:10}}}}, plugins:{legend:{display:false}}, responsive:true, maintainAspectRatio:false }
+    options: { scales:{r:{min:0,max:5,ticks:{stepSize:1,color:isDark?'#7a8aaa':'#5060a0',backdropColor:'transparent',font:{family:'JetBrains Mono',size:9}},grid:{color:isDark?'rgba(255,255,255,0.08)':'rgba(0,0,0,0.08)'},angleLines:{color:isDark?'rgba(255,255,255,0.08)':'rgba(0,0,0,0.08)'},pointLabels:{color:isDark?'#e8edf8':'#1a2040',font:{size:10}}}}, plugins:{legend:{display:false}}, responsive:true, maintainAspectRatio:false }
   });
 }
-
-/* ============================
-   GOALS
-   ============================ */
 const DEFAULT_GOALS = [{id:'g1',title:'Achieve 3.8 CGPA in Semester 3',cat:'Academic',date:'',done:false}];
 async function getGoals() { return await dbGet('goals_data', DEFAULT_GOALS); }
 
@@ -2136,23 +2479,212 @@ async function saveHabit(){
 }
 
 /* ============================
-   NOTES
+   NOTES (cards-based)
    ============================ */
-let notesSaveTimeout;
-async function loadNotes(){document.getElementById('notes-area').value=await dbGet('quick_notes','');}
-document.getElementById('notes-area').addEventListener('input',function(){
-  document.getElementById('notes-status').textContent='Saving…';
-  clearTimeout(notesSaveTimeout);
-  notesSaveTimeout=setTimeout(async()=>{await dbSet('quick_notes',this.value);document.getElementById('notes-status').textContent='Saved ✓';},1000);
-});
-function copyNotes(){navigator.clipboard.writeText(document.getElementById('notes-area').value);showToast('Notes copied!');}
-async function clearNotes(){if(confirm('Clear all notes?')){document.getElementById('notes-area').value='';await dbSet('quick_notes','');}}
+async function getNotes() { return await dbGet('notes_cards', []); }
+
+async function renderNotesPage() {
+  const notes = await getNotes();
+  const grid = document.getElementById('notes-grid');
+  if(!grid) return;
+  grid.innerHTML = '';
+  // Default permanent note first
+  const defaultNote = await dbGet('notes_default', {title:'📌 Important Tasks', body:''});
+  const defCard = document.createElement('div');
+  defCard.className = 'note-card default-note';
+  defCard.innerHTML = `
+    <div class="note-card-title">
+      <span style="color:var(--accent)">📌 Important Tasks</span>
+      <span class="text-sm text-muted" style="font-size:10px">Always on Home</span>
+    </div>
+    <textarea class="note-card-body" placeholder="Write your important tasks here…" oninput="autoSizeNoteArea(this);saveDefaultNote(this.value)">${escapeHtml(defaultNote.body||'')}</textarea>
+    <div class="note-card-meta">Default note — shown on Home page</div>`;
+  grid.appendChild(defCard);
+
+  if(notes.length===0 && grid.children.length<=1) {
+    const empty = document.createElement('div');
+    empty.style.cssText='color:var(--text-muted);font-size:12px;text-align:center;padding:40px 0;grid-column:1/-1';
+    empty.textContent='No notes yet. Click "+ Add Note" to create one.';
+    grid.appendChild(empty);
+  }
+  notes.forEach((n,i) => {
+    const card = document.createElement('div');
+    card.className = 'note-card';
+    const date = n.created ? new Date(n.created).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : '';
+    card.innerHTML = `
+      <div class="note-card-title">
+        <input class="note-card-title-input" value="${escapeHtml(n.title||'')}" placeholder="Note title…" oninput="updateNoteTitle(${i},this.value)">
+      </div>
+      <textarea class="note-card-body" placeholder="Write your note…" oninput="autoSizeNoteArea(this);updateNoteBody(${i},this.value)">${escapeHtml(n.body||'')}</textarea>
+      <div class="flex-between" style="margin-top:8px">
+        <div class="note-card-meta">${date}</div>
+        <button class="btn btn-danger" style="padding:3px 8px;font-size:11px" onclick="deleteNote(${i})">🗑</button>
+      </div>`;
+    grid.appendChild(card);
+    // Auto-size textarea
+    const ta = card.querySelector('textarea');
+    setTimeout(()=>autoSizeNoteArea(ta),0);
+  });
+}
+
+function autoSizeNoteArea(ta) {
+  ta.style.height='auto'; ta.style.height=ta.scrollHeight+'px';
+}
+
+let noteSaveTimeout;
+async function updateNoteTitle(idx, val) {
+  clearTimeout(noteSaveTimeout);
+  noteSaveTimeout = setTimeout(async()=>{
+    const notes = await getNotes(); notes[idx].title=val; await dbSet('notes_cards',notes);
+  },800);
+}
+async function updateNoteBody(idx, val) {
+  clearTimeout(noteSaveTimeout);
+  noteSaveTimeout = setTimeout(async()=>{
+    const notes = await getNotes(); notes[idx].body=val; await dbSet('notes_cards',notes);
+  },800);
+}
+
+let defaultNoteSaveTimeout;
+async function saveDefaultNote(val) {
+  clearTimeout(defaultNoteSaveTimeout);
+  defaultNoteSaveTimeout = setTimeout(async()=>{
+    const n = await dbGet('notes_default',{});
+    n.body = val; await dbSet('notes_default',n);
+    updateHomeDefaultNote();
+  },800);
+}
+
+async function updateHomeDefaultNote() {
+  const n = await dbGet('notes_default',{});
+  const el = document.getElementById('home-default-note-body');
+  if(el) el.textContent = n.body || '—';
+}
+
+async function deleteNote(idx) {
+  if(!confirm('Delete this note?')) return;
+  const notes = await getNotes(); notes.splice(idx,1);
+  await dbSet('notes_cards',notes); renderNotesPage(); showToast('Note deleted.');
+}
+
+function openAddNoteModal() { document.getElementById('note-modal').style.display='flex'; setTimeout(()=>document.getElementById('note-inp-title').focus(),50); }
+function closeNoteModal() { document.getElementById('note-modal').style.display='none'; document.getElementById('note-inp-title').value=''; document.getElementById('note-inp-body').value=''; }
+async function saveNewNote() {
+  const title = document.getElementById('note-inp-title').value.trim() || 'Untitled';
+  const body = document.getElementById('note-inp-body').value;
+  const notes = await getNotes();
+  notes.push({id:'n'+Date.now(), title, body, created: new Date().toISOString()});
+  await dbSet('notes_cards', notes);
+  closeNoteModal(); renderNotesPage(); showToast('Note saved!');
+}
 
 /* ============================
    SETTINGS
    ============================ */
-function openSettings(){document.getElementById('settings-modal').classList.add('open');}
+function openSettings(tab){
+  document.getElementById('settings-modal').classList.add('open');
+  if(tab) switchSettingsTab(tab, document.getElementById('stab-'+tab));
+}
 function closeSettings(){document.getElementById('settings-modal').classList.remove('open');}
+
+function switchSettingsTab(tab, btn) {
+  ['profile','appearance','system'].forEach(t => {
+    document.getElementById('settings-tab-'+t).style.display = t===tab?'block':'none';
+    document.getElementById('stab-'+t).classList.toggle('active', t===tab);
+  });
+}
+
+/* Profile */
+async function loadProfile() {
+  const prof = await dbGet('profile_data', {});
+  const name = prof.name || 'Dahiatur Riduan';
+  const dept = prof.dept || 'BSc Mathematics';
+  const inst = prof.institution || 'SUST';
+  const year = prof.year || '2';
+  const sem = prof.sem || '1';
+  const photo = prof.photo || null;
+  // Update sidebar
+  const sn = document.getElementById('sidebar-name');
+  const ss = document.getElementById('sidebar-sub');
+  const sa = document.getElementById('sidebar-avatar');
+  if(sn) sn.textContent = name;
+  if(ss) ss.textContent = `${dept} · ${inst} · Y${year}S${sem}`;
+  if(sa) {
+    if(photo) sa.innerHTML = `<img src="${photo}" alt="Profile">`;
+    else sa.innerHTML = '👤';
+  }
+  // Update home greeting
+  const gr = document.getElementById('home-greeting');
+  if(gr) gr.textContent = `Assalamu Alaikum, ${name.split(' ')[0]}.`;
+  // Populate settings form
+  if(document.getElementById('prof-name')) {
+    document.getElementById('prof-name').value = prof.name || '';
+    document.getElementById('prof-institution').value = prof.institution || '';
+    document.getElementById('prof-dept').value = prof.dept || '';
+    document.getElementById('prof-year').value = prof.year || '2';
+    document.getElementById('prof-sem').value = prof.sem || '1';
+    const pc = document.getElementById('profile-photo-circle');
+    if(pc) pc.innerHTML = photo?`<img src="${photo}" alt="">`: '👤';
+  }
+  return prof;
+}
+
+function liveUpdateProfile() {
+  const name = document.getElementById('prof-name').value || 'Dahiatur Riduan';
+  const dept = document.getElementById('prof-dept').value || 'BSc Mathematics';
+  const inst = document.getElementById('prof-institution').value || 'SUST';
+  const year = document.getElementById('prof-year').value || '2';
+  const sem = document.getElementById('prof-sem').value || '1';
+  const sn = document.getElementById('sidebar-name');
+  const ss = document.getElementById('sidebar-sub');
+  const gr = document.getElementById('home-greeting');
+  if(sn) sn.textContent = name;
+  if(ss) ss.textContent = `${dept} · ${inst} · Y${year}S${sem}`;
+  if(gr) gr.textContent = `Assalamu Alaikum, ${name.split(' ')[0]}.`;
+}
+
+async function saveProfile() {
+  const photo = await dbGet('profile_data',{}).then(p=>p.photo||null);
+  const prof = {
+    name: document.getElementById('prof-name').value.trim() || 'Dahiatur Riduan',
+    institution: document.getElementById('prof-institution').value.trim(),
+    dept: document.getElementById('prof-dept').value.trim(),
+    year: document.getElementById('prof-year').value,
+    sem: document.getElementById('prof-sem').value,
+    photo
+  };
+  await dbSet('profile_data', prof);
+  await loadProfile();
+  showToast('Profile saved!');
+}
+
+async function handleProfilePhoto(input) {
+  const file = input.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = async e => {
+    const data = e.target.result;
+    const prof = await dbGet('profile_data', {});
+    prof.photo = data;
+    await dbSet('profile_data', prof);
+    const pc = document.getElementById('profile-photo-circle');
+    if(pc) pc.innerHTML = `<img src="${data}" alt="">`;
+    const sa = document.getElementById('sidebar-avatar');
+    if(sa) sa.innerHTML = `<img src="${data}" alt="Profile">`;
+    showToast('Photo updated!');
+  };
+  reader.readAsDataURL(file);
+}
+
+async function removeProfilePhoto() {
+  const prof = await dbGet('profile_data', {});
+  delete prof.photo;
+  await dbSet('profile_data', prof);
+  const pc = document.getElementById('profile-photo-circle');
+  if(pc) pc.innerHTML = '👤';
+  const sa = document.getElementById('sidebar-avatar');
+  if(sa) sa.innerHTML = '👤';
+  showToast('Photo removed.');
+}
 async function setTheme(theme,btn){
   document.documentElement.setAttribute('data-theme',theme);document.documentElement.removeAttribute('data-palette');
   document.querySelectorAll('.palette-btn').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');
@@ -2246,11 +2778,10 @@ async function deleteSPCourse(cid){
   await saveSPCourses(courses);renderSemProgressPage();updateHomeStats();
 }
 async function editSPCourse(cid, currentName) {
-  const newName = prompt('Rename content:', currentName);
+  const newName = prompt('Rename course:', currentName);
   if (!newName || !newName.trim()) return;
   const courses = await getSPCourses();
   const course = courses.find(c => c.id === cid);
-  const content = course.contents.find(cc => cc.id === ccid);
   course.name = newName.trim();
   await saveSPCourses(courses);
   renderSemProgressPage();
@@ -2313,11 +2844,12 @@ async function deleteSPTopic(cid,ccid,tid){
   await saveSPCourses(courses);renderSemProgressPage();
 }
 async function editSPTopic(cid, ccid, tid, currentName) {
-  const newName = prompt('Rename content:', currentName);
+  const newName = prompt('Rename topic:', currentName);
   if (!newName || !newName.trim()) return;
   const courses = await getSPCourses();
   const course = courses.find(c => c.id === cid);
   const content = course.contents.find(cc => cc.id === ccid);
+  const topic = content.topics.find(t => t.id === tid);
   topic.name = newName.trim();
   await saveSPCourses(courses);
   renderSemProgressPage();
@@ -2385,9 +2917,9 @@ async function renderSemProgressPage(){
   const empty=document.getElementById('sp-empty-state');
   const radarCard=document.getElementById('sp-radar-card');
   if(courses.length===0){
-    if(empty)empty.style.display='block';
+    if(empty){empty.style.display='block'; list.appendChild(empty);}
     if(radarCard)radarCard.style.display='none';
-    list.innerHTML='';list.appendChild(empty);
+    list.innerHTML=''; if(empty)list.appendChild(empty);
     updateSPRadarChart([]);return;
   }
   if(empty)empty.style.display='none';
@@ -2487,15 +3019,36 @@ async function renderSemProgressPage(){
 }
 
 function updateSPRadarChart(courses){
-  const canvas=document.getElementById('chart-sp-radar');if(!canvas)return;
-  if(spRadarChart){spRadarChart.destroy();spRadarChart=null;}
-  if(!courses||courses.length<1)return;
-  const labels=courses.map(c=>c.name.length>18?c.name.slice(0,16)+'…':c.name);
-  const data=courses.map(c=>spCalcCourseProgress(c));
-  const isDark=document.documentElement.getAttribute('data-theme')!=='light';
-  const gridColor=isDark?'rgba(255,255,255,0.08)':'rgba(0,0,0,0.08)';
-  const accentColor=getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()||'#4fc3f7';
-  spRadarChart=new Chart(canvas,{type:'radar',data:{labels,datasets:[{label:'Progress %',data,backgroundColor:hexToRgba(accentColor,0.15),borderColor:accentColor,borderWidth:2,pointBackgroundColor:accentColor,pointBorderColor:'#000',pointRadius:4,pointHoverRadius:6}]},options:{responsive:true,maintainAspectRatio:false,scales:{r:{min:0,max:100,ticks:{stepSize:25,color:isDark?'rgba(255,255,255,0.35)':'rgba(0,0,0,0.35)',font:{family:"'JetBrains Mono'",size:10},backdropColor:'transparent'},grid:{color:gridColor},angleLines:{color:gridColor},pointLabels:{color:isDark?'#e8edf8':'#1a2040',font:{family:"'Sora'",size:11,weight:'500'}}}},plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.raw}% complete`}}}}});
+  // Update Semester Progress page radar
+  const canvas=document.getElementById('chart-sp-radar');
+  if(canvas){
+    if(spRadarChart){spRadarChart.destroy();spRadarChart=null;}
+    if(courses&&courses.length>=1){
+      const labels=courses.map(c=>c.name.length>18?c.name.slice(0,16)+'…':c.name);
+      const data=courses.map(c=>spCalcCourseProgress(c));
+      const isDark=document.documentElement.getAttribute('data-theme')!=='light';
+      const gridColor=isDark?'rgba(255,255,255,0.08)':'rgba(0,0,0,0.08)';
+      const accentColor=getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()||'#4fc3f7';
+      spRadarChart=new Chart(canvas,{type:'radar',data:{labels,datasets:[{label:'Progress %',data,backgroundColor:hexToRgba(accentColor,0.15),borderColor:accentColor,borderWidth:2,pointBackgroundColor:accentColor,pointBorderColor:'#000',pointRadius:4,pointHoverRadius:6}]},options:{responsive:true,maintainAspectRatio:false,scales:{r:{min:0,max:100,ticks:{stepSize:25,color:isDark?'rgba(255,255,255,0.35)':'rgba(0,0,0,0.35)',font:{family:"'JetBrains Mono'",size:10},backdropColor:'transparent'},grid:{color:gridColor},angleLines:{color:gridColor},pointLabels:{color:isDark?'#e8edf8':'#1a2040',font:{family:"'Sora'",size:11,weight:'500'}}}},plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.raw}% complete`}}}}});
+    }
+  }
+  // Update Home page radar
+  const homeCard=document.getElementById('sp-radar-card-home');
+  const homeCanvas=document.getElementById('chart-sp-radar-home');
+  if(homeCanvas&&homeCard){
+    if(window._spHomeRadarChart){window._spHomeRadarChart.destroy();window._spHomeRadarChart=null;}
+    if(courses&&courses.length>=1){
+      homeCard.style.display='block';
+      const labels=courses.map(c=>c.name.length>14?c.name.slice(0,12)+'…':c.name);
+      const data=courses.map(c=>spCalcCourseProgress(c));
+      const isDark=document.documentElement.getAttribute('data-theme')!=='light';
+      const gridColor=isDark?'rgba(255,255,255,0.08)':'rgba(0,0,0,0.08)';
+      const accentColor=getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()||'#4fc3f7';
+      window._spHomeRadarChart=new Chart(homeCanvas,{type:'radar',data:{labels,datasets:[{label:'Progress %',data,backgroundColor:hexToRgba(accentColor,0.12),borderColor:accentColor,borderWidth:2,pointBackgroundColor:accentColor,pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,scales:{r:{min:0,max:100,ticks:{display:false},grid:{color:gridColor},angleLines:{color:gridColor},pointLabels:{color:isDark?'#e8edf8':'#1a2040',font:{family:"'Sora'",size:9}}}},plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.raw}%`}}}}});
+    } else {
+      homeCard.style.display='none';
+    }
+  }
 }
 
 function hexToRgba(hex,alpha){try{const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);return `rgba(${r},${g},${b},${alpha})`;}catch{return 'rgba(79,195,247,'+alpha+')';}}
@@ -2505,6 +3058,159 @@ function hexToRgba(hex,alpha){try{const r=parseInt(hex.slice(1,3),16),g=parseInt
    ============================ */
 function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+
+/* ============================
+   IDEAS (with tree flowchart)
+   ============================ */
+async function getIdeas() { return await dbGet('ideas_data', []); }
+
+async function renderIdeasPage() {
+  const ideas = await getIdeas();
+  const cont = document.getElementById('ideas-list');
+  if(!cont) return;
+  cont.innerHTML='';
+  if(ideas.length===0){
+    cont.innerHTML=`<div id="ideas-empty" style="text-align:center;padding:60px 20px;color:var(--text-muted)"><div style="font-size:48px;margin-bottom:16px">💡</div><div style="font-size:14px;font-weight:600;margin-bottom:8px;color:var(--text)">No ideas yet</div><div style="font-size:12px">Start capturing your ideas and build them into a tree.</div></div>`;
+    return;
+  }
+  ideas.forEach((idea, i) => {
+    const card = document.createElement('div');
+    card.className = 'idea-card';
+    card.id = 'idea-card-'+idea.id;
+    card.innerHTML=`
+      <div class="idea-card-header" onclick="toggleIdeaCard('${idea.id}')">
+        <div class="idea-card-icon">${idea.icon||'💡'}</div>
+        <div style="flex:1"><div class="idea-card-title">${escapeHtml(idea.title)}</div><div class="idea-card-meta">${idea.created?new Date(idea.created).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):''}</div></div>
+        <div class="idea-card-actions">
+          <button class="btn btn-danger" style="padding:4px 8px;font-size:11px" onclick="event.stopPropagation();deleteIdea('${idea.id}')">🗑</button>
+        </div>
+        <div class="idea-card-chevron">▼</div>
+      </div>
+      <div class="idea-card-body">
+        ${idea.desc?`<div class="idea-desc">${escapeHtml(idea.desc)}</div>`:''}
+        <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:12px;font-weight:600">IDEA MAP</div>
+        <div class="idea-tree" id="idea-tree-${idea.id}"></div>
+        <div class="idea-tree-actions">
+          <button class="idea-add-child-btn" onclick="addIdeaNode('${idea.id}',null)">+ Add Root Branch</button>
+          <button class="btn" style="font-size:11px;padding:4px 10px" onclick="saveIdeaTree('${idea.id}')">💾 Save Tree</button>
+        </div>
+      </div>`;
+    cont.appendChild(card);
+    renderIdeaTree(idea.id, idea.tree||{id:'root',label:idea.title,children:[]});
+  });
+}
+
+function toggleIdeaCard(id) {
+  const card = document.getElementById('idea-card-'+id);
+  if(card) card.classList.toggle('open');
+}
+
+function renderIdeaTree(ideaId, tree) {
+  const cont = document.getElementById('idea-tree-'+ideaId);
+  if(!cont) return;
+  cont.innerHTML='';
+  cont.appendChild(buildNodeEl(ideaId, tree, true));
+}
+
+function buildNodeEl(ideaId, node, isRoot) {
+  const wrap = document.createElement('div');
+  wrap.style.cssText = isRoot?'':'';
+  // Node box
+  const box = document.createElement('div');
+  box.className = 'idea-node-box'+(isRoot?' root-node':'');
+  box.innerHTML=`<input class="idea-node-input${isRoot?' root-input':''}" value="${escapeHtml(node.label||'')}" placeholder="Label…" data-node-id="${node.id}">
+    ${!isRoot?`<button class="idea-node-del" onclick="removeIdeaNode('${ideaId}','${node.id}')" title="Remove">✕</button>`:''}`;
+  wrap.appendChild(box);
+  // Children
+  if(node.children&&node.children.length>0) {
+    const childrenWrap = document.createElement('div');
+    childrenWrap.className = 'idea-children';
+    node.children.forEach(child=>{
+      childrenWrap.appendChild(buildNodeEl(ideaId, child, false));
+    });
+    wrap.appendChild(childrenWrap);
+  }
+  // Add child btn
+  const addBtn = document.createElement('button');
+  addBtn.className='idea-add-child-btn';
+  addBtn.textContent='+ Branch';
+  addBtn.onclick=()=>addIdeaNode(ideaId, node.id);
+  if(isRoot) wrap.appendChild(addBtn);
+  else { const ch = wrap.querySelector('.idea-children')||wrap; ch.appendChild(addBtn); }
+  return wrap;
+}
+
+async function addIdeaNode(ideaId, parentId) {
+  const ideas = await getIdeas();
+  const idea = ideas.find(i=>i.id===ideaId); if(!idea) return;
+  if(!idea.tree) idea.tree={id:'root',label:idea.title,children:[]};
+  const newNode={id:'node'+Date.now(),label:'New Node',children:[]};
+  if(!parentId||parentId==='null') {
+    idea.tree.children.push(newNode);
+  } else {
+    insertNode(idea.tree, parentId, newNode);
+  }
+  await dbSet('ideas_data', ideas);
+  renderIdeasPage();
+  // Re-open the card
+  setTimeout(()=>{const c=document.getElementById('idea-card-'+ideaId);if(c)c.classList.add('open');},50);
+}
+
+function insertNode(tree, parentId, newNode) {
+  if(tree.id===parentId){tree.children.push(newNode);return true;}
+  if(tree.children){for(const c of tree.children){if(insertNode(c,parentId,newNode))return true;}}
+  return false;
+}
+
+async function removeIdeaNode(ideaId, nodeId) {
+  const ideas = await getIdeas();
+  const idea = ideas.find(i=>i.id===ideaId); if(!idea||!idea.tree) return;
+  removeNodeFromTree(idea.tree, nodeId);
+  await dbSet('ideas_data', ideas);
+  renderIdeasPage();
+  setTimeout(()=>{const c=document.getElementById('idea-card-'+ideaId);if(c)c.classList.add('open');},50);
+}
+
+function removeNodeFromTree(tree, nodeId) {
+  if(!tree.children) return;
+  tree.children = tree.children.filter(c=>c.id!==nodeId);
+  tree.children.forEach(c=>removeNodeFromTree(c,nodeId));
+}
+
+async function saveIdeaTree(ideaId) {
+  const ideas = await getIdeas();
+  const idea = ideas.find(i=>i.id===ideaId); if(!idea) return;
+  if(!idea.tree) idea.tree={id:'root',label:idea.title,children:[]};
+  // Read all node labels from inputs
+  collectNodeLabels(ideaId, idea.tree);
+  await dbSet('ideas_data', ideas);
+  showToast('Idea tree saved!');
+}
+
+function collectNodeLabels(ideaId, node) {
+  const input = document.querySelector(`#idea-tree-${ideaId} input[data-node-id="${node.id}"]`);
+  if(input) node.label = input.value;
+  (node.children||[]).forEach(c=>collectNodeLabels(ideaId,c));
+}
+
+function openAddIdeaModal(){document.getElementById('idea-modal').style.display='flex'; setTimeout(()=>document.getElementById('idea-inp-title').focus(),50);}
+function closeIdeaModal(){document.getElementById('idea-modal').style.display='none'; document.getElementById('idea-inp-title').value=''; document.getElementById('idea-inp-desc').value=''; document.getElementById('idea-inp-icon').value='';}
+async function saveNewIdea(){
+  const title=document.getElementById('idea-inp-title').value.trim();
+  if(!title){showToast('⚠ Enter an idea title.');return;}
+  const desc=document.getElementById('idea-inp-desc').value.trim();
+  const icon=document.getElementById('idea-inp-icon').value||'💡';
+  const ideas=await getIdeas();
+  const id='idea'+Date.now();
+  ideas.push({id,title,desc,icon,created:new Date().toISOString(),tree:{id:'root',label:title,children:[]}});
+  await dbSet('ideas_data',ideas);
+  closeIdeaModal(); renderIdeasPage(); showToast('Idea created!');
+}
+async function deleteIdea(id){
+  if(!confirm('Delete this idea?'))return;
+  let ideas=await getIdeas(); ideas=ideas.filter(i=>i.id!==id);
+  await dbSet('ideas_data',ideas); renderIdeasPage(); showToast('Idea deleted.');
+}
 
 /* ============================
    BOOT
