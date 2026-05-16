@@ -22,13 +22,7 @@ step-by-step Supabase + Vercel guide at the bottom of this file.
 <script>
 const SUPABASE_URL = 'https://rtcsscfrqjadsahidmte.supabase.co';          // ← EDIT THIS LINE (Line 19)
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ0Y3NzY2ZycWphZHNhaGlkbXRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4NDM0NzYsImV4cCI6MjA5NDQxOTQ3Nn0.1iLyuiMlBuSAz7kmaTgnKwzrZ0KERKH0JCY3JUCnrJU'; // ← EDIT THIS LINE (Line 20)
-const PIN_HASH = "4c837577cfefc16935de2b2e4cd01dee0692e7951425e4891dc0b13c90ec8291";
-  
-async function checkPin(inputPin) {
-  const hash = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(inputPin));
-  const hex = [...new Uint8Array(hash)].map(x=>x.toString(16).padStart(2,'0')).join('');
-  return hex === PIN_HASH;
-}                             // ← EDIT THIS LINE (Line 21)
+const DASHBOARD_PIN = 'd2fd3bb387a840ba902e32de60e7ec1f8ca9a417d61163164ae2b6c1a78c1f30';  // ← EDIT THIS LINE (Line 21)
 </script>
 <style>
 /* ===== PIN GATE STYLES ===== */
@@ -1190,9 +1184,11 @@ const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 /* ============================
    PIN GATE
    ============================ */
-function checkPin() {
-  const val = document.getElementById('pin-input').value;
-  if (val === DASHBOARD_PIN) {
+async function checkPin() {
+const val = document.getElementById('pin-input').value;
+const hashBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(val));
+const hashHex = [...new Uint8Array(hashBuffer)].map(x=>x.toString(16).padStart(2,'0')).join('');
+if (hashHex === DASHBOARD_PIN) {
     sessionStorage.setItem('pin_ok', '1');
     document.getElementById('pin-gate').classList.add('hidden');
     initDashboard();
