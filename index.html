@@ -2243,6 +2243,16 @@ async function deleteSPCourse(cid){
   const courses=(await getSPCourses()).filter(c=>c.id!==cid);
   await saveSPCourses(courses);renderSemProgressPage();updateHomeStats();
 }
+async function editSPCourse(cid, currentName) {
+  const newName = prompt('Rename content:', currentName);
+  if (!newName || !newName.trim()) return;
+  const courses = await getSPCourses();
+  const course = courses.find(c => c.id === cid);
+  const content = course.contents.find(cc => cc.id === ccid);
+  course.name = newName.trim();
+  await saveSPCourses(courses);
+  renderSemProgressPage();
+}
 
 /* ── Course Content CRUD ── */
 async function addSPContent(cid){
@@ -2258,6 +2268,16 @@ async function deleteSPContent(cid,ccid){
   const courses=await getSPCourses();const course=courses.find(c=>c.id===cid);if(!course)return;
   course.contents=(course.contents||[]).filter(cc=>cc.id!==ccid);
   await saveSPCourses(courses);renderSemProgressPage();
+}
+async function editSPContent(cid, ccid, currentName) {
+  const newName = prompt('Rename content:', currentName);
+  if (!newName || !newName.trim()) return;
+  const courses = await getSPCourses();
+  const course = courses.find(c => c.id === cid);
+  const content = course.contents.find(cc => cc.id === ccid);
+  content.name = newName.trim();
+  await saveSPCourses(courses);
+  renderSemProgressPage();
 }
 async function toggleSPContentCollapse(cid,ccid){
   const courses=await getSPCourses();const course=courses.find(c=>c.id===cid);if(!course)return;
@@ -2289,6 +2309,16 @@ async function deleteSPTopic(cid,ccid,tid){
   const content=(course.contents||[]).find(cc=>cc.id===ccid);if(!content)return;
   content.topics=content.topics.filter(t=>t.id!==tid);
   await saveSPCourses(courses);renderSemProgressPage();
+}
+async function editSPTopic(cid, ccid, tid, currentName) {
+  const newName = prompt('Rename content:', currentName);
+  if (!newName || !newName.trim()) return;
+  const courses = await getSPCourses();
+  const course = courses.find(c => c.id === cid);
+  const content = course.contents.find(cc => cc.id === ccid);
+  topic.name = newName.trim();
+  await saveSPCourses(courses);
+  renderSemProgressPage();
 }
 
 /* ── Sub-Topic CRUD ── */
@@ -2345,6 +2375,7 @@ function spCalcCourseProgress(course){
 const CHECKMARK_SVG=`<svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><polyline points="1.5,6 5,9.5 10.5,2.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 const CHEVRON_DOWN_SVG=`<svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><polyline points="2,4 6,8 10,4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 const TRASH_SVG=`<svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><polyline points="1,3.5 13,3.5"/><path d="M5.5 3.5V2.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1"/><rect x="2.5" y="3.5" width="9" height="8.5" rx="1"/><line x1="5.5" y1="6" x2="5.5" y2="9.5"/><line x1="8.5" y1="6" x2="8.5" y2="9.5"/></svg>`;
+const EDIT_SVG=`<svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 2.5l2 2L4 12H2v-2L9.5 2.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 4l2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`;
 
 async function renderSemProgressPage(){
   const courses=await getSPCourses();
@@ -2394,6 +2425,7 @@ async function renderSemProgressPage(){
             <span class="sp-topic-name${topicDone?' done':''}">${escapeHtml(topic.name)}</span>
             ${subCount}
             ${expandBtn}
+            <button class="sp-del-btn" onclick="editSPTopic('${course.id}','${content.id}','${topic.id}','${escapeHtml(topic.name)}')" title="Edit topic">${EDIT_SVG}</button>
             <button class="sp-del-btn" onclick="deleteSPTopic('${course.id}','${content.id}','${topic.id}')" title="Delete topic">${TRASH_SVG}</button>
           </div>
           <div class="sp-subtopics">
@@ -2415,6 +2447,7 @@ async function renderSemProgressPage(){
             ${isDone?`<span class="sp-content-done-badge">✓ DONE</span>`:''}
           </div>
           <div class="sp-content-chevron">${CHEVRON_DOWN_SVG}</div>
+          <button class="sp-del-btn" onclick="event.stopPropagation();editSPContent('${course.id}','${content.id}','${escapeHtml(content.name)}')" title="Edit content">${EDIT_SVG}</button>
           <button class="sp-del-btn" onclick="event.stopPropagation();deleteSPContent('${course.id}','${content.id}')" title="Delete content">${TRASH_SVG}</button>
         </div>
         <div class="sp-content-body">
@@ -2433,6 +2466,7 @@ async function renderSemProgressPage(){
         <div class="sp-course-name">${escapeHtml(course.name)}${course.code?`<span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-dim);margin-left:10px">${escapeHtml(course.code)}</span>`:''}</div>
         <div class="sp-course-actions">
           <span class="sp-course-pct">${coursePct}%</span>
+          <button class="sp-del-btn" onclick="event.stopPropagation();editSPCourse('${course.id}','${escapeHtml(course.name)}')" title="Edit course">${EDIT_SVG}</button>
           <button class="sp-del-btn" onclick="deleteSPCourse('${course.id}')" title="Delete course" style="font-size:14px">${TRASH_SVG}</button>
         </div>
       </div>
