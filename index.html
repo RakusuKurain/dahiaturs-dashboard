@@ -22,7 +22,13 @@ step-by-step Supabase + Vercel guide at the bottom of this file.
 <script>
 const SUPABASE_URL = 'https://rtcsscfrqjadsahidmte.supabase.co';          // ← EDIT THIS LINE (Line 19)
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ0Y3NzY2ZycWphZHNhaGlkbXRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4NDM0NzYsImV4cCI6MjA5NDQxOTQ3Nn0.1iLyuiMlBuSAz7kmaTgnKwzrZ0KERKH0JCY3JUCnrJU'; // ← EDIT THIS LINE (Line 20)
-const DASHBOARD_PIN = '6231';                             // ← EDIT THIS LINE (Line 21)
+const PIN_HASH = "4c837577cfefc16935de2b2e4cd01dee0692e7951425e4891dc0b13c90ec8291";
+  
+async function checkPin(inputPin) {
+  const hash = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(inputPin));
+  const hex = [...new Uint8Array(hash)].map(x=>x.toString(16).padStart(2,'0')).join('');
+  return hex === PIN_HASH;
+}                             // ← EDIT THIS LINE (Line 21)
 </script>
 <style>
 /* ===== PIN GATE STYLES ===== */
