@@ -926,9 +926,7 @@ label { font-size: 11px; color: var(--text-muted); display: block; margin-bottom
 .active-course-bar { height: 4px; background: var(--bg-input); border-radius: 3px; overflow: hidden; }
 .active-course-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 3px; transition: width 0.6s ease; }
 
-/* ===== SP HOME RADAR CARD ===== */
-.sp-home-radar-card { aspect-ratio: 1; min-height: 0; }
-.sp-home-radar-card .chart-wrap { height: 100%; min-height: 220px; }
+/* ── Home row grids defined in new HOME PAGE section above ── */
 
 /* ===== SKILL ROW (keep for compat) ===== */
 .skill-row { display: flex; align-items: center; padding: 10px 14px; border-radius: var(--radius-sm); background: var(--bg-card); border: 1px solid var(--border-soft); margin-bottom: 8px; gap: 16px; }
@@ -1584,56 +1582,160 @@ input::placeholder, textarea::placeholder { color: var(--text-dim); }
 }
 
 /* ══════════════════════════════════════
-   HOME PAGE HERO — FULL REDESIGN
+   HOME PAGE — NEW COMMAND LAYOUT
    ══════════════════════════════════════ */
-.home-hero {
-  position: relative;
-  padding: 40px 0 32px;
-  margin-bottom: 32px;
-  overflow: hidden;
+
+/* Top row: left (bismillah + greeting) | right (year progress) */
+.home-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 24px 0 16px;
+  flex-wrap: wrap;
 }
-.home-hero-bismillah {
-  font-family: 'Cinzel Decorative', 'Cinzel', serif;
-  font-size: clamp(18px, 3vw, 28px);
-  font-weight: 700;
-  color: transparent;
-  background: linear-gradient(135deg, var(--glow-shimmer1) 0%, var(--accent) 40%, var(--glow-shimmer2) 80%, var(--glow-shimmer1) 100%);
-  background-size: 200% 200%;
+.home-top-left { flex: 1; min-width: 200px; }
+.home-top-right {
+  flex-shrink: 0;
+  min-width: 200px;
+  max-width: 320px;
+  text-align: right;
+}
+
+/* English Bismillah — single-pass glint */
+.home-bismillah-en {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(12px, 1.6vw, 16px);
+  font-weight: 600;
+  letter-spacing: 1px;
+  background: linear-gradient(
+    100deg,
+    var(--text-muted) 0%,
+    var(--text-muted) 28%,
+    var(--glow-shimmer1) 40%,
+    var(--accent) 50%,
+    var(--glow-shimmer2) 60%,
+    var(--text-muted) 72%,
+    var(--text-muted) 100%
+  );
+  background-size: 300% 100%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-align: center;
-  letter-spacing: 2px;
-  margin-bottom: 6px;
-  animation: goldShimmer 6s ease-in-out infinite, fadeInDown 0.8s ease both;
-  filter: drop-shadow(0 0 20px var(--glow2-md));
-  direction: rtl;
+  animation: singlePassGlint 8s ease-in-out 1.5s infinite;
+  margin-bottom: 5px;
 }
-@keyframes goldShimmer {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-@keyframes fadeInDown {
-  from { opacity: 0; transform: translateY(-20px); }
-  to   { opacity: 1; transform: translateY(0); }
+@keyframes singlePassGlint {
+  0%, 25%  { background-position: 120% 50%; }
+  65%, 100% { background-position: -20% 50%; }
 }
 
 .home-hero-greeting {
-  text-align: center;
   font-family: 'Playfair Display', serif;
-  font-size: clamp(14px, 2vw, 18px);
-  color: rgba(232,237,248,0.7);
-  letter-spacing: 1px;
-  margin-bottom: 8px;
-  animation: fadeInDown 0.8s 0.1s ease both;
+  font-size: clamp(12px, 1.4vw, 14px);
+  color: rgba(232,237,248,0.6);
+  letter-spacing: 0.5px;
   font-style: italic;
 }
 .home-hero-line {
   width: 120px; height: 1px;
   background: linear-gradient(90deg, transparent, var(--accent), transparent);
-  margin: 0 auto 0;
-  animation: fadeInDown 0.8s 0.2s ease both;
 }
+
+/* Year progress bar */
+.year-progress-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.3px;
+  margin-bottom: 6px;
+}
+.year-progress-track {
+  height: 8px;
+  background: var(--bg-input);
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--glow1-sm);
+}
+.year-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  border-radius: 4px;
+  transition: width 1s cubic-bezier(0.4,0,0.2,1);
+  position: relative; overflow: hidden;
+}
+.year-progress-fill::after {
+  content:''; position:absolute; inset:0;
+  background: linear-gradient(90deg, transparent 60%, rgba(255,255,255,0.22) 80%, transparent 100%);
+  animation: shimmerBar 2.8s ease-in-out infinite;
+}
+
+/* Row 1: 3 equal columns */
+.home-row1 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  align-items: stretch;
+}
+.home-cgpa-card { display: flex; flex-direction: column; }
+.cgpa-stats-row { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 4px; }
+.cgpa-sem-row { display: flex; align-items: center; gap: 6px; }
+.cgpa-trend-arrow { font-size: 18px; line-height: 1; font-weight: 700; transition: color 0.3s; }
+.cgpa-trend-arrow.up   { color: var(--accent2); }
+.cgpa-trend-arrow.down { color: #ef9a9a; }
+.cgpa-trend-arrow.flat { color: var(--text-muted); opacity: 0.6; }
+
+/* Focus & Skills Radar */
+.home-radar-card { display: flex; flex-direction: column; min-height: 280px; }
+.home-radar-wrap {
+  flex: 1; position: relative; min-height: 200px;
+}
+.home-radar-wrap canvas { width:100%!important; height:100%!important; position:absolute; inset:0; }
+.radar-empty-state {
+  flex:1; display:flex; flex-direction:column; align-items:center;
+  justify-content:center; padding:20px; text-align:center;
+}
+
+/* Row 2: 3 equal columns */
+.home-row2 { display: grid; grid-template-columns: repeat(3,1fr); gap:16px; align-items:start; }
+
+/* Row 3: 2 columns */
+.home-row3 { display: grid; grid-template-columns: 1fr 1fr; gap:16px; align-items:start; }
+
+/* Empty state */
+.home-empty-state {
+  color: var(--text-muted); font-size:12px; text-align:center;
+  padding:20px 12px; font-style:italic;
+}
+
+/* Mission inline editing */
+.mission-text[contenteditable="true"] {
+  outline:none; border-radius:6px; cursor:text;
+  padding:4px 6px; margin:-4px -6px;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.mission-text[contenteditable="true"]:hover { background: rgba(255,255,255,0.03); }
+.mission-text[contenteditable="true"]:focus {
+  background: rgba(255,255,255,0.05);
+  box-shadow: 0 0 0 1px var(--glow1-sm);
+}
+.mission-edit-hint {
+  font-size:9.5px; color:var(--text-dim); margin-top:8px;
+  letter-spacing:0.5px; opacity:0; transition:opacity 0.3s;
+}
+.mission-card:hover .mission-edit-hint { opacity:1; }
+
+/* Responsive */
+@media (max-width: 1100px) {
+  .home-row1 { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 800px) {
+  .home-row1, .home-row2, .home-row3 { grid-template-columns:1fr; }
+  .home-top-row { flex-direction:column; align-items:flex-start; }
+  .home-top-right { max-width:100%; width:100%; text-align:left; }
+}
+[data-theme="light"] .home-hero-greeting { color: rgba(26,32,64,0.65); }
+[data-theme="light"] .year-progress-track { background: rgba(0,0,0,0.06); }
 
 /* ── Enhanced page-header ── */
 .page-header {
@@ -2274,8 +2376,8 @@ input:focus, select:focus, textarea:focus {
 
 /* ── Responsive mobile enhancements ── */
 @media (max-width: 768px) {
-  .home-hero-bismillah { font-size: 20px; }
-  .home-hero-greeting { font-size: 14px; }
+  .home-bismillah-en { font-size: 12px; }
+  .home-hero-greeting { font-size: 12px; }
   .mission-card { padding: 20px 22px; }
   .mission-text { font-size: 12px; }
 }
@@ -2571,7 +2673,6 @@ input:focus, select:focus, textarea:focus {
 <div id="pin-gate">
   <div class="pin-box">
     <div class="pin-title">Dahiatur Riduan</div>
-    <div class="pin-arabic">بسم الله الرحمن الرحيم</div>
     <input class="pin-input" type="password" id="pin-input" maxlength="8" placeholder="••••" autocomplete="off" onkeydown="if(event.key==='Enter')checkPin()">
     <div class="pin-error" id="pin-error"></div>
     <button class="pin-btn" onclick="checkPin()">Enter Dashboard</button>
@@ -2601,7 +2702,6 @@ input:focus, select:focus, textarea:focus {
 
 <nav id="sidebar" class="collapsed">
   <div class="sidebar-header">
-    <div class="sidebar-arabic">وَالسَّلَامُ عَلَىٰ مَنِ اتَّبَعَ الْهُدَىٰ</div>
     <div class="sidebar-avatar" id="sidebar-avatar" title="Edit Profile" onclick="openSettings('profile')" style="cursor:pointer">👤</div>
     <div class="sidebar-name" id="sidebar-name">Dahiatur Riduan</div>
     <div class="sidebar-sub" id="sidebar-sub">BSc Mathematics · SUST · Y2S1</div>
@@ -2621,7 +2721,6 @@ input:focus, select:focus, textarea:focus {
     <button class="nav-item" onclick="showPage('goals',this)"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/></svg></span><span class="nav-text">Goals & Competitions</span></button>
     <div class="nav-label">Tools</div>
     <button class="nav-item" onclick="showPage('books',this)"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="9" y1="7" x2="15" y2="7"/><line x1="9" y1="11" x2="13" y2="11"/></svg></span><span class="nav-text">Reading Tracker</span></button>
-    <button class="nav-item" onclick="showPage('pomodoro',this)"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="9"/><polyline points="12 8 12 13 15 16"/><path d="M9 2h6"/><path d="M12 2v2"/></svg></span><span class="nav-text">Pomodoro</span></button>
     <button class="nav-item" onclick="showPage('timers',this)"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/><line x1="12" y1="2" x2="12" y2="1"/></svg></span><span class="nav-text">Timers</span></button>
     <button class="nav-item" onclick="showPage('habits',this)"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><path d="M3 17l2 2 4-4"/></svg></span><span class="nav-text">Habit Tracker</span></button>
     <button class="nav-item" onclick="showPage('notes',this)"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg></span><span class="nav-text">Notes</span></button>
@@ -2641,50 +2740,105 @@ input:focus, select:focus, textarea:focus {
 
 <!-- HOME -->
 <div class="page active" id="page-home">
-  <div class="home-hero">
-    <div class="home-hero-bismillah" id="home-greeting-bismillah">بسم الله الرحمن الرحيم</div>
-    <div class="home-hero-greeting" id="home-greeting">Assalamu Alaikum, Dahiatur.</div>
-    <div class="home-hero-line"></div>
-  </div>
-  <div class="grid-4 mb-16">
-    <div class="card"><div class="card-title">Current CGPA</div><div class="stat-big text-mono" id="home-cgpa">—</div><div class="stat-label">Target: 3.50+</div></div>
-    <div class="card" style="grid-column: span 2;">
-      <div class="card-title">Active Courses</div>
-      <div class="active-courses-list" id="home-active-courses-list">
-        <div style="color:var(--text-muted);font-size:12px;text-align:center;padding:12px 0">No courses in Semester Progress yet.</div>
+
+  <!-- TOP AREA: English Bismillah+greeting (left) | Year progress bar (right) -->
+  <div class="home-top-row">
+    <div class="home-top-left">
+      <div class="home-bismillah-en" id="home-bismillah-en">In the Name of Allah, the Most Gracious, the Most Merciful</div>
+      <div class="home-hero-greeting" id="home-greeting">Assalamu Alaikum, Dahiatur.</div>
+    </div>
+    <div class="home-top-right">
+      <div class="year-progress-label" id="year-progress-label">0% of 2025 has passed.</div>
+      <div class="year-progress-track">
+        <div class="year-progress-fill" id="year-progress-fill" style="width:0%"></div>
       </div>
     </div>
-    <div class="card sp-home-radar-card" id="sp-radar-card-home" style="display:none">
-      <div class="card-title" style="font-size:10px;letter-spacing:1.5px">FOCUS RADAR</div>
-      <div class="chart-wrap"><canvas id="chart-sp-radar-home"></canvas></div>
+  </div>
+  <div class="home-hero-line" style="margin-bottom:28px"></div>
+
+  <!-- ROW 1: CGPA Card | Focus Radar | Skills Radar -->
+  <div class="home-row1 mb-16">
+    <!-- CGPA Card (with embedded trend + semester GPA + arrow) -->
+    <div class="card home-cgpa-card">
+      <div class="card-title">Academic Standing</div>
+      <div class="cgpa-stats-row">
+        <div>
+          <div class="stat-label" style="margin-bottom:4px">Cumulative GPA</div>
+          <div class="stat-big text-mono" id="home-cgpa">—</div>
+          <div class="stat-label" style="margin-top:4px">Target: 3.50+</div>
+        </div>
+        <div>
+          <div class="stat-label" style="margin-bottom:4px">Current Semester</div>
+          <div class="cgpa-sem-row">
+            <div class="stat-big text-mono" id="home-sem-gpa" style="font-size:22px">—</div>
+            <span class="cgpa-trend-arrow" id="home-cgpa-arrow" title="vs previous semester"></span>
+          </div>
+          <div class="stat-label" style="margin-top:4px" id="home-cgpa-delta-label"></div>
+        </div>
+      </div>
+      <div class="chart-wrap" style="height:130px;margin-top:12px"><canvas id="chart-cgpa-home"></canvas></div>
+    </div>
+
+    <!-- Focus Radar -->
+    <div class="card home-radar-card" id="sp-radar-card-home">
+      <div class="card-title">Focus Radar</div>
+      <div class="home-radar-wrap"><canvas id="chart-sp-radar-home"></canvas></div>
+      <div class="radar-empty-state" id="sp-radar-empty" style="display:none">
+        <div style="font-size:28px;margin-bottom:8px">📡</div>
+        <div style="font-size:11px;color:var(--text-muted)">Add courses in Semester Progress to see radar.</div>
+      </div>
+    </div>
+
+    <!-- Skills Radar -->
+    <div class="card home-radar-card">
+      <div class="card-title">Skills Radar</div>
+      <div class="home-radar-wrap"><canvas id="chart-skills-radar-home"></canvas></div>
     </div>
   </div>
-  <div class="grid-2">
-    <div class="card"><div class="card-title">CGPA Trend</div><div class="chart-wrap"><canvas id="chart-cgpa-home"></canvas></div></div>
+
+  <!-- ROW 2: Active Courses | Running Online Courses | Running Project -->
+  <div class="home-row2 mb-16">
+    <div class="card">
+      <div class="card-title">Active Courses</div>
+      <div class="active-courses-list" id="home-active-courses-list">
+        <div class="home-empty-state">No courses in Semester Progress yet.</div>
+      </div>
+    </div>
+    <div class="card" id="home-running-courses-card">
+      <div class="card-title">▶ Running Online Courses</div>
+      <div id="home-running-courses-body"><div class="home-empty-state">No running courses.</div></div>
+    </div>
+    <div class="card" id="home-running-projects-card">
+      <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">
+        <span>🚀 Running Project</span>
+        <button class="btn" style="font-size:10px;padding:3px 8px" onclick="showPage('projects',document.querySelector('.nav-item[onclick*=projects]'))">View All</button>
+      </div>
+      <div id="home-running-projects-body"><div class="home-empty-state">No running projects.</div></div>
+    </div>
+  </div>
+
+  <!-- ROW 3: Important Tasks | Upcoming Countdown -->
+  <div class="home-row3 mb-16">
+    <div class="card" id="home-default-note-card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <div class="note-home-title" style="margin-bottom:0">📌 Important Tasks</div>
+        <button class="btn" style="font-size:10px;padding:3px 8px" onclick="showPage('notes',document.querySelector('.nav-item[onclick*=notes]'))">See all</button>
+      </div>
+      <div class="note-home-body" id="home-default-note-body">—</div>
+    </div>
     <div class="card">
       <div class="card-title">Upcoming Countdowns</div>
-      <div id="home-countdowns"><div style="color:var(--text-muted);font-size:12px;text-align:center;padding:30px 0;">No countdowns yet. Add them in the Calendar page. ✨</div></div>
+      <div id="home-countdowns"><div class="home-empty-state">No countdowns yet. Add them in Calendar. ✨</div></div>
     </div>
   </div>
-  <div class="card mt-16" id="home-running-courses-card">
-    <div class="card-title">▶ Running Online Courses</div>
-    <div id="home-running-courses-body"><div style="color:var(--text-muted);font-size:12px;text-align:center;padding:20px 0">No running courses.</div></div>
-  </div>
-  <div class="card mt-16" id="home-running-projects-card">
-    <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">
-      <span>🚀 Running Projects</span>
-      <button class="btn" style="font-size:11px;padding:4px 10px" onclick="showPage('projects',document.querySelector('.nav-item[onclick*=projects]'))">View All</button>
-    </div>
-    <div id="home-running-projects-body"><div style="color:var(--text-muted);font-size:12px;text-align:center;padding:20px 0">No running projects.</div></div>
-  </div>
-  <div class="card mt-16" id="home-default-note-card">
-    <div class="note-home-title">📌 Important Tasks</div>
-    <div class="note-home-body" id="home-default-note-body">—</div>
-  </div>
-  <div class="mission-card mt-16">
+
+  <!-- ROW 4: Mission Text (full width, inline editable) -->
+  <div class="mission-card" id="home-mission-card">
     <div class="mission-arabic">وَالسَّلَامُ عَلَىٰ مَنِ اتَّبَعَ الْهُدَىٰ</div>
-    <div class="mission-text">"I'll become one of the best servants of Allah, following the guidance of my Creator and his Messenger (ﷺ). Do my best for Allah, the ummah, for my family, for myself by being a great Mathematician, an exceptional polymath, a skilled programmer, pursuing knowledge of Aviation, Avionics and engineering as my intellectual side quest and seeking ilm. To become a Da'yee, to help my muslim brothers and sisters, to let my people out of misery. I'll be the best son, the best dad, the best husband — fulfilling every responsibility with which I have been sent into this world. Insha'Allah."</div>
+    <div class="mission-text" id="mission-text-display" contenteditable="true" title="Click to edit your mission statement" spellcheck="false">"I'll become one of the best servants of Allah, following the guidance of my Creator and his Messenger (ﷺ). Do my best for Allah, the ummah, for my family, for myself by being a great Mathematician, an exceptional polymath, a skilled programmer, pursuing knowledge of Aviation, Avionics and engineering as my intellectual side quest and seeking ilm. To become a Da'yee, to help my muslim brothers and sisters, to let my people out of misery. I'll be the best son, the best dad, the best husband — fulfilling every responsibility with which I have been sent into this world. Insha'Allah."</div>
+    <div class="mission-edit-hint">✎ Click to edit</div>
   </div>
+
 </div>
 
 <!-- GRADES -->
@@ -4025,10 +4179,12 @@ async function calcSemGPA(semNum) {
 async function updateCGPA() {
   const gpas = await Promise.all(SEMESTERS.map(s=>calcSemGPA(s.num)));
   const valid = gpas.filter(g=>g!==null);
-  if (valid.length===0) { document.getElementById('current-cgpa').textContent='—'; document.getElementById('home-cgpa').textContent='—'; return; }
+  if (valid.length===0) { document.getElementById('current-cgpa').textContent='—'; return; }
   const cgpa = valid.reduce((a,b)=>a+b,0)/valid.length;
   document.getElementById('current-cgpa').textContent = cgpa.toFixed(2);
-  document.getElementById('home-cgpa').textContent = cgpa.toFixed(2);
+  // Also update home CGPA display if it exists
+  const homeCgpa = document.getElementById('home-cgpa');
+  if (homeCgpa) homeCgpa.textContent = cgpa.toFixed(2);
 }
 
 async function renderSemGpaChart() {
@@ -4059,18 +4215,27 @@ async function renderHomeCharts() {
 }
 
 async function updateHomeStats() {
-  await updateCGPA();
+  // Year progress bar
+  updateYearProgress();
+
+  // CGPA + Semester GPA + trend arrow
+  await updateCGPAWithTrend();
   await renderHomeCharts();
+
+  // Countdown (top 3 only on home)
   await renderCountdownWidgets();
+
+  // Running courses & projects
   await updateHomeRunningCourses();
   await updateHomeDefaultNote();
   await updateHomeRunningProjects();
-  // Active courses from semester progress - detailed view
+
+  // Active courses from semester progress
   const spCourses = await getSPCourses();
   const listEl = document.getElementById('home-active-courses-list');
   if(listEl) {
     if(spCourses.length===0) {
-      listEl.innerHTML='<div style="color:var(--text-muted);font-size:12px;text-align:center;padding:12px 0">No courses in Semester Progress yet.</div>';
+      listEl.innerHTML='<div class="home-empty-state">No courses in Semester Progress yet.</div>';
     } else {
       listEl.innerHTML = spCourses.map(c=>{
         const pct = spCalcCourseProgress(c);
@@ -4084,8 +4249,111 @@ async function updateHomeStats() {
       }).join('');
     }
   }
-  // Update SP home radar
+
+  // Focus radar (SP courses)
   updateSPRadarChart(spCourses);
+
+  // Skills radar on home page
+  await renderHomeSkillsRadar();
+}
+
+/* Year progress bar (dynamic) */
+function updateYearProgress() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const startOfYear = new Date(year, 0, 1);
+  const endOfYear   = new Date(year + 1, 0, 1);
+  const pct = Math.round((now - startOfYear) / (endOfYear - startOfYear) * 100);
+  const label = document.getElementById('year-progress-label');
+  const fill  = document.getElementById('year-progress-fill');
+  if (label) label.textContent = `${pct}% of ${year} has passed.`;
+  if (fill)  fill.style.width = pct + '%';
+}
+
+/* CGPA + Semester GPA + up/down arrow */
+async function updateCGPAWithTrend() {
+  const gpas = await Promise.all(SEMESTERS.map(s => calcSemGPA(s.num)));
+  const valid = gpas.filter(g => g !== null);
+
+  // Cumulative
+  let cgpa = null;
+  if (valid.length > 0) cgpa = valid.reduce((a,b)=>a+b,0) / valid.length;
+  const cgpaEl = document.getElementById('home-cgpa');
+  const cgpaEl2 = document.getElementById('current-cgpa');
+  if (cgpaEl)  cgpaEl.textContent  = cgpa !== null ? cgpa.toFixed(2) : '—';
+  if (cgpaEl2) cgpaEl2.textContent = cgpa !== null ? cgpa.toFixed(2) : '—';
+
+  // Current (last computed) semester GPA
+  const semGpaEl = document.getElementById('home-sem-gpa');
+  const arrowEl  = document.getElementById('home-cgpa-arrow');
+  const deltaLbl = document.getElementById('home-cgpa-delta-label');
+
+  // Find last two valid GPA semesters
+  const validIdx = gpas.map((g,i) => g!==null ? i : -1).filter(i=>i>=0);
+  const lastIdx = validIdx[validIdx.length - 1];
+  const prevIdx = validIdx[validIdx.length - 2];
+
+  const lastGpa = lastIdx !== undefined ? gpas[lastIdx] : null;
+  const prevGpa = prevIdx !== undefined ? gpas[prevIdx] : null;
+
+  if (semGpaEl) semGpaEl.textContent = lastGpa !== null ? lastGpa.toFixed(2) : '—';
+
+  if (arrowEl && deltaLbl) {
+    if (lastGpa !== null && prevGpa !== null) {
+      const diff = lastGpa - prevGpa;
+      if (diff > 0.01) {
+        arrowEl.textContent = '↑'; arrowEl.className = 'cgpa-trend-arrow up';
+        deltaLbl.textContent = `+${diff.toFixed(2)} vs Sem ${prevIdx+1}`;
+      } else if (diff < -0.01) {
+        arrowEl.textContent = '↓'; arrowEl.className = 'cgpa-trend-arrow down';
+        deltaLbl.textContent = `${diff.toFixed(2)} vs Sem ${prevIdx+1}`;
+      } else {
+        arrowEl.textContent = '→'; arrowEl.className = 'cgpa-trend-arrow flat';
+        deltaLbl.textContent = `Same as Sem ${prevIdx+1}`;
+      }
+    } else {
+      arrowEl.textContent = ''; deltaLbl.textContent = '';
+    }
+  }
+}
+
+/* Skills radar on home page */
+async function renderHomeSkillsRadar() {
+  const ctx = document.getElementById('chart-skills-radar-home')?.getContext('2d');
+  if (!ctx) return;
+  if (window._homeSkillsRadar) { window._homeSkillsRadar.destroy(); window._homeSkillsRadar = null; }
+  const hwSkills = await getSkillsList('hw');
+  const swSkills = await getSkillsList('sw');
+  const combined = [...hwSkills, ...swSkills].slice(0, 10);
+  if (combined.length === 0) return;
+  const labels = combined.map(s => s.name);
+  const data   = combined.map(s => s.rating);
+  const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+  const gridC  = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)';
+  const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#4fc3f7';
+  window._homeSkillsRadar = new Chart(ctx, {
+    type: 'radar',
+    data: { labels, datasets: [{
+      label: 'Skill',
+      data,
+      borderColor: accent,
+      backgroundColor: hexToRgba(accent, 0.10),
+      borderWidth: 2,
+      pointBackgroundColor: accent,
+      pointRadius: 3
+    }]},
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: { r: {
+        min: 0, max: 5,
+        ticks: { display: false },
+        grid: { color: gridC },
+        angleLines: { color: gridC },
+        pointLabels: { color: isDark ? '#e8edf8' : '#1a2040', font: { family: "'Sora'", size: 9 } }
+      }},
+      plugins: { legend: { display: false } }
+    }
+  });
 }
 
 /* ============================
@@ -4244,7 +4512,7 @@ async function updateHomeRunningCourses() {
   const running = courses.filter(c=>c.status==='Running');
   const body = document.getElementById('home-running-courses-body');
   if (!body) return;
-  if (running.length===0) { body.innerHTML='<div style="color:var(--text-muted);font-size:12px;text-align:center;padding:20px 0">No running courses.</div>'; return; }
+  if (running.length===0) { body.innerHTML='<div class="home-empty-state">No running courses.</div>'; return; }
   const cards = await Promise.all(running.map(async c => {
     const progress = await dbGet('oc_progress_'+c.id, []);
     const done = progress.filter(Boolean).length;
@@ -4471,7 +4739,7 @@ async function updateHomeRunningProjects() {
   const running = projects.filter(p=>p.status==='Running');
   const body = document.getElementById('home-running-projects-body');
   if (!body) return;
-  if (running.length === 0) { body.innerHTML='<div style="color:var(--text-muted);font-size:12px;text-align:center;padding:20px 0">No running projects.</div>'; return; }
+  if (running.length === 0) { body.innerHTML='<div class="home-empty-state">No running projects.</div>'; return; }
   const cards = await Promise.all(running.map(async p => {
     const milestones = await dbGet('milestones_'+p.id, Array(p.milestones.length).fill(false));
     const done = milestones.filter(Boolean).length;
@@ -4712,11 +4980,16 @@ async function saveEvent() {
 
 async function renderCountdownWidgets() {
   const events=(await getEvents()).filter(e=>new Date(e.date)>new Date()).sort((a,b)=>new Date(a.date)-new Date(b.date));
-  const updateGrid=(containerId)=>{
+  const renderToGrid=(containerId, maxItems)=>{
     const cont=document.getElementById(containerId); if(!cont) return;
-    if (events.length===0){cont.innerHTML='<div style="color:var(--text-muted);font-size:12px;text-align:center;padding:20px;grid-column:1/-1">No upcoming events.</div>';return;}
+    if (events.length===0){
+      cont.innerHTML=containerId==='home-countdowns'
+        ?'<div class="home-empty-state">No upcoming events. Add them in Calendar. ✨</div>'
+        :'<div style="color:var(--text-muted);font-size:12px;text-align:center;padding:20px;grid-column:1/-1">No upcoming events.</div>';
+      return;
+    }
     cont.innerHTML='';
-    events.slice(0,8).forEach(e=>{
+    events.slice(0, maxItems).forEach(e=>{
       const diff=new Date(e.date)-new Date(), days=Math.floor(diff/86400000), hrs=Math.floor((diff%86400000)/3600000), mins=Math.floor((diff%3600000)/60000);
       const item=document.createElement('div');
       item.className='countdown-item'+(days<3?' urgent':'');
@@ -4724,7 +4997,8 @@ async function renderCountdownWidgets() {
       cont.appendChild(item);
     });
   };
-  updateGrid('countdown-grid'); updateGrid('home-countdowns');
+  renderToGrid('countdown-grid', 8);
+  renderToGrid('home-countdowns', 3);
 }
 setInterval(renderCountdownWidgets, 30000);
 
@@ -4902,10 +5176,35 @@ async function saveDefaultNote(val) {
   },800);
 }
 
+/* ── Mission text inline editing ── */
+(function() {
+  document.addEventListener('DOMContentLoaded', ()=>{
+    const el = document.getElementById('mission-text-display');
+    if (!el) return;
+    let missionSaveTimer;
+    el.addEventListener('input', ()=>{
+      clearTimeout(missionSaveTimer);
+      missionSaveTimer = setTimeout(async ()=>{
+        await dbSet('mission_text', el.innerHTML);
+      }, 900);
+    });
+    // Load saved mission text
+    dbGet('mission_text', null).then(saved => {
+      if (saved && el) el.innerHTML = saved;
+    });
+  });
+})();
+
 async function updateHomeDefaultNote() {
   const n = await dbGet('notes_default',{});
   const el = document.getElementById('home-default-note-body');
-  if(el) el.textContent = n.body || '—';
+  if (!el) return;
+  const rawBody = n.body || '';
+  if (!rawBody.trim()) { el.textContent = '—'; return; }
+  // Show top 3–5 non-empty lines
+  const lines = rawBody.split('\n').map(l=>l.trim()).filter(Boolean);
+  const topLines = lines.slice(0, 5);
+  el.innerHTML = topLines.map(l => `<div style="padding:3px 0;border-bottom:1px solid var(--border-soft)">${escapeHtml(l)}</div>`).join('');
 }
 
 async function deleteNote(idx) {
@@ -5565,13 +5864,14 @@ function updateSPRadarChart(courses){
       spRadarChart=new Chart(canvas,{type:'radar',data:{labels,datasets:[{label:'Progress %',data,backgroundColor:hexToRgba(accentColor,0.15),borderColor:accentColor,borderWidth:2,pointBackgroundColor:accentColor,pointBorderColor:'#000',pointRadius:4,pointHoverRadius:6}]},options:{responsive:true,maintainAspectRatio:false,scales:{r:{min:0,max:100,ticks:{stepSize:25,color:isDark?'rgba(255,255,255,0.35)':'rgba(0,0,0,0.35)',font:{family:"'JetBrains Mono'",size:10},backdropColor:'transparent'},grid:{color:gridColor},angleLines:{color:gridColor},pointLabels:{color:isDark?'#e8edf8':'#1a2040',font:{family:"'Sora'",size:11,weight:'500'}}}},plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.raw}% complete`}}}}});
     }
   }
-  // Update Home page radar
-  const homeCard=document.getElementById('sp-radar-card-home');
+  // Update Home page Focus Radar
   const homeCanvas=document.getElementById('chart-sp-radar-home');
-  if(homeCanvas&&homeCard){
+  const emptyState=document.getElementById('sp-radar-empty');
+  if(homeCanvas){
     if(window._spHomeRadarChart){window._spHomeRadarChart.destroy();window._spHomeRadarChart=null;}
     if(courses&&courses.length>=1){
-      homeCard.style.display='block';
+      if(emptyState) emptyState.style.display='none';
+      homeCanvas.style.display='block';
       const labels=courses.map(c=>c.name.length>14?c.name.slice(0,12)+'…':c.name);
       const data=courses.map(c=>spCalcCourseProgress(c));
       const isDark=document.documentElement.getAttribute('data-theme')!=='light';
@@ -5579,7 +5879,8 @@ function updateSPRadarChart(courses){
       const accentColor=getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()||'#4fc3f7';
       window._spHomeRadarChart=new Chart(homeCanvas,{type:'radar',data:{labels,datasets:[{label:'Progress %',data,backgroundColor:hexToRgba(accentColor,0.12),borderColor:accentColor,borderWidth:2,pointBackgroundColor:accentColor,pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,scales:{r:{min:0,max:100,ticks:{display:false},grid:{color:gridColor},angleLines:{color:gridColor},pointLabels:{color:isDark?'#e8edf8':'#1a2040',font:{family:"'Sora'",size:9}}}},plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.raw}%`}}}}});
     } else {
-      homeCard.style.display='none';
+      homeCanvas.style.display='none';
+      if(emptyState) emptyState.style.display='flex';
     }
   }
 }
