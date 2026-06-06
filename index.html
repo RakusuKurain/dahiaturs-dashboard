@@ -1597,8 +1597,8 @@ input::placeholder, textarea::placeholder { color: var(--text-dim); }
 .home-top-left { flex: 1; min-width: 200px; }
 .home-top-right {
   flex-shrink: 0;
-  min-width: 220px;
-  max-width: 360px;
+  min-width: 200px;
+  max-width: 320px;
   text-align: right;
 }
 
@@ -1669,33 +1669,6 @@ input::placeholder, textarea::placeholder { color: var(--text-dim); }
   background: linear-gradient(90deg, transparent 60%, rgba(255,255,255,0.22) 80%, transparent 100%);
   animation: shimmerBar 2.8s ease-in-out infinite;
 }
-.sem-progress-track {
-  height: 8px;
-  background: var(--bg-input);
-  border-radius: 4px;
-  overflow: hidden;
-  border: 1px solid var(--glow2-sm);
-}
-.sem-progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--accent2), var(--accent));
-  border-radius: 4px;
-  transition: width 1s cubic-bezier(0.4,0,0.2,1);
-  position: relative; overflow: hidden;
-}
-.sem-progress-fill::after {
-  content:''; position:absolute; inset:0;
-  background: linear-gradient(90deg, transparent 60%, rgba(255,255,255,0.22) 80%, transparent 100%);
-  animation: shimmerBar 3.2s ease-in-out infinite;
-}
-.sem-progress-track-lg {
-  height: 12px;
-  background: var(--bg-input);
-  border-radius: 6px;
-  overflow: hidden;
-  border: 1px solid var(--glow2-sm);
-}
-[data-theme="light"] .sem-progress-track { background: rgba(0,0,0,0.06); }
 
 /* Row 1: 3 equal columns */
 .home-row1 {
@@ -2681,163 +2654,6 @@ input:focus, select:focus, textarea:focus {
   --text-dim: #5a4a30;
 }
 
-/* ═══════════════════════════════════
-   REVISION TRACKER STYLES
-   ═══════════════════════════════════ */
-
-/* Home row2 now handles 4 columns */
-.home-row2 { grid-template-columns: repeat(4, 1fr) !important; }
-@media (max-width: 1300px) { .home-row2 { grid-template-columns: repeat(2, 1fr) !important; } }
-@media (max-width: 800px)  { .home-row2 { grid-template-columns: 1fr !important; } }
-
-/* Revision section headers */
-.rev-section-header {
-  font-size: 9.5px; letter-spacing: 2px; text-transform: uppercase;
-  color: var(--text-muted); font-weight: 700;
-  margin: 24px 0 12px; padding-bottom: 8px;
-  border-bottom: 1px solid var(--glow1-xs);
-  display: flex; align-items: center; gap: 8px;
-}
-.rev-section-header:first-of-type { margin-top: 0; }
-.rev-section-count {
-  background: var(--glow1-xs); color: var(--accent);
-  border: 1px solid var(--glow1-sm); border-radius: 10px;
-  padding: 1px 8px; font-size: 10px; font-weight: 700;
-  font-family: 'JetBrains Mono', monospace;
-}
-
-/* Revision card */
-.rev-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-soft);
-  border-radius: var(--radius);
-  padding: 16px 18px;
-  margin-bottom: 10px;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  display: flex; flex-direction: column; gap: 10px;
-}
-.rev-card:hover { border-color: var(--glow1-sm); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
-.rev-card.overdue {
-  border-color: rgba(239,83,80,0.4) !important;
-  background: rgba(239,83,80,0.04) !important;
-}
-.rev-card.upcoming {
-  opacity: 0.78;
-  background: rgba(13,18,38,0.5);
-}
-.rev-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
-.rev-card-title { font-size: 14px; font-weight: 600; color: var(--text); flex: 1; line-height: 1.3; }
-.rev-card-badges { display: flex; gap: 5px; flex-wrap: wrap; }
-.rev-badge-semester { background: var(--glow2-sm); color: var(--accent2); border: 1px solid var(--glow2-md); font-size: 9px; padding: 2px 8px; border-radius: 10px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
-.rev-badge-manual { background: rgba(79,195,247,0.12); color: var(--accent); border: 1px solid var(--glow1-sm); font-size: 9px; padding: 2px 8px; border-radius: 10px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
-.rev-source-name { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
-.rev-card-meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-.rev-round-indicator {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px; color: var(--accent);
-  background: var(--glow1-xs); border: 1px solid var(--glow1-sm);
-  border-radius: 6px; padding: 2px 10px;
-}
-.rev-due-date { font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
-.rev-due-date.overdue-text { color: #ef9a9a; font-weight: 600; }
-.rev-card-actions { display: flex; gap: 8px; margin-top: 2px; flex-wrap: wrap; }
-.rev-btn-done {
-  display: inline-flex; align-items: center; gap: 5px;
-  background: rgba(129,199,132,0.15); color: var(--accent2);
-  border: 1px solid var(--glow2-md); border-radius: var(--radius-sm);
-  padding: 6px 14px; font-size: 12px; font-weight: 600;
-  font-family: 'Sora', sans-serif; cursor: pointer;
-  transition: all 0.15s;
-}
-.rev-btn-done:hover { background: rgba(129,199,132,0.28); }
-.rev-btn-del {
-  display: inline-flex; align-items: center; gap: 5px;
-  background: rgba(239,83,80,0.1); color: #ef9a9a;
-  border: 1px solid rgba(239,83,80,0.25); border-radius: var(--radius-sm);
-  padding: 6px 12px; font-size: 12px; font-weight: 600;
-  font-family: 'Sora', sans-serif; cursor: pointer;
-  transition: all 0.15s;
-}
-.rev-btn-del:hover { background: rgba(239,83,80,0.2); }
-
-/* Memorised accordion */
-.rev-memorised-accordion {
-  margin-top: 28px;
-  border: 1px solid var(--border-soft);
-  border-radius: var(--radius);
-  overflow: hidden;
-}
-.rev-memorised-header {
-  display: flex; align-items: center; gap: 10px;
-  padding: 14px 18px; cursor: pointer;
-  background: var(--bg-card); user-select: none;
-  font-size: 12px; font-weight: 600; color: var(--text-muted);
-  transition: background 0.15s;
-}
-.rev-memorised-header:hover { background: rgba(255,255,255,0.04); }
-.rev-memorised-chevron { font-size: 11px; color: var(--text-muted); transition: transform 0.25s; margin-left: auto; }
-.rev-memorised-accordion.open .rev-memorised-chevron { transform: rotate(180deg); }
-.rev-memorised-body { display: none; border-top: 1px solid var(--border-soft); }
-.rev-memorised-accordion.open .rev-memorised-body { display: block; }
-.rev-memorised-item {
-  display: flex; align-items: center; gap: 10px;
-  padding: 10px 18px; border-bottom: 1px solid var(--border-soft);
-  font-size: 12px;
-}
-.rev-memorised-item:last-child { border-bottom: none; }
-.rev-memorised-name { flex: 1; color: var(--text-muted); }
-.rev-memorised-date { font-size: 10px; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; }
-
-/* Revision home widget */
-.rev-widget-count {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 36px; font-weight: 600;
-  background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text; line-height: 1;
-  filter: drop-shadow(0 0 12px var(--glow1-md));
-  margin-bottom: 6px;
-}
-.rev-widget-label { font-size: 11px; color: var(--text-muted); margin-bottom: 12px; }
-.rev-widget-list { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
-.rev-widget-item {
-  font-size: 11.5px; color: var(--text);
-  padding: 5px 8px; border-radius: 6px;
-  background: var(--bg-input); border: 1px solid var(--border-soft);
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.rev-widget-item.overdue-item { border-color: rgba(239,83,80,0.3); background: rgba(239,83,80,0.06); }
-.rev-widget-all-caught { font-size: 12px; color: var(--text-muted); font-style: italic; padding: 8px 0; }
-
-/* Revision calendar section on home page countdowns */
-.rev-cal-section-label {
-  font-size: 9.5px; letter-spacing: 1.5px; text-transform: uppercase;
-  color: var(--text-muted); font-weight: 700;
-  margin: 14px 0 8px; padding-bottom: 6px;
-  border-bottom: 1px solid var(--glow1-xs);
-  display: flex; align-items: center; gap: 6px;
-}
-
-/* Revision modal */
-#rev-add-modal { position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center; }
-#rev-add-modal.open { display:flex; }
-
-/* Empty state for revision page */
-.rev-empty-state {
-  text-align: center; padding: 40px 20px;
-  color: var(--text-muted); font-size: 12px; font-style: italic;
-}
-
-/* Palette and light theme support */
-[data-palette] .rev-card { background: var(--bg-card) !important; border-color: var(--border-soft) !important; }
-[data-palette] .rev-memorised-accordion { border-color: var(--border-soft) !important; }
-[data-palette] .rev-memorised-header { background: var(--bg-card) !important; }
-[data-theme="light"] .rev-card { background: rgba(255,255,255,0.95) !important; border-color: var(--glow1-sm) !important; }
-[data-theme="light"] .rev-memorised-accordion { border-color: var(--glow1-sm) !important; }
-[data-theme="light"] .rev-memorised-header { background: rgba(245,248,255,0.8) !important; }
-
-.page.active .rev-card { animation: cardFadeIn 0.5s ease both; }
-
 </style>
 </head>
 <body>
@@ -2899,7 +2715,6 @@ input:focus, select:focus, textarea:focus {
     <button class="nav-item" onclick="showPage('curriculum',this)"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span><span class="nav-text">Curriculum</span></button>
     <button class="nav-item" onclick="showPage('courses',this)"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5-10-5z"/><path d="M6 12v5c3.33 2 8.67 2 12 0v-5"/></svg></span><span class="nav-text">Online Courses</span></button>
     <button class="nav-item" onclick="showPage('semprogress',this)"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span><span class="nav-text">Semester Progress</span></button>
-    <button class="nav-item" onclick="showPage('revision',this)"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></span><span class="nav-text">Revision</span></button>
     <div class="nav-label">Development</div>
     <button class="nav-item" onclick="showPage('projects',this)"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></span><span class="nav-text">Projects</span></button>
     <button class="nav-item" onclick="showPage('skills',this)"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span><span class="nav-text">Skills</span></button>
@@ -2936,12 +2751,6 @@ input:focus, select:focus, textarea:focus {
       <div class="year-progress-label" id="year-progress-label">0% of 2025 has passed.</div>
       <div class="year-progress-track">
         <div class="year-progress-fill" id="year-progress-fill" style="width:0%"></div>
-      </div>
-      <div style="margin-top:10px">
-        <div class="year-progress-label" id="sem-progress-label-home" style="text-align:left">Semester Progress: 0%</div>
-        <div class="sem-progress-track">
-          <div class="sem-progress-fill" id="sem-progress-fill-home" style="width:0%"></div>
-        </div>
       </div>
     </div>
   </div>
@@ -2987,7 +2796,7 @@ input:focus, select:focus, textarea:focus {
     </div>
   </div>
 
-  <!-- ROW 2: Active Courses | Running Online Courses | Running Project | Revision Queue -->
+  <!-- ROW 2: Active Courses | Running Online Courses | Running Project -->
   <div class="home-row2 mb-16">
     <div class="card">
       <div class="card-title">Active Courses</div>
@@ -3005,15 +2814,6 @@ input:focus, select:focus, textarea:focus {
         <button class="btn" style="font-size:10px;padding:3px 8px" onclick="showPage('projects',document.querySelector('.nav-item[onclick*=projects]'))">View All</button>
       </div>
       <div id="home-running-projects-body"><div class="home-empty-state">No running projects.</div></div>
-    </div>
-    <div class="card" id="home-revision-widget-card">
-      <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">
-        <span>📖 Revision Queue</span>
-        <button class="btn" style="font-size:10px;padding:3px 8px" onclick="showPage('revision',document.querySelector('.nav-item[onclick*=revision]'))">View All</button>
-      </div>
-      <div id="home-revision-widget-body">
-        <div class="rev-widget-all-caught">Loading…</div>
-      </div>
     </div>
   </div>
 
@@ -3354,17 +3154,6 @@ input:focus, select:focus, textarea:focus {
   <div class="page-header flex-between">
     <div><h1>Semester Progress</h1><p>Track course content completion.</p></div>
     <button class="btn btn-primary" onclick="openAddCourseModal()">+ Add Course</button>
-  </div>
-  <!-- Overall Semester Progress Bar -->
-  <div class="card mb-16" id="sp-overall-card" style="display:none">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-      <div class="card-title" style="margin-bottom:0">Overall Semester Progress</div>
-      <span id="sp-overall-pct" style="font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:var(--accent);text-shadow:0 0 16px var(--glow1-md)">0%</span>
-    </div>
-    <div class="sem-progress-track-lg">
-      <div class="sem-progress-fill" id="sp-overall-fill" style="width:0%;height:100%"></div>
-    </div>
-    <div class="year-progress-label" id="sp-overall-label" style="margin-top:8px;margin-bottom:0;text-align:right">0% of 3rd semester has been completed</div>
   </div>
   <div class="card mb-16" id="sp-radar-card" style="display:none">
     <div class="card-title">Focus Radar — Course Coverage Overview</div>
@@ -3740,36 +3529,6 @@ input:focus, select:focus, textarea:focus {
     <div class="form-group"><label>Course Link (optional)</label><input type="url" id="oc-inp-link" placeholder="https://..."></div>
     <div class="form-group"><label>Initial Status</label><select id="oc-inp-status"><option value="Pending">Pending</option><option value="Running">Running</option><option value="Done">Done</option></select></div>
     <button class="btn btn-primary" onclick="saveNewOC()" style="width:100%;margin-top:4px">Add Course</button>
-  </div>
-</div>
-
-<!-- REVISION PAGE -->
-<div class="page" id="page-revision">
-  <div class="page-header flex-between">
-    <div><h1>Revision Tracker</h1><p>Spaced repetition schedule — Day 3 → 7 → 14 → 30 after creation.</p></div>
-    <button class="btn btn-primary" onclick="openRevAddModal()">+ Add Revision Item</button>
-  </div>
-  <div id="revision-page-body">
-    <div class="rev-empty-state">Loading revisions…</div>
-  </div>
-</div>
-
-<!-- REVISION ADD MODAL -->
-<div id="rev-add-modal">
-  <div class="modal-backdrop" onclick="closeRevAddModal()"></div>
-  <div class="modal-panel" style="width:420px">
-    <div class="modal-title">Add Revision Item<button class="modal-close" onclick="closeRevAddModal()">✕</button></div>
-    <div class="form-group"><label>Topic Name</label><input type="text" id="rev-inp-title" placeholder="e.g. Chapter 3 — Limits"></div>
-    <div class="form-group"><label>Source / Tag</label><input type="text" id="rev-inp-source" placeholder="e.g. 3Blue1Brown, Personal Study"></div>
-    <div class="form-group">
-      <label>Starting Round</label>
-      <select id="rev-inp-round">
-        <option value="0">Day 3 (Round 1)</option>
-        <option value="1">Day 7 (Round 2)</option>
-        <option value="2">Day 14 (Round 3)</option>
-      </select>
-    </div>
-    <button class="btn btn-primary" onclick="saveRevManual()" style="width:100%;margin-top:4px">Add Revision Card</button>
   </div>
 </div>
 
@@ -4156,7 +3915,7 @@ function showPage(id, btn) {
   document.getElementById('page-'+id).classList.add('active');
   if (btn) btn.classList.add('active');
   closeMobileSidebar();
-  const titles = {home:'Command Dashboard',grades:'Grades & CGPA',curriculum:'Curriculum Map',courses:'Online Courses',semprogress:'Semester Progress',projects:'Projects',skills:'Skills Matrix',goals:'Goals & Competitions',calendar:'Calendar & Timers',books:'Reading Tracker',pomodoro:'Pomodoro Timer',timers:'Timers',habits:'Habit Tracker',notes:'Notes',ideas:'Ideas',revision:'Revision Tracker'};
+  const titles = {home:'Command Dashboard',grades:'Grades & CGPA',curriculum:'Curriculum Map',courses:'Online Courses',semprogress:'Semester Progress',projects:'Projects',skills:'Skills Matrix',goals:'Goals & Competitions',calendar:'Calendar & Timers',books:'Reading Tracker',pomodoro:'Pomodoro Timer',timers:'Timers',habits:'Habit Tracker',notes:'Notes',ideas:'Ideas'};
   document.getElementById('topbar-title').textContent = titles[id] || id;
   if (id==='grades') renderGradesPage();
   if (id==='courses') renderCoursesPage();
@@ -4171,7 +3930,6 @@ function showPage(id, btn) {
   if (id==='ideas') renderIdeasPage();
   if (id==='timers') renderTimersPage();
   if (id==='home') updateHomeStats();
-  if (id==='revision') renderRevisionPage();
 }
 
 /* ============================
@@ -4459,8 +4217,6 @@ async function renderHomeCharts() {
 async function updateHomeStats() {
   // Year progress bar
   updateYearProgress();
-  // Semester progress bar
-  await updateSemProgressHome();
 
   // CGPA + Semester GPA + trend arrow
   await updateCGPAWithTrend();
@@ -4499,9 +4255,6 @@ async function updateHomeStats() {
 
   // Skills radar on home page
   await renderHomeSkillsRadar();
-
-  // Revision queue widget
-  await renderRevisionWidget();
 }
 
 /* Year progress bar (dynamic) */
@@ -4515,23 +4268,6 @@ function updateYearProgress() {
   const fill  = document.getElementById('year-progress-fill');
   if (label) label.textContent = `${pct}% of ${year} has passed.`;
   if (fill)  fill.style.width = pct + '%';
-}
-
-/* Ordinal helper: 1 → "1st", 2 → "2nd", 3 → "3rd", 4 → "4th" … */
-function getOrdinal(n) {
-  const s = ['th','st','nd','rd'];
-  const v = n % 100;
-  return n + (s[(v - 20) % 10] || s[v] || s[0]);
-}
-
-/* Semester progress bar on home page */
-async function updateSemProgressHome() {
-  const courses = await getSPCourses();
-  const semPct  = spCalcSemesterProgress(courses);
-  const fill    = document.getElementById('sem-progress-fill-home');
-  const label   = document.getElementById('sem-progress-label-home');
-  if (fill)  fill.style.width  = semPct + '%';
-  if (label) label.textContent = `Semester Progress: ${semPct}%`;
 }
 
 /* CGPA + Semester GPA + up/down arrow */
@@ -5243,73 +4979,26 @@ async function saveEvent() {
 }
 
 async function renderCountdownWidgets() {
-  const allEvents = await getEvents();
-  const now = new Date();
-  const futureEvents = allEvents.filter(e => new Date(e.date) > now).sort((a,b)=>new Date(a.date)-new Date(b.date));
-  const regularEvents = futureEvents.filter(e => e.type !== 'Revision');
-  const revisionEvents = futureEvents.filter(e => e.type === 'Revision');
-
-  const renderToGrid=(containerId, maxItems, evts)=>{
+  const events=(await getEvents()).filter(e=>new Date(e.date)>new Date()).sort((a,b)=>new Date(a.date)-new Date(b.date));
+  const renderToGrid=(containerId, maxItems)=>{
     const cont=document.getElementById(containerId); if(!cont) return;
-    if (evts.length===0){
+    if (events.length===0){
       cont.innerHTML=containerId==='home-countdowns'
         ?'<div class="home-empty-state">No upcoming events. Add them in Calendar. ✨</div>'
         :'<div style="color:var(--text-muted);font-size:12px;text-align:center;padding:20px;grid-column:1/-1">No upcoming events.</div>';
       return;
     }
     cont.innerHTML='';
-    evts.slice(0, maxItems).forEach(e=>{
-      const diff=new Date(e.date)-now, days=Math.floor(diff/86400000), hrs=Math.floor((diff%86400000)/3600000), mins=Math.floor((diff%3600000)/60000);
+    events.slice(0, maxItems).forEach(e=>{
+      const diff=new Date(e.date)-new Date(), days=Math.floor(diff/86400000), hrs=Math.floor((diff%86400000)/3600000), mins=Math.floor((diff%3600000)/60000);
       const item=document.createElement('div');
       item.className='countdown-item'+(days<3?' urgent':'');
       item.innerHTML=`<div class="countdown-time">${days}d ${hrs}h ${mins}m</div><div class="countdown-label">${e.label}</div><div class="text-sm text-muted" style="margin-top:3px">${e.type}</div>`;
       cont.appendChild(item);
     });
   };
-
-  // Calendar page: show all events (both regular and revision)
-  const calGrid = document.getElementById('countdown-grid');
-  if (calGrid) {
-    const allFuture = [...regularEvents, ...revisionEvents].sort((a,b)=>new Date(a.date)-new Date(b.date));
-    renderToGrid('countdown-grid', 8, allFuture);
-  }
-
-  // Home page: regular events + revision section separately
-  const homeCont = document.getElementById('home-countdowns');
-  if (homeCont) {
-    homeCont.innerHTML = '';
-    if (regularEvents.length === 0 && revisionEvents.length === 0) {
-      homeCont.innerHTML = '<div class="home-empty-state">No upcoming events. Add them in Calendar. ✨</div>';
-    } else {
-      if (regularEvents.length > 0) {
-        regularEvents.slice(0, 3).forEach(e=>{
-          const diff=new Date(e.date)-now, days=Math.floor(diff/86400000), hrs=Math.floor((diff%86400000)/3600000), mins=Math.floor((diff%3600000)/60000);
-          const item=document.createElement('div');
-          item.className='countdown-item'+(days<3?' urgent':'');
-          item.innerHTML=`<div class="countdown-time">${days}d ${hrs}h ${mins}m</div><div class="countdown-label">${e.label}</div><div class="text-sm text-muted" style="margin-top:3px">${e.type}</div>`;
-          homeCont.appendChild(item);
-        });
-      } else {
-        const empty = document.createElement('div');
-        empty.className = 'home-empty-state';
-        empty.textContent = 'No exam/deadline countdowns. ✨';
-        homeCont.appendChild(empty);
-      }
-      if (revisionEvents.length > 0) {
-        const label = document.createElement('div');
-        label.className = 'rev-cal-section-label';
-        label.innerHTML = '📖 Revision Due';
-        homeCont.appendChild(label);
-        revisionEvents.slice(0, 3).forEach(e=>{
-          const diff=new Date(e.date)-now, days=Math.floor(diff/86400000), hrs=Math.floor((diff%86400000)/3600000), mins=Math.floor((diff%3600000)/60000);
-          const item=document.createElement('div');
-          item.className='countdown-item'+(days<3?' urgent':'');
-          item.innerHTML=`<div class="countdown-time">${days}d ${hrs}h ${mins}m</div><div class="countdown-label">${e.label}</div><div class="text-sm text-muted" style="margin-top:3px">Revision</div>`;
-          homeCont.appendChild(item);
-        });
-      }
-    }
-  }
+  renderToGrid('countdown-grid', 8);
+  renderToGrid('home-countdowns', 3);
 }
 setInterval(renderCountdownWidgets, 30000);
 
@@ -5978,8 +5667,6 @@ async function toggleSPTopic(cid,ccid,tid){
   topic.checked=!topic.checked;
   if(topic.subTopics&&topic.subTopics.length>0)topic.subTopics.forEach(st=>st.checked=topic.checked);
   await saveSPCourses(courses);renderSemProgressPage();
-  // Auto-create revision card if content block is now 100% done
-  await maybeCreateRevisionCardForContent(course, content);
 }
 async function deleteSPTopic(cid,ccid,tid){
     if(!confirm('Delete this topic and all its sub-topics?'))return;
@@ -6019,8 +5706,6 @@ async function toggleSPSubTopic(cid,ccid,tid,stid){
   st.checked=!st.checked;
   if(topic.subTopics.length>0)topic.checked=topic.subTopics.every(s=>s.checked);
   await saveSPCourses(courses);renderSemProgressPage();
-  // Auto-create revision card if content block is now 100% done
-  await maybeCreateRevisionCardForContent(course, content);
 }
 async function deleteSPSubTopic(cid,ccid,tid,stid){
   const courses=await getSPCourses();const course=courses.find(c=>c.id===cid);if(!course)return;
@@ -6042,29 +5727,14 @@ function spTopicIsDone(topic){
   if(subs.length>0)return subs.every(s=>s.checked);
   return !!topic.checked;
 }
-/* Returns [checkedUnits, totalUnits] for one topic */
-function spTopicUnits(topic){
-  const subs=topic.subTopics||[];
-  if(subs.length>0)return [subs.filter(s=>s.checked).length,subs.length];
-  return [topic.checked?1:0,1];
-}
 function spCalcContentProgress(content){
   const topics=content.topics||[];if(topics.length===0)return 0;
-  let checked=0,total=0;
-  topics.forEach(t=>{const [c,tt]=spTopicUnits(t);checked+=c;total+=tt;});
-  return total>0?Math.round(checked/total*100):0;
+  return Math.round(topics.filter(t=>spTopicIsDone(t)).length/topics.length*100);
 }
 function spCalcCourseProgress(course){
   const contents=course.contents||[];if(contents.length===0)return 0;
-  let checked=0,total=0;
-  contents.forEach(cc=>{(cc.topics||[]).forEach(t=>{const [c,tt]=spTopicUnits(t);checked+=c;total+=tt;});});
-  return total>0?Math.round(checked/total*100):0;
-}
-function spCalcSemesterProgress(courses){
-  if(!courses||courses.length===0)return 0;
-  let checked=0,total=0;
-  courses.forEach(course=>{(course.contents||[]).forEach(cc=>{(cc.topics||[]).forEach(t=>{const [c,tt]=spTopicUnits(t);checked+=c;total+=tt;});});});
-  return total>0?Math.round(checked/total*100):0;
+  const done=contents.filter(cc=>spCalcContentProgress(cc)===100).length;
+  return Math.round(done/contents.length*100);
 }
 
 /* ── Render ── */
@@ -6078,18 +5748,6 @@ async function renderSemProgressPage(){
   const list=document.getElementById('sp-courses-list');
   const empty=document.getElementById('sp-empty-state');
   const radarCard=document.getElementById('sp-radar-card');
-
-  /* ── Overall semester progress bar ── */
-  const overallCard=document.getElementById('sp-overall-card');
-  const overallFill=document.getElementById('sp-overall-fill');
-  const overallPctEl=document.getElementById('sp-overall-pct');
-  const overallLabel=document.getElementById('sp-overall-label');
-  const semPct=spCalcSemesterProgress(courses);
-  if(overallCard)overallCard.style.display=courses.length>0?'block':'none';
-  if(overallFill)overallFill.style.width=semPct+'%';
-  if(overallPctEl)overallPctEl.textContent=semPct+'%';
-  if(overallLabel)overallLabel.textContent=`${semPct}% of ${getOrdinal(CURRENT_SEM)} semester has been completed`;
-
   if(courses.length===0){
     if(empty){empty.style.display='block'; list.appendChild(empty);}
     if(radarCard)radarCard.style.display='none';
@@ -6231,323 +5889,6 @@ function hexToRgba(hex,alpha){try{const h=hex.replace('#','');const r=parseInt(h
 // Convenience: build rgba from current live glow hex values
 function g1rgba(alpha){ return hexToRgba(_glow1Hex, alpha); }
 function g2rgba(alpha){ return hexToRgba(_glow2Hex, alpha); }
-
-/* ============================
-   REVISION TRACKER
-   ============================ */
-
-/* ── Helpers ── */
-function revTodayStr() {
-  const d = new Date();
-  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-}
-function revAddDays(dateStr, days) {
-  const d = new Date(dateStr + 'T00:00:00');
-  d.setDate(d.getDate() + days);
-  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-}
-function revFormatDate(dateStr) {
-  const d = new Date(dateStr + 'T00:00:00');
-  return d.toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'});
-}
-function revIsOverdue(dateStr) {
-  return dateStr < revTodayStr();
-}
-function revIsDueToday(dateStr) {
-  return dateStr === revTodayStr();
-}
-function revDueWithinWeek(dateStr) {
-  const today = revTodayStr();
-  const weekLater = revAddDays(today, 7);
-  return dateStr > today && dateStr <= weekLater;
-}
-
-/* ── Data layer ── */
-async function getRevCards() { return await dbGet('revision_cards', []); }
-async function saveRevCards(cards) { await dbSet('revision_cards', cards); }
-
-/* ── Calendar integration ── */
-async function scheduleRevisionCalEvent(card) {
-  let events = await getEvents();
-  // Remove existing revision event for this card
-  events = events.filter(e => !(e.type === 'Revision' && e.revisionId === card.id));
-  // Add new event at 09:00 on nextDue date
-  events.push({
-    id: 'ev_rev_' + card.id + '_' + Date.now(),
-    label: 'Revise: ' + card.title,
-    date: card.nextDue + 'T09:00',
-    type: 'Revision',
-    revisionId: card.id
-  });
-  await dbSet('cal_events', events);
-}
-
-async function removeRevisionCalEvent(cardId) {
-  let events = await getEvents();
-  events = events.filter(e => !(e.type === 'Revision' && e.revisionId === cardId));
-  await dbSet('cal_events', events);
-}
-
-/* ── Auto-create from Semester Progress ── */
-async function maybeCreateRevisionCardForContent(course, content) {
-  const pct = spCalcContentProgress(content);
-  if (pct < 100) return; // Not done yet
-  const cards = await getRevCards();
-  // Prevent duplicate
-  if (cards.some(c => c.sourceContentId === content.id)) return;
-  const today = revTodayStr();
-  const card = {
-    id: 'rev_' + Date.now() + '_' + Math.random().toString(36).slice(2,7),
-    title: content.name,
-    source: course.name,
-    sourceType: 'semester',
-    sourceContentId: content.id,
-    createdAt: today,
-    rounds: [3, 7, 14, 30],
-    currentRound: 0,
-    nextDue: revAddDays(today, 3),
-    memorised: false
-  };
-  cards.push(card);
-  await saveRevCards(cards);
-  await scheduleRevisionCalEvent(card);
-  showToast('📖 Revision card created: ' + content.name);
-  // Refresh widget if home is visible
-  const homeActive = document.getElementById('page-home')?.classList.contains('active');
-  if (homeActive) await renderRevisionWidget();
-}
-
-/* ── Manual add ── */
-function openRevAddModal() {
-  document.getElementById('rev-add-modal').classList.add('open');
-  setTimeout(()=>document.getElementById('rev-inp-title').focus(), 50);
-}
-function closeRevAddModal() {
-  document.getElementById('rev-add-modal').classList.remove('open');
-  document.getElementById('rev-inp-title').value = '';
-  document.getElementById('rev-inp-source').value = '';
-  document.getElementById('rev-inp-round').value = '0';
-}
-async function saveRevManual() {
-  const title = document.getElementById('rev-inp-title').value.trim();
-  if (!title) { showToast('⚠ Please enter a topic name.'); return; }
-  const source = document.getElementById('rev-inp-source').value.trim() || 'Manual';
-  const startRound = parseInt(document.getElementById('rev-inp-round').value) || 0;
-  const rounds = [3, 7, 14, 30];
-  const today = revTodayStr();
-  const card = {
-    id: 'rev_' + Date.now() + '_' + Math.random().toString(36).slice(2,7),
-    title,
-    source,
-    sourceType: 'manual',
-    sourceContentId: null,
-    createdAt: today,
-    rounds,
-    currentRound: startRound,
-    nextDue: revAddDays(today, rounds[startRound]),
-    memorised: false
-  };
-  const cards = await getRevCards();
-  cards.push(card);
-  await saveRevCards(cards);
-  await scheduleRevisionCalEvent(card);
-  closeRevAddModal();
-  renderRevisionPage();
-  await renderRevisionWidget();
-  showToast('📖 Revision card added!');
-}
-
-/* ── Mark as revised ── */
-async function markRevised(cardId) {
-  const cards = await getRevCards();
-  const card = cards.find(c => c.id === cardId);
-  if (!card) return;
-  const nextRound = card.currentRound + 1;
-  if (nextRound >= card.rounds.length) {
-    // All rounds done → Memorised
-    card.memorised = true;
-    card.memorisedAt = revTodayStr();
-    delete card.nextDue;
-    await removeRevisionCalEvent(cardId);
-    showToast('🎉 Memorised! Great work!');
-  } else {
-    card.currentRound = nextRound;
-    card.nextDue = revAddDays(card.createdAt, card.rounds[nextRound]);
-    await scheduleRevisionCalEvent(card);
-    showToast('✓ Round ' + (nextRound+1) + ' scheduled for ' + revFormatDate(card.nextDue));
-  }
-  await saveRevCards(cards);
-  renderRevisionPage();
-  await renderRevisionWidget();
-}
-
-/* ── Delete card ── */
-async function deleteRevCard(cardId) {
-  if (!confirm('Delete this revision card?')) return;
-  let cards = await getRevCards();
-  cards = cards.filter(c => c.id !== cardId);
-  await saveRevCards(cards);
-  await removeRevisionCalEvent(cardId);
-  renderRevisionPage();
-  await renderRevisionWidget();
-  showToast('Revision card deleted.');
-}
-
-/* ── Delete memorised card ── */
-async function deleteMemorised(cardId) {
-  if (!confirm('Remove this memorised card?')) return;
-  let cards = await getRevCards();
-  cards = cards.filter(c => c.id !== cardId);
-  await saveRevCards(cards);
-  renderRevisionPage();
-  showToast('Memorised card removed.');
-}
-
-/* ── Build a single revision card HTML ── */
-function buildRevCardHTML(card, showActions = true) {
-  const today = revTodayStr();
-  const isOverdue = card.nextDue < today;
-  const isDueToday = card.nextDue === today;
-  const sourceBadge = card.sourceType === 'semester'
-    ? `<span class="rev-badge-semester">Semester</span>`
-    : `<span class="rev-badge-manual">Manual</span>`;
-  const roundNum = card.currentRound + 1;
-  const totalRounds = card.rounds.length;
-  const dueDateClass = isOverdue ? 'rev-due-date overdue-text' : 'rev-due-date';
-  const dueDateLabel = isOverdue
-    ? `⚠ Overdue: ${revFormatDate(card.nextDue)}`
-    : isDueToday ? 'Due Today' : `Due: ${revFormatDate(card.nextDue)}`;
-
-  const actionsHTML = showActions ? `
-    <div class="rev-card-actions">
-      <button class="rev-btn-done" onclick="markRevised('${card.id}')">✓ Mark as Revised</button>
-      <button class="rev-btn-del" onclick="deleteRevCard('${card.id}')">✗ Delete</button>
-    </div>` : '';
-
-  return `
-    <div class="rev-card${isOverdue ? ' overdue' : ''}">
-      <div class="rev-card-top">
-        <div style="flex:1">
-          <div class="rev-card-title">${escapeHtml(card.title)}</div>
-          <div class="rev-source-name">${escapeHtml(card.source)}</div>
-        </div>
-        <div class="rev-card-badges">${sourceBadge}</div>
-      </div>
-      <div class="rev-card-meta">
-        <span class="rev-round-indicator">Review ${roundNum} of ${totalRounds}</span>
-        <span class="${dueDateClass}">${dueDateLabel}</span>
-      </div>
-      ${actionsHTML}
-    </div>`;
-}
-
-/* ── Render revision page ── */
-async function renderRevisionPage() {
-  const container = document.getElementById('revision-page-body');
-  if (!container) return;
-  const cards = await getRevCards();
-  const today = revTodayStr();
-  const weekLater = revAddDays(today, 7);
-
-  const dueCards     = cards.filter(c => !c.memorised && c.nextDue <= today);
-  const upcomingCards = cards.filter(c => !c.memorised && c.nextDue > today && c.nextDue <= weekLater);
-  const memorisedCards = cards.filter(c => c.memorised);
-
-  let html = '';
-
-  // Due Today / Overdue
-  html += `<div class="rev-section-header">📅 Due Today / Overdue <span class="rev-section-count">${dueCards.length}</span></div>`;
-  if (dueCards.length === 0) {
-    html += `<div class="rev-empty-state">No cards due today. You're caught up! ✓</div>`;
-  } else {
-    // Sort: overdue first (earliest first), then today
-    dueCards.sort((a,b) => a.nextDue.localeCompare(b.nextDue));
-    dueCards.forEach(card => { html += buildRevCardHTML(card, true); });
-  }
-
-  // Upcoming (next 7 days)
-  html += `<div class="rev-section-header">⏳ Upcoming — Next 7 Days <span class="rev-section-count">${upcomingCards.length}</span></div>`;
-  if (upcomingCards.length === 0) {
-    html += `<div class="rev-empty-state">Nothing due in the next 7 days.</div>`;
-  } else {
-    upcomingCards.sort((a,b) => a.nextDue.localeCompare(b.nextDue));
-    upcomingCards.forEach(card => {
-      html += `
-        <div class="rev-card upcoming">
-          <div class="rev-card-top">
-            <div style="flex:1">
-              <div class="rev-card-title">${escapeHtml(card.title)}</div>
-              <div class="rev-source-name">${escapeHtml(card.source)}</div>
-            </div>
-            <div class="rev-card-badges">${card.sourceType==='semester'?'<span class="rev-badge-semester">Semester</span>':'<span class="rev-badge-manual">Manual</span>'}</div>
-          </div>
-          <div class="rev-card-meta">
-            <span class="rev-round-indicator">Review ${card.currentRound+1} of ${card.rounds.length}</span>
-            <span class="rev-due-date">Due: ${revFormatDate(card.nextDue)}</span>
-          </div>
-        </div>`;
-    });
-  }
-
-  // Memorised accordion
-  html += `
-    <div class="rev-memorised-accordion" id="rev-memorised-acc">
-      <div class="rev-memorised-header" onclick="toggleRevMemorisedAccordion()">
-        <span>🎓 Memorised</span>
-        <span style="background:var(--glow2-sm);color:var(--accent2);border:1px solid var(--glow2-md);border-radius:10px;padding:1px 8px;font-size:10px;font-weight:700;font-family:'JetBrains Mono',monospace;margin-left:8px">${memorisedCards.length}</span>
-        <span class="rev-memorised-chevron">▼</span>
-      </div>
-      <div class="rev-memorised-body">`;
-
-  if (memorisedCards.length === 0) {
-    html += `<div class="rev-empty-state" style="padding:20px">No memorised cards yet.</div>`;
-  } else {
-    memorisedCards.forEach(card => {
-      html += `<div class="rev-memorised-item">
-        <span style="font-size:14px">🎓</span>
-        <span class="rev-memorised-name">${escapeHtml(card.title)} <span style="font-size:10px;color:var(--text-dim)">${escapeHtml(card.source)}</span></span>
-        <span class="rev-memorised-date">${card.memorisedAt ? revFormatDate(card.memorisedAt) : ''}</span>
-        <span class="badge badge-done" style="margin-left:8px">Memorised</span>
-        <button class="rev-btn-del" style="padding:3px 8px;font-size:11px;margin-left:6px" onclick="deleteMemorised('${card.id}')">✗</button>
-      </div>`;
-    });
-  }
-
-  html += `</div></div>`;
-  container.innerHTML = html;
-}
-
-function toggleRevMemorisedAccordion() {
-  document.getElementById('rev-memorised-acc')?.classList.toggle('open');
-}
-
-/* ── Render home widget ── */
-async function renderRevisionWidget() {
-  const body = document.getElementById('home-revision-widget-body');
-  if (!body) return;
-  const cards = await getRevCards();
-  const today = revTodayStr();
-  const dueCards = cards.filter(c => !c.memorised && c.nextDue <= today);
-  const dueCount = dueCards.length;
-
-  if (dueCount === 0) {
-    body.innerHTML = `
-      <div class="rev-widget-count">0</div>
-      <div class="rev-widget-label">Items due today</div>
-      <div class="rev-widget-all-caught">You're all caught up ✓</div>`;
-  } else {
-    // Sort overdue first
-    dueCards.sort((a,b) => a.nextDue.localeCompare(b.nextDue));
-    const listItems = dueCards.slice(0,3).map(c => {
-      const isOverdue = c.nextDue < today;
-      return `<div class="rev-widget-item${isOverdue?' overdue-item':''}">${escapeHtml(c.title)}</div>`;
-    }).join('');
-    body.innerHTML = `
-      <div class="rev-widget-count">${dueCount}</div>
-      <div class="rev-widget-label">Item${dueCount===1?'':'s'} due today</div>
-      <div class="rev-widget-list">${listItems}</div>`;
-  }
-}
 
 /* ============================
    UTILS
