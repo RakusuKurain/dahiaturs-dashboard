@@ -656,8 +656,8 @@ label { font-size: 11px; color: var(--text-muted); display: block; margin-bottom
 .lesson-dot.done { background: var(--accent); border-color: var(--accent); color: #000; }
 .lesson-dot:hover { border-color: var(--accent); }
 .lesson-dot.locked { opacity: 0.35; cursor: not-allowed; pointer-events: none; }
-.oc-running-widget { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.oc-running-card { background: var(--bg-input); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; }
+.oc-running-widget { display: flex; flex-direction: column; gap: 8px; }
+.oc-running-card { background: var(--bg-input); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 12px; }
 .oc-running-name { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .oc-running-meta { font-size: 10px; color: var(--text-muted); margin-bottom: 10px; }
 .oc-running-pct { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent); }
@@ -711,8 +711,8 @@ label { font-size: 11px; color: var(--text-muted); display: block; margin-bottom
 .proj-ctx-item:hover { background: var(--bg-input); color: var(--accent); }
 .proj-ctx-item.danger:hover { color: #ef5350; }
 /* Home running projects widget */
-.home-projects-widget { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.home-proj-card { background: var(--bg-input); border: 1px solid var(--glow2-sm); border-radius: var(--radius-sm); padding: 14px 16px; }
+.home-projects-widget { display: flex; flex-direction: column; gap: 8px; }
+.home-proj-card { background: var(--bg-input); border: 1px solid var(--glow2-sm); border-radius: var(--radius-sm); padding: 10px 12px; }
 .home-proj-name { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .home-proj-cat { font-size: 9px; color: var(--accent); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
 .home-proj-pct { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent2); }
@@ -1727,7 +1727,7 @@ input::placeholder, textarea::placeholder { color: var(--text-dim); }
 .home-row2 { display: grid; grid-template-columns: repeat(3,1fr); gap:16px; align-items:start; }
 
 /* Row 3: 2 columns */
-.home-row3 { display: grid; grid-template-columns: 1fr 1fr; gap:16px; align-items:start; }
+.home-row3 { display: grid; grid-template-columns: repeat(4,1fr); gap:16px; align-items:start; }
 
 /* Empty state */
 .home-empty-state {
@@ -1755,6 +1755,7 @@ input::placeholder, textarea::placeholder { color: var(--text-dim); }
 /* Responsive */
 @media (max-width: 1100px) {
   .home-row1 { grid-template-columns: 1fr 1fr; }
+  .home-row3 { grid-template-columns: 1fr 1fr !important; }
 }
 @media (max-width: 800px) {
   .home-row1, .home-row2, .home-row3 { grid-template-columns:1fr; }
@@ -2729,6 +2730,14 @@ input:focus, select:focus, textarea:focus {
   transition: color 0.15s, background 0.15s;
 }
 .rev-delete-btn:hover { color: #ef5350; background: rgba(239,83,80,0.1); }
+.rev-edit-btn {
+  background: transparent; border: none;
+  color: var(--text-dim); font-size: 14px;
+  cursor: pointer; padding: 4px 6px;
+  border-radius: 4px;
+  transition: color 0.15s, background 0.15s;
+}
+.rev-edit-btn:hover { color: var(--accent); background: var(--glow1-xs); }
 
 /* Upcoming rows */
 .rev-upcoming-row {
@@ -2795,6 +2804,21 @@ input:focus, select:focus, textarea:focus {
 .home-row2 { grid-template-columns: repeat(4,1fr) !important; }
 @media (max-width: 1200px) { .home-row2 { grid-template-columns: repeat(2,1fr) !important; } }
 @media (max-width: 800px)  { .home-row2 { grid-template-columns: 1fr !important; } }
+
+/* ── Row 3 — important tasks (span 2) + compact countdown (span 1) ── */
+.home-row3 { grid-template-columns: repeat(4,1fr) !important; }
+@media (max-width: 1200px) { .home-row3 { grid-template-columns: repeat(2,1fr) !important; } }
+@media (max-width: 800px)  { .home-row3 { grid-template-columns: 1fr !important; } }
+
+/* Compact countdown items inside home widget */
+#home-countdowns { display: flex; flex-direction: column; gap: 6px; }
+#home-countdowns .countdown-item {
+  padding: 8px 11px !important;
+  border-radius: var(--radius-sm) !important;
+  margin: 0 !important;
+}
+#home-countdowns .countdown-time { font-size: 16px !important; }
+#home-countdowns .countdown-label { font-size: 10.5px !important; }
 
 /* Light theme compat */
 [data-theme="light"] .rev-card-row { background: rgba(255,255,255,0.85) !important; border-color: var(--glow1-xs) !important; }
@@ -2949,7 +2973,7 @@ input:focus, select:focus, textarea:focus {
     </div>
   </div>
 
-  <!-- ROW 2: Active Courses | Running Online Courses | Running Project | Revision -->
+  <!-- ROW 2: Active Courses | Running Online Courses | Running Project | Revision + Countdown stacked -->
   <div class="home-row2 mb-16">
     <div class="card">
       <div class="card-title">Active Courses</div>
@@ -2968,34 +2992,38 @@ input:focus, select:focus, textarea:focus {
       </div>
       <div id="home-running-projects-body"><div class="home-empty-state">No running projects.</div></div>
     </div>
-    <!-- Revision Widget -->
-    <div class="card" id="home-revision-card" style="overflow:hidden;display:flex;flex-direction:column;min-height:0">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-shrink:0">
-        <div class="card-title" style="margin-bottom:0">📖 Revision</div>
-        <span id="rev-widget-badge" style="font-size:10px;padding:2px 9px;border-radius:10px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--text-dim);background:var(--bg-input);border:1px solid var(--border-soft)">—</span>
+    <!-- Col 4: Revision + Countdown stacked -->
+    <div style="display:flex;flex-direction:column;gap:16px;min-width:0">
+      <!-- Revision Widget -->
+      <div class="card" id="home-revision-card" style="overflow:hidden;display:flex;flex-direction:column;min-height:0">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-shrink:0">
+          <div class="card-title" style="margin-bottom:0">📖 Revision</div>
+          <span id="rev-widget-badge" style="font-size:10px;padding:2px 9px;border-radius:10px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--text-dim);background:var(--bg-input);border:1px solid var(--border-soft)">—</span>
+        </div>
+        <div id="rev-widget-list" style="flex:1;overflow:hidden;min-height:0"></div>
+        <div style="border-top:1px solid var(--border-soft);margin-top:8px;padding-top:7px;flex-shrink:0">
+          <div id="rev-widget-strip" style="font-size:12px;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis"></div>
+        </div>
+        <div style="text-align:right;margin-top:6px;flex-shrink:0">
+          <button class="btn" style="font-size:10px;padding:3px 8px" onclick="showPage('revision',document.querySelector('.nav-item[onclick*=revision]'))">View all →</button>
+        </div>
       </div>
-      <div id="rev-widget-list" style="flex:1;overflow:hidden;min-height:0"></div>
-      <div style="border-top:1px solid var(--border-soft);margin-top:8px;padding-top:7px;flex-shrink:0">
-        <div id="rev-widget-strip" style="font-size:12px;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis"></div>
-      </div>
-      <div style="text-align:right;margin-top:6px;flex-shrink:0">
-        <button class="btn" style="font-size:10px;padding:3px 8px" onclick="showPage('revision',document.querySelector('.nav-item[onclick*=revision]'))">View all →</button>
+      <!-- Countdown Widget -->
+      <div class="card">
+        <div class="card-title">Upcoming Countdowns</div>
+        <div id="home-countdowns"><div class="home-empty-state">No countdowns yet. Add them in Calendar. ✨</div></div>
       </div>
     </div>
   </div>
 
-  <!-- ROW 3: Important Tasks | Upcoming Countdown -->
+  <!-- ROW 3: Important Tasks (full width) -->
   <div class="home-row3 mb-16">
-    <div class="card" id="home-default-note-card">
+    <div class="card" id="home-default-note-card" style="grid-column:1 / -1">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
         <div class="note-home-title" style="margin-bottom:0">📌 Important Tasks</div>
         <button class="btn" style="font-size:10px;padding:3px 8px" onclick="showPage('notes',document.querySelector('.nav-item[onclick*=notes]'))">See all</button>
       </div>
       <div class="note-home-body" id="home-default-note-body">—</div>
-    </div>
-    <div class="card">
-      <div class="card-title">Upcoming Countdowns</div>
-      <div id="home-countdowns"><div class="home-empty-state">No countdowns yet. Add them in Calendar. ✨</div></div>
     </div>
   </div>
 
@@ -3381,10 +3409,11 @@ input:focus, select:focus, textarea:focus {
 <div id="rev-modal" style="position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center">
   <div class="modal-backdrop" onclick="closeRevisionModal()"></div>
   <div class="modal-panel" style="width:420px">
-    <div class="modal-title">Add Revision Item<button class="modal-close" onclick="closeRevisionModal()">✕</button></div>
+    <div class="modal-title" id="rev-modal-title">Add Revision Item<button class="modal-close" onclick="closeRevisionModal()">✕</button></div>
+    <input type="hidden" id="rev-editing-id" value="">
     <div class="form-group"><label>Topic Name</label><input type="text" id="rev-inp-title" placeholder="e.g. Integration by Parts"></div>
     <div class="form-group"><label>Source / Tag</label><input type="text" id="rev-inp-source" placeholder="e.g. YouTube, Personal Study"></div>
-    <div class="form-group">
+    <div class="form-group" id="rev-interval-group">
       <label>Starting Interval</label>
       <select id="rev-inp-interval">
         <option value="3">3 days</option>
@@ -3392,7 +3421,11 @@ input:focus, select:focus, textarea:focus {
         <option value="14">14 days</option>
       </select>
     </div>
-    <button class="btn btn-primary" onclick="saveRevisionModal()" style="width:100%;margin-top:8px">Add Item</button>
+    <div class="form-group" id="rev-duedate-group" style="display:none">
+      <label>Next Due Date</label>
+      <input type="date" id="rev-inp-duedate">
+    </div>
+    <button class="btn btn-primary" id="rev-modal-save-btn" onclick="saveRevisionModal()" style="width:100%;margin-top:8px">Add Item</button>
   </div>
 </div>
 
@@ -7088,11 +7121,39 @@ async function deleteRevisionCard(cardId) {
 
 /* ── Manual Add Modal ── */
 function openAddRevisionModal() {
+  // Reset to add mode
+  document.getElementById('rev-editing-id').value = '';
+  document.getElementById('rev-modal-title').innerHTML = 'Add Revision Item<button class="modal-close" onclick="closeRevisionModal()">✕</button>';
+  document.getElementById('rev-inp-title').value = '';
+  document.getElementById('rev-inp-source').value = '';
+  document.getElementById('rev-inp-interval').value = '3';
+  document.getElementById('rev-interval-group').style.display = '';
+  document.getElementById('rev-duedate-group').style.display = 'none';
+  document.getElementById('rev-modal-save-btn').textContent = 'Add Item';
   document.getElementById('rev-modal').style.display = 'flex';
   setTimeout(() => document.getElementById('rev-inp-title').focus(), 50);
 }
+
+async function openEditRevisionModal(cardId) {
+  const cards = await getRevisionCards();
+  const card = cards.find(c => c.id === cardId);
+  if (!card) return;
+  // Populate edit mode
+  document.getElementById('rev-editing-id').value = cardId;
+  document.getElementById('rev-modal-title').innerHTML = 'Edit Revision Item<button class="modal-close" onclick="closeRevisionModal()">✕</button>';
+  document.getElementById('rev-inp-title').value = card.title;
+  document.getElementById('rev-inp-source').value = card.source;
+  document.getElementById('rev-interval-group').style.display = 'none';
+  document.getElementById('rev-duedate-group').style.display = '';
+  document.getElementById('rev-inp-duedate').value = card.nextDue || todayISO();
+  document.getElementById('rev-modal-save-btn').textContent = 'Save Changes';
+  document.getElementById('rev-modal').style.display = 'flex';
+  setTimeout(() => document.getElementById('rev-inp-title').focus(), 50);
+}
+
 function closeRevisionModal() {
   document.getElementById('rev-modal').style.display = 'none';
+  document.getElementById('rev-editing-id').value = '';
   document.getElementById('rev-inp-title').value = '';
   document.getElementById('rev-inp-source').value = '';
   document.getElementById('rev-inp-interval').value = '3';
@@ -7102,38 +7163,55 @@ async function saveRevisionModal() {
   const title = document.getElementById('rev-inp-title').value.trim();
   if (!title) { showToast('⚠ Enter a topic name.'); return; }
   const source = document.getElementById('rev-inp-source').value.trim() || 'Manual';
-  const startDay = parseInt(document.getElementById('rev-inp-interval').value) || 3;
+  const editingId = document.getElementById('rev-editing-id').value;
 
-  const today = todayISO();
-  // Build rounds array starting from user-chosen interval
-  let rounds;
-  if (startDay === 7)       rounds = [7, 14, 30];
-  else if (startDay === 14) rounds = [14, 30];
-  else                      rounds = [3, 7, 14, 30];
+  if (editingId) {
+    // ── EDIT MODE ──
+    const cards = await getRevisionCards();
+    const card = cards.find(c => c.id === editingId);
+    if (!card) { showToast('Card not found.'); return; }
+    const newDue = document.getElementById('rev-inp-duedate').value || card.nextDue;
+    card.title  = title;
+    card.source = source;
+    card.nextDue = newDue;
+    await saveRevisionCards(cards);
+    await revUpdateCalEvent(card);
+    closeRevisionModal();
+    renderRevisionPage();
+    renderRevisionWidget();
+    showToast('Revision card updated!');
+  } else {
+    // ── ADD MODE ──
+    const startDay = parseInt(document.getElementById('rev-inp-interval').value) || 3;
+    const today = todayISO();
+    let rounds;
+    if (startDay === 7)       rounds = [7, 14, 30];
+    else if (startDay === 14) rounds = [14, 30];
+    else                      rounds = [3, 7, 14, 30];
 
-  const newCard = {
-    id: 'rev_' + Date.now() + '_' + Math.random().toString(36).slice(2,6),
-    title,
-    source,
-    sourceType: 'manual',
-    sourceContentId: null,
-    createdAt: today,
-    rounds,
-    currentRound: 0,
-    nextDue: addDaysISO(today, rounds[0]),
-    memorised: false,
-    memorisedAt: null
-  };
+    const newCard = {
+      id: 'rev_' + Date.now() + '_' + Math.random().toString(36).slice(2,6),
+      title,
+      source,
+      sourceType: 'manual',
+      sourceContentId: null,
+      createdAt: today,
+      rounds,
+      currentRound: 0,
+      nextDue: addDaysISO(today, rounds[0]),
+      memorised: false,
+      memorisedAt: null
+    };
 
-  const cards = await getRevisionCards();
-  cards.push(newCard);
-  await saveRevisionCards(cards);
-  await revUpdateCalEvent(newCard);
-
-  closeRevisionModal();
-  renderRevisionPage();
-  renderRevisionWidget();
-  showToast('Revision card added!');
+    const cards = await getRevisionCards();
+    cards.push(newCard);
+    await saveRevisionCards(cards);
+    await revUpdateCalEvent(newCard);
+    closeRevisionModal();
+    renderRevisionPage();
+    renderRevisionWidget();
+    showToast('Revision card added!');
+  }
 }
 
 /* ── Render Revision Page ── */
@@ -7180,6 +7258,7 @@ async function renderRevisionPage() {
           </div>
           <div class="rev-card-right">
             <button class="rev-revised-btn" onclick="markCardRevised('${card.id}')">✓ Revised</button>
+            <button class="rev-edit-btn" onclick="openEditRevisionModal('${card.id}')" title="Edit">✎</button>
             <button class="rev-delete-btn" onclick="deleteRevisionCard('${card.id}')" title="Delete">✗</button>
           </div>
         </div>`;
@@ -7205,6 +7284,10 @@ async function renderRevisionPage() {
           <div class="rev-card-centre">
             <div class="rev-round-label">Review ${roundNum} of ${totalRounds}</div>
             <div class="rev-due-date">In ${daysUntil}d · ${formatRevDate(card.nextDue)}</div>
+          </div>
+          <div class="rev-card-right">
+            <button class="rev-edit-btn" onclick="openEditRevisionModal('${card.id}')" title="Edit">✎</button>
+            <button class="rev-delete-btn" onclick="deleteRevisionCard('${card.id}')" title="Delete">✗</button>
           </div>
         </div>`;
       }).join('');
